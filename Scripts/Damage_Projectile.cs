@@ -13,7 +13,7 @@ public class Damage_Projectile : MonoBehaviour {
 			//animation.Play(animationName);
 			GameObject.Destroy (this.gameObject);
 		} 
-		else if (col.gameObject.tag == "NonPlayer") {// If hit a character
+		else if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit a character
             col.gameObject.GetComponent<Health_General>().ApplayDamage(fl_dmgAmount);
             col.gameObject.GetComponent<Health_General>().DamageHealthBar(fl_dmgAmount);
             //animation.Play(animationName);	
