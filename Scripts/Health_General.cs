@@ -10,6 +10,7 @@ public class Health_General : MonoBehaviour {
 
 	public GameObject go_itemHolder; //to hold any items the player gets like keys for gate
 
+    private GameObject test;//this is for testing
     private HPController_General hpc_GameObjectRef;
 
     void Start()
