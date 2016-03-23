@@ -9,8 +9,9 @@ public class ManaReplenish_ManaCrystal : MonoBehaviour {
         HPC_GameObjectRef = GameObject.FindWithTag ("Player").GetComponent <HPController_General> ();
 	}
 
-	void OnTriggerEnter ( Collider col){
+    void OnCollisionEnter( Collision col){
 		if (col.gameObject.tag == "Player") {
+            //Debug.Log("ok");
 			if (Mana.mana <= Mana.maxMana){
 				Mana.mana += fl_manaAmount;
                 HPC_GameObjectRef.fl_tmpManabar += fl_manaAmount / Mana.maxMana;
