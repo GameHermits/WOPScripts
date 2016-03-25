@@ -45,13 +45,13 @@ public class EnemyShooter_Enemy : MonoBehaviour {
     void LEnemyShoot()
     {// Enable Enemy to shoot
 
-        if (fl_Timer == fl_FireRate)
+        
         {// Controling fire rate by timer, every two seconds in timer Shoot
 
             GameObject newBullet = Instantiate(go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
             newBullet.GetComponent<Rigidbody>().AddForce(transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
 
-            in_randomInteger = Random.Range(1, 4);
+            in_randomInteger = Random.Range(1, 5);
             switch (in_randomInteger)
             {
                 case 1 : gameObject.transform.position = new Vector3(Player.transform.position.x + eb_EnemyBehaviorRef.fl_ShootingRange,
