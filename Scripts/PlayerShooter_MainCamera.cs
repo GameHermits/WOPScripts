@@ -25,7 +25,11 @@ public class PlayerShooter_MainCamera : MonoBehaviour {
     private enum enum_Elements { Fire, Ice, Lightning, BlackMagic };
     //Default element
     private enum_Elements currentElement = enum_Elements.Lightning;
-
+    private GameObject go_PlayerCanvas;
+    void Start()
+    {
+        go_PlayerCanvas = GameObject.FindGameObjectWithTag("PlayerCanvas");
+    }
     //Launch Bullet
     void LaunchBullet(GameObject go_BulletType,float fl_UsedManaType)
 	{
@@ -37,7 +41,9 @@ public class PlayerShooter_MainCamera : MonoBehaviour {
 		}
 		go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);
 		Mana.mana-=fl_UsedManaType;
-		hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
+        hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
+        go_PlayerCanvas.SetActive(true);
+        Invoke("CanvasDeactivate", 5);
 	}
 	// Update is called once per frame
 	void Update () {
@@ -107,4 +113,9 @@ public class PlayerShooter_MainCamera : MonoBehaviour {
 
 		}
 	}
+
+    void CanvasDeactivate()
+    {
+        go_PlayerCanvas.SetActive(false);
+    }
 }

@@ -8,6 +8,8 @@ public class PlayerController_Player : MonoBehaviour {
     
     public float fl_SprintAmount;
     public float fl_MaxJump = 10.0f;
+    private GameObject go_PlayerCanvas; // player canvas that include health and mana bar
+    // jump controling variables
     bool JumpLimit = false;
     float temp = 0;
 	//character controller object
@@ -16,6 +18,7 @@ public class PlayerController_Player : MonoBehaviour {
 	void Start () {
 		//Get the character controller component to the object
 		cc_PlayerController= gameObject.GetComponent<CharacterController> ();
+        go_PlayerCanvas = GameObject.FindGameObjectWithTag("PlayerCanvas");
 	}
 	
 	// Update is called once per frame
@@ -70,4 +73,15 @@ public class PlayerController_Player : MonoBehaviour {
             cc_PlayerController.Move (vec3_Movement);
 		}
 	}
+    void OnTriggerEnter( Collider col)
+    {
+        if (col.gameObject.tag == "Projectile") { 
+            go_PlayerCanvas.SetActive(true);
+            Invoke("CanvasDeactivate", 5);
+        }
+    }
+    void CanvasDeactivate()
+    {
+        go_PlayerCanvas.SetActive(false);
+    }
 }
