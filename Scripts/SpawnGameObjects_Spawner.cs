@@ -8,8 +8,6 @@ public class SpawnGameObjects_Spawner : MonoBehaviour {
 	public GameObject go_SwitchSenseCollider;
 	public int int_EnemyCounter = 5;
 
-	public List<GameObject> li_Enemys = new List<GameObject> ();
-
 	public float fl_MinSpawnInterval_Sec = 3.0f;//minimum time between every spawning in seconds..
 	public float fl_MaxSpawnInterval_Sec = 6.0f;//maximum time between every spawning in seconds..
 	
@@ -39,7 +37,7 @@ public class SpawnGameObjects_Spawner : MonoBehaviour {
 		if (int_EnemyCounter != 0) {
 			// create a new gameObject
 			GameObject clone = Instantiate (go_SpawnPrefab, transform.position, transform.rotation) as GameObject;
-			li_Enemys.Add (clone);
+			GameManager.li_Enemys.Add (clone);
 			int_EnemyCounter--;
 			// set chaseTarget if specified
 			if ((trans_ChasedTarget != null) && (clone.gameObject.GetComponent<EnemyBehavior_Enemy> () != null)) {
@@ -47,10 +45,10 @@ public class SpawnGameObjects_Spawner : MonoBehaviour {
 			}
 		} 
 		else {
-			if (li_Enemys.Count ==0) {
+			if (GameManager.li_Enemys.Count ==0) {
 				go_SwitchSenseCollider.GetComponent<Collider>().isTrigger = true;
 				//or you can directly open it//GameObject.Find("Sensor").gameObject.GetComponent<Collider>().isTrigger = true;
-				Destroy (this.gameObject);
+				this.gameObject.SetActive(false);
 			}
 		}
 

@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
+
+	public static List<GameObject> li_Enemys = new List<GameObject> ();
 
 	private bool pausedC = false;
 
