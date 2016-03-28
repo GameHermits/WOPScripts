@@ -20,7 +20,6 @@ public class EnemyShooter_Enemy : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-		if (!GameManager.GM.Paused){// If game isn't paused
 
             transform.LookAt(eb_EnemyBehaviorRef.tr_Target);
             if (Time.time >= fl_nextDamage)// after passing spacific seconds, assigne a new value to timer.
@@ -34,8 +33,6 @@ public class EnemyShooter_Enemy : MonoBehaviour {
                 else if (gameObject.tag == "LEnemy")
                     LEnemyShoot();
             }
-            
-        }
 	}
 
 	void NEnemyShoot(){// Enable Enemy to shoot

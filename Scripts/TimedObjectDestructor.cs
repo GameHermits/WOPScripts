@@ -14,12 +14,10 @@ public class TimedObjectDestructor : MonoBehaviour {
 
 	void DestroyNow ()//used to destroy the
 	{
-		if (!GameManager.GM.Paused) {//if the pause key is not pressed
 			if (is_DetachChildren) { // detach the children before destroying if specified
 				transform.DetachChildren ();
 			}
             
 			Destroy (gameObject);// destory the game Object
-        }
 	}
 }

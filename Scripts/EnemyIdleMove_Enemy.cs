@@ -25,8 +25,6 @@ public class EnemyIdleMove_Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameManager.GM.Paused) {
 			EnemyMovement ();
-		}
 	}
 }
