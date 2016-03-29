@@ -44,7 +44,7 @@ public class EnemyShooter_Enemy : MonoBehaviour {
 		newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
         
         in_randomInteger = Random.Range(1, 3);
-        Debug.Log(in_randomInteger);
+        
         switch (in_randomInteger)
         {
             case 1:

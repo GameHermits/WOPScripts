@@ -73,15 +73,4 @@ public class PlayerController_Player : MonoBehaviour {
             cc_PlayerController.Move (vec3_Movement);
 		}
 	}
-    void OnTriggerEnter( Collider col)
-    {
-        if (col.gameObject.tag == "Projectile") { 
-            go_PlayerCanvas.SetActive(true);
-            Invoke("CanvasDeactivate", 5);
-        }
-    }
-    void CanvasDeactivate()
-    {
-        go_PlayerCanvas.SetActive(false);
-    }
 }

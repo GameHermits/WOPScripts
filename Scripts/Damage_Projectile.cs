@@ -8,7 +8,7 @@ public class Damage_Projectile : MonoBehaviour {
 	//public string animationName; // the animation Name the will be played upon hitting something.
 
 	void OnTriggerEnter (Collider col){
-
+        
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
 			//animation.Play(animationName);
 			GameObject.Destroy (this.gameObject);
@@ -18,7 +18,8 @@ public class Damage_Projectile : MonoBehaviour {
             col.gameObject.GetComponent<Health_General>().DamageHealthBar(fl_dmgAmount);
             //animation.Play(animationName);	
             GameObject.Destroy (this.gameObject);
-		}
+            Debug.Log("trigger Work");
+        }
         else if (col.gameObject.tag == "Player")
         {
             col.gameObject.GetComponent<Health_General>().ApplayDamage(fl_dmgAmount);

@@ -34,6 +34,7 @@ public class HPController_General : MonoBehaviour {
 
 		im_Healthbar.fillAmount = fl_tmpHealthbar; //give the variable value to the real amount of healthbar image  after change 
 
-		im_Manabar.fillAmount = fl_tmpManabar; //give the variable value to the real amount of manabar image  after change 
+        if (gameObject.tag == "Player")
+		    im_Manabar.fillAmount = fl_tmpManabar; //give the variable value to the real amount of manabar image  after change 
 	}
 }
