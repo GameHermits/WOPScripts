@@ -64,20 +64,14 @@ public class EnemyShooter_Enemy : MonoBehaviour {
             GameObject newBullet = Instantiate(go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
             newBullet.GetComponent<Rigidbody>().AddForce(transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
 
-            in_randomInteger = Random.Range(1, 5);
+            in_randomInteger = Random.Range(1, 3);
             switch (in_randomInteger)
             {
-                case 1 : gameObject.transform.position = new Vector3(Player.transform.position.x + eb_EnemyBehaviorRef.fl_ShootingRange,
-                            gameObject.transform.position.y, Player.transform.position.z);                    
+                case 1 : gameObject.transform.position = new Vector3(Player.transform.position.x + 5,
+                            gameObject.transform.position.y, gameObject.transform.position.z);                    
                     break;
-                case 2: gameObject.transform.position = new Vector3(Player.transform.position.x - eb_EnemyBehaviorRef.fl_ShootingRange,
-                            gameObject.transform.position.y, Player.transform.position.z);
-                    break;
-                case 3: gameObject.transform.position = new Vector3(Player.transform.position.x,
-                            gameObject.transform.position.y, Player.transform.position.z + eb_EnemyBehaviorRef.fl_ShootingRange);
-                    break;
-                case 4: gameObject.transform.position = new Vector3(Player.transform.position.x,
-                            gameObject.transform.position.y, Player.transform.position.z - eb_EnemyBehaviorRef.fl_ShootingRange);
+                case 2: gameObject.transform.position = new Vector3(Player.transform.position.x - 5,
+                            gameObject.transform.position.y, gameObject.transform.position.z);
                     break;
             }
         }

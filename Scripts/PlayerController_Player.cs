@@ -52,12 +52,10 @@ public class PlayerController_Player : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log(vec3_Movement.y.ToString()+"  "+temp.ToString());
                     vec3_Movement.y = fl_MaxJump;temp++;
                     if (temp> fl_MaxJump)
                     {
                         temp = 0;
-                        Debug.Log("Enter");
                         JumpLimit = true;
                     }
                 }
