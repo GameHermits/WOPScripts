@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.ImageEffects;
 
 public class PlayerController_Player : MonoBehaviour {
 	//public variables for player behavior
@@ -14,22 +15,27 @@ public class PlayerController_Player : MonoBehaviour {
     float temp = 0;
 	//character controller object
 	private CharacterController cc_PlayerController;
+    private MotionBlur mainCameraEffect;
 	// Use this for initialization
 	void Start () {
 		//Get the character controller component to the object
 		cc_PlayerController= gameObject.GetComponent<CharacterController> ();
         go_PlayerCanvas = GameObject.FindGameObjectWithTag("PlayerCanvas");
+        mainCameraEffect = GameObject.FindWithTag("MainCamera").GetComponent<MotionBlur>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!GameManager.GM.Paused) {
-			if (Input.GetKey(KeyCode.LeftShift))
+			if (Input.GetKey(KeyCode.LeftShift)) { 
 				fl_MoveSpeed = fl_SprintAmount;
-			else
+                mainCameraEffect.enabled = true;
+            }
+            else { 
 				fl_MoveSpeed = 8;
+                mainCameraEffect.enabled = false;
+            }
 
-           
 
             // movement in Z direction
             Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
