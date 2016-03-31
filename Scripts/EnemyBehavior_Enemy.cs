@@ -34,7 +34,6 @@ public class EnemyBehavior_Enemy : MonoBehaviour {
     // Update is called once per frame
     void Update () 
 	{
-		if (!GameManager.GM.Paused) {
 			if (tr_Target == null)
 				return;
 
@@ -64,7 +63,6 @@ public class EnemyBehavior_Enemy : MonoBehaviour {
                 nma_NavComponentRef.enabled = false;
             }
 				
-		}
 	}
 
 	// Set the target of the chaser

@@ -15,6 +15,14 @@ public class Sense_Sensor : MonoBehaviour {
                                             //anim_RocksAnimationRef.Play("Rock Animation");      
         }
      }
+
+	//when the player pass throw the place it will be blocked
+	void OnTriggerExit (Collider block){
+		if ( block.gameObject.tag == "Player")
+			this.GetComponent<Collider>().isTrigger = false;
+	}
+
+	//idont think we need this function any more
     void BlockRoad()
     {
         go_RocksPrefab.SetActive(true);

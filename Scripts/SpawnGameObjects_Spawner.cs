@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnGameObjects_Spawner : MonoBehaviour {
 
 	public GameObject go_SpawnPrefab;
+	public GameObject go_SwitchSenseCollider;
 	public int int_EnemyCounter = 5;
 
 	public float fl_MinSpawnInterval_Sec = 3.0f;//minimum time between every spawning in seconds..
@@ -35,12 +37,20 @@ public class SpawnGameObjects_Spawner : MonoBehaviour {
 		if (int_EnemyCounter != 0) {
 			// create a new gameObject
 			GameObject clone = Instantiate (go_SpawnPrefab, transform.position, transform.rotation) as GameObject;
+			GameManager.li_Enemys.Add (clone);
 			int_EnemyCounter--;
 			// set chaseTarget if specified
 			if ((trans_ChasedTarget != null) && (clone.gameObject.GetComponent<EnemyBehavior_Enemy> () != null)) {
 				clone.gameObject.GetComponent<EnemyBehavior_Enemy> ().SetTarget (trans_ChasedTarget);
 			}
-		} else
-			Destroy (this.gameObject);
+		} 
+		else {
+			if (GameManager.li_Enemys.Count ==0) {
+				go_SwitchSenseCollider.GetComponent<Collider>().isTrigger = true;
+				//or you can directly open it//GameObject.Find("Sensor").gameObject.GetComponent<Collider>().isTrigger = true;
+				this.gameObject.SetActive(false);
+			}
+		}
+
 	}
 }

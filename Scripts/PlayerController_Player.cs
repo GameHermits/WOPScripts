@@ -23,55 +23,49 @@ public class PlayerController_Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameManager.GM.Paused) {
-			if (Input.GetKey(KeyCode.LeftShift))
-				fl_MoveSpeed = fl_SprintAmount;
-			else
-				fl_MoveSpeed = 8;
+		if (GameManager.GM.isDead !=true && GameManager.GM.ispaused !=true) {
+
+		if (Input.GetKey (KeyCode.LeftShift))
+			fl_MoveSpeed = fl_SprintAmount;
+		else
+			fl_MoveSpeed = 8;
 
            
 
-            // movement in Z direction
-            Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
-			// movement in X direction
-			Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
-			// Movement variable
-			Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
+		// movement in Z direction
+		Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
+		// movement in X direction
+		Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
+		// Movement variable
+		Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
             
-            //jump
-            if (Input.GetKey(KeyCode.Space))
-            {
+		//jump
+		if (Input.GetKey (KeyCode.Space)) {
                
-                if (JumpLimit)
-                {
-                    vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-                    if (cc_PlayerController.isGrounded)
-                    {
-                        JumpLimit = false;
-                    }
-                }
-                else
-                {
-                    Debug.Log(vec3_Movement.y.ToString()+"  "+temp.ToString());
-                    vec3_Movement.y = fl_MaxJump;temp++;
-                    if (temp> fl_MaxJump)
-                    {
-                        temp = 0;
-                        Debug.Log("Enter");
-                        JumpLimit = true;
-                    }
-                }
-            }
-            else 
-            {
-                // Aplaying gravity if not standing on something
-                vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-            }
-            
-            
-            //actual movement
-            cc_PlayerController.Move (vec3_Movement);
+			if (JumpLimit) {
+				vec3_Movement.y -= fl_Gravity * Time.deltaTime;
+				if (cc_PlayerController.isGrounded) {
+					JumpLimit = false;
+				}
+			} else {
+				Debug.Log (vec3_Movement.y.ToString () + "  " + temp.ToString ());
+				vec3_Movement.y = fl_MaxJump;
+				temp++;
+				if (temp > fl_MaxJump) {
+					temp = 0;
+					Debug.Log ("Enter");
+					JumpLimit = true;
+				}
+			}
+		} else {
+			// Aplaying gravity if not standing on something
+			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
 		}
+            
+            
+		//actual movement
+		cc_PlayerController.Move (vec3_Movement);
+	}
 	}
     void OnTriggerEnter( Collider col)
     {
