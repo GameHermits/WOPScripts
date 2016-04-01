@@ -26,27 +26,34 @@ public class PlayerController_Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameManager.GM.Paused) {
-			if (Input.GetKey(KeyCode.LeftShift)) { 
-				fl_MoveSpeed = fl_SprintAmount;
+
+		if (GameManager.GM.isDead !=true && GameManager.GM.ispaused !=true) {
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                fl_MoveSpeed = fl_SprintAmount;
                 mainCameraEffect.enabled = true;
             }
-            else { 
-				fl_MoveSpeed = 8;
+            else {
+                fl_MoveSpeed = 8;
                 mainCameraEffect.enabled = false;
             }
 
+            if (Input.GetKey (KeyCode.LeftShift))
+			fl_MoveSpeed = fl_SprintAmount;
+		else
+			fl_MoveSpeed = 8;
 
-            // movement in Z direction
-            Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
-			// movement in X direction
-			Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
-			// Movement variable
-			Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
+
+		// movement in Z direction
+		Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
+		// movement in X direction
+		Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
+		// Movement variable
+		Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
             
-            //jump
-            if (Input.GetKey(KeyCode.Space))
-            {
+		//jump
+		if (Input.GetKey (KeyCode.Space)) {
                
                 if (JumpLimit)
                 {
@@ -72,9 +79,8 @@ public class PlayerController_Player : MonoBehaviour {
                 vec3_Movement.y -= fl_Gravity * Time.deltaTime;
             }
             
-            
-            //actual movement
-            cc_PlayerController.Move (vec3_Movement);
-		}
+		//actual movement
+		cc_PlayerController.Move (vec3_Movement);
+	}
 	}
 }

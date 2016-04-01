@@ -22,10 +22,14 @@ public class Health_General : MonoBehaviour {
 
 	void Update(){
 		if (fl_health <= 0) {
-			//if ( gameObject.name != "Player"){
+			if ( gameObject.name != "Player"){
 			GameObject newGO = Instantiate (go_itemHolder, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
 			GameObject.Destroy (gameObject);
-			//}
+			}
+			else if ( gameObject.name == "Player")
+			{
+				GameManager.GM.isDead =true;
+			}
 		}
 		else if (fl_health > fl_maxhealth)
 			fl_health = fl_maxhealth;

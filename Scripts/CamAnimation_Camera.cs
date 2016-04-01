@@ -38,7 +38,7 @@ public class CamAnimation_Camera : MonoBehaviour {
 	
 	
 	void Update () {
-        if (!GameManager.GM.Paused) { 
+      
             float inputX = Input.GetAxis("Horizontal"); //Keyboard input to determine if player is moving
 		float inputY = Input.GetAxis("Vertical");
 		
@@ -50,6 +50,5 @@ public class CamAnimation_Camera : MonoBehaviour {
 		}
 		
 		CameraAnimations();
-        }
     }
 }

@@ -19,7 +19,6 @@ public class TelchinesShooter : MonoBehaviour {
     private enum_Attacks at_attacks = enum_Attacks.NatureRaor; // Type of Attack
  
     void Update () {
-		if (!GameManager.GM.Paused) { // if the game not in pause state
 			switch (at_attacks) 
             {
 			case enum_Attacks.Firemeteor:
@@ -71,6 +70,5 @@ public class TelchinesShooter : MonoBehaviour {
 				
 			}
             ts_TelchinesShooterRef.enabled = false;
-		}
 	}
 }

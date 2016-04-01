@@ -34,20 +34,23 @@ public class MouseLooker : MonoBehaviour {
 	}
 	
 	void Update() {
+		if (GameManager.GM.isDead !=true && GameManager.GM.ispaused !=true) {
+
 		// if ESCAPE key is pressed, then unlock the cursor
 		if (Input.GetButtonDown ("Cancel")) {
 			LockCursor (false);
 		}
-		if (!GameManager.GM.Paused) {
-			// rotate stuff based on the mouse
-			LookRotation ();
+		// rotate stuff based on the mouse
+		LookRotation ();
 
-			// if the player fires, then relock the cursor
-			if (Input.GetButtonDown ("Fire1")) {
-				LockCursor (true);
-			}
+		// if the player fires, then relock the cursor
+		if (Input.GetButtonDown ("Fire1")) {
+			LockCursor (true);
 		}
-	}
+	}else {
+			LockCursor (false);
+		}
+}
 	
 	private void LockCursor(bool isLocked)
 	{
