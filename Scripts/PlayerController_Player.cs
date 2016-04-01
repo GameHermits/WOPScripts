@@ -5,7 +5,7 @@ public class PlayerController_Player : MonoBehaviour {
 	//public variables for player behavior
 	public float fl_MoveSpeed = 0.5f;
 	public float fl_Gravity = 9.81f;
-    
+    public bool isCanJump = true;
     public float fl_SprintAmount;
     public float fl_MaxJump = 10.0f;
     private GameObject go_PlayerCanvas; // player canvas that include health and mana bar
@@ -47,7 +47,7 @@ public class PlayerController_Player : MonoBehaviour {
 				if (cc_PlayerController.isGrounded) {
 					JumpLimit = false;
 				}
-			} else {
+			} else if(isCanJump) {
 				Debug.Log (vec3_Movement.y.ToString () + "  " + temp.ToString ());
 				vec3_Movement.y = fl_MaxJump;
 				temp++;
@@ -77,5 +77,19 @@ public class PlayerController_Player : MonoBehaviour {
     void CanvasDeactivate()
     {
         go_PlayerCanvas.SetActive(false);
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.normal.y<=0.7)
+        {
+            //Debug.Log("no ");
+            isCanJump = false;
+        }
+        else
+        {
+            //Debug.Log("yes");
+            isCanJump = true;
+        }
     }
 }
