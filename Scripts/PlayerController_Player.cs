@@ -6,7 +6,7 @@ public class PlayerController_Player : MonoBehaviour {
 	//public variables for player behavior
 	public float fl_MoveSpeed = 0.5f;
 	public float fl_Gravity = 9.81f;
-    
+    public bool isCanJump = true;
     public float fl_SprintAmount;
     public float fl_MaxJump = 10.0f;
     private GameObject go_PlayerCanvas; // player canvas that include health and mana bar
@@ -17,6 +17,7 @@ public class PlayerController_Player : MonoBehaviour {
 	private CharacterController cc_PlayerController;
     private MotionBlur mainCameraEffect;
 	// Use this for initialization
+
 	void Start () {
 		//Get the character controller component to the object
 		cc_PlayerController= gameObject.GetComponent<CharacterController> ();
@@ -51,29 +52,31 @@ public class PlayerController_Player : MonoBehaviour {
 		Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
 		// Movement variable
 		Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
-            
-		//jump
-		if (Input.GetKey (KeyCode.Space)) {
-               
-                if (JumpLimit)
+
+
+            if (JumpLimit)
+            {
+                vec3_Movement.y -= fl_Gravity * Time.deltaTime;
+                if (cc_PlayerController.isGrounded)
                 {
-                    vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-                    if (cc_PlayerController.isGrounded)
-                    {
-                        JumpLimit = false;
-                    }
+                    JumpLimit = false;
                 }
-                else
+            }
+            else if (isCanJump)
+            {
+                if (Input.GetKey(KeyCode.Space))
                 {
-                    vec3_Movement.y = fl_MaxJump;temp++;
-                    if (temp> fl_MaxJump)
+                    vec3_Movement.y = fl_MaxJump;
+                    temp++;
+                    if (temp > fl_MaxJump)
                     {
                         temp = 0;
+                        Debug.Log("Enter");
                         JumpLimit = true;
                     }
                 }
             }
-            else 
+            else
             {
                 // Aplaying gravity if not standing on something
                 vec3_Movement.y -= fl_Gravity * Time.deltaTime;
@@ -81,6 +84,22 @@ public class PlayerController_Player : MonoBehaviour {
             
 		//actual movement
 		cc_PlayerController.Move (vec3_Movement);
+	    }
 	}
-	}
+
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.normal.y<=0.7)
+        {
+            //Debug.Log("no ");
+            isCanJump = false;
+        }
+        else
+        {
+            //Debug.Log("yes");
+            isCanJump = true;
+        }
+    }
+
 }
