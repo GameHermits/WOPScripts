@@ -10,6 +10,7 @@ public class ManaReplenish_ManaCrystal : MonoBehaviour {
 	}
 
     void OnCollisionEnter( Collision col){
+        Debug.Log("Collision work");
 		if (col.gameObject.tag == "Player") {
             
 			if (Mana.mana <= Mana.maxMana){
@@ -21,6 +22,7 @@ public class ManaReplenish_ManaCrystal : MonoBehaviour {
 
 			}
 			GameObject.Destroy(gameObject);
+            
 		}
 	}
 }

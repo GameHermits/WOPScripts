@@ -14,7 +14,7 @@ public class DoorCondition_DoorArea : MonoBehaviour {
             for ( int i = 0; i<6; i++){
                     if (Inventory.bag[i].tag == str_Key)
                     {
-                        go_DoorCollider.GetComponent<Collider>().isTrigger = true;
+                        GameObject.Destroy(go_DoorCollider);
                         ItemCollect_Item.isUseable = false;
                         //Inventory.Ibag--;
                         anim_Door.Play("DoorOpen");
