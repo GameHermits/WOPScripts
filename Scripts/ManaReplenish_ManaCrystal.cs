@@ -22,6 +22,7 @@ public class ManaReplenish_ManaCrystal : MonoBehaviour {
 
 			}
 			GameObject.Destroy(gameObject);
+            
 		}
 	}
 }
