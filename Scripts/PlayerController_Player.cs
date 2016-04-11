@@ -23,8 +23,8 @@ public class PlayerController_Player : MonoBehaviour
 	private CharacterController cc_PlayerController;
 	private MotionBlur mainCameraEffect;
 	// Use this for initialization
-
 	private HPController_General hpc_GameObjectRef;
+
 
 	void Start ()
 	{
@@ -33,6 +33,7 @@ public class PlayerController_Player : MonoBehaviour
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
 		hpc_GameObjectRef = gameObject.GetComponent<HPController_General> ();
+
 	}
 	
 	// Update is called once per frame
@@ -74,7 +75,6 @@ public class PlayerController_Player : MonoBehaviour
 			Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
 			// Movement variable
 			Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
-
 
 			if (JumpLimit) {
 				vec3_Movement.y -= fl_Gravity * Time.deltaTime;
