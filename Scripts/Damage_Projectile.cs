@@ -58,7 +58,7 @@ public class Damage_Projectile : MonoBehaviour
 
 	IEnumerator Wait ()
 	{
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (fl_FreezeTime);
 		Debug.Log ("Freeze unlocked");
 		PS_Ref.enabled = true;
 		PlC_Ref.enabled = true;
@@ -66,7 +66,10 @@ public class Damage_Projectile : MonoBehaviour
 
 	public void FreezeDamage (Collider col) // Called when Freeze Damage Type of projectile is selected
 	{
-		gameObject.GetComponent<TimedObjectDestructor> ().enabled = false;
+		gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
+		gameObject.GetComponent <Rigidbody> ().velocity = Vector3.zero;
+		gameObject.GetComponent <Rigidbody> ().angularVelocity = Vector3.zero;
+		gameObject.GetComponent <Rigidbody> ().Sleep ();
 		if (col.gameObject.tag == "Player") {
 			PlC_Ref.enabled = false;
 			PS_Ref.enabled = false;
