@@ -1,77 +1,79 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyShooter_Enemy : MonoBehaviour {
+public class EnemyShooter_Enemy : MonoBehaviour
+{
 	
 	public float fl_MovmentForce = 20.0f;
 	public GameObject go_BulletPrefab;
 	public float fl_FireRate = 2f;
 	public GameObject go_ShootingPLace;
 
-    private float fl_Timer = 10;
-    private EnemyBehavior_Enemy eb_EnemyBehaviorRef;
-    private GameObject Player;
-    private int in_randomInteger;
-    private float fl_nextDamage = 0f;
-    void Start()
-    {
-        eb_EnemyBehaviorRef = gameObject.GetComponent<EnemyBehavior_Enemy>();
-        Player = GameObject.FindGameObjectWithTag("Player");
-    }
+	private float fl_Timer = 10;
+	private EnemyBehavior_Enemy eb_EnemyBehaviorRef;
+	private GameObject Player;
+	private int in_randomInteger;
+	private float fl_nextDamage = 0f;
+
+	void Start ()
+	{
+		eb_EnemyBehaviorRef = gameObject.GetComponent<EnemyBehavior_Enemy> ();
+		Player = GameObject.FindGameObjectWithTag ("Player");
+	}
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 
-            transform.LookAt(eb_EnemyBehaviorRef.tr_Target);
-            if (Time.time >= fl_nextDamage)// after passing spacific seconds, assigne a new value to timer.
-            {
-                fl_nextDamage = Time.time + fl_FireRate;
-                if (gameObject.tag == "NEnemy")
-                {
-                    NEnemyShoot();
+		transform.LookAt (eb_EnemyBehaviorRef.tr_Target);
+		if (Time.time >= fl_nextDamage) {// after passing spacific seconds, assigne a new value to timer.
+			fl_nextDamage = Time.time + fl_FireRate;
+			if (gameObject.tag == "NEnemy") {
+				NEnemyShoot ();
 
-                }
-                else if (gameObject.tag == "LEnemy")
-                    LEnemyShoot();
-            }
+			} else if (gameObject.tag == "LEnemy")
+				LEnemyShoot ();
+		}
 	}
 
-	void NEnemyShoot(){// Enable Enemy to shoot
+	void NEnemyShoot ()
+	{// Enable Enemy to shoot
 		
-        GameObject newBullet = Instantiate(go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward,gameObject.transform.rotation) as GameObject;
+		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
 		newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
         
-        in_randomInteger = Random.Range(1, 3);
+		in_randomInteger = Random.Range (1, 3);
         
-        switch (in_randomInteger)
-        {
-            case 1:
-                fl_FireRate = 1f;
-                break;
-            case 2:
-                fl_FireRate = 2f;break;
-        }
-    }
+		switch (in_randomInteger) {
+		case 1:
+			fl_FireRate = 1f;
+			break;
+		case 2:
+			fl_FireRate = 2f;
+			break;
+		}
+	}
 
-    void LEnemyShoot()
-    {// Enable Enemy to shoot
+	void LEnemyShoot ()
+	{// Enable Enemy to shoot
 
         
-        {// Controling fire rate by timer, every two seconds in timer Shoot
+		{// Controling fire rate by timer, every two seconds in timer Shoot
 
-            GameObject newBullet = Instantiate(go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
-            newBullet.GetComponent<Rigidbody>().AddForce(transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
+			GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
+			newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
 
-            in_randomInteger = Random.Range(1, 3);
-            switch (in_randomInteger)
-            {
-                case 1 : gameObject.transform.position = new Vector3(Player.transform.position.x + 5,
-                            gameObject.transform.position.y, gameObject.transform.position.z);                    
-                    break;
-                case 2: gameObject.transform.position = new Vector3(Player.transform.position.x - 5,
-                            gameObject.transform.position.y, gameObject.transform.position.z);
-                    break;
-            }
-        }
-    }
+			in_randomInteger = Random.Range (1, 3);
+			switch (in_randomInteger) {
+			case 1:
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 3,
+					gameObject.transform.position.y, gameObject.transform.position.z);                    
+				break;
+			case 2:
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 3,
+					gameObject.transform.position.y, gameObject.transform.position.z);
+				break;
+			}
+		}
+	}
 
 }
