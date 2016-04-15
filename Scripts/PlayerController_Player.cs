@@ -5,14 +5,23 @@ using UnityStandardAssets.ImageEffects;
 public class PlayerController_Player : MonoBehaviour
 {
 	//public
+
+	// Max walk speed the player can walk with.
 	public float fl_MoveSpeed = 0.5f;
+	// for applying gravity to the player.
 	public float fl_Gravity = 9.81f;
+	// for controling jumping behavior.
 	public bool isCanJump = true;
+	// Max Sprint speed the player can run with.
 	public float fl_SprintAmount;
+	// Max jump the player can do.
 	public float fl_MaxJump = 10.0f;
+	// Refrecne for the animator component in the hands.
 	public Animator handAnimator;
 
 	//Private
+
+	// Reference of the player canvas.
 	private GameObject go_PlayerCanvas;
 	// player canvas that include health and mana bar
 	// jump controling variables
@@ -20,6 +29,7 @@ public class PlayerController_Player : MonoBehaviour
 	float temp = 0;
 	//character controller object
 	private CharacterController cc_PlayerController;
+	// Refrence of an Image effect component in the main camera, for sprint.
 	private MotionBlur mainCameraEffect;
 
 	// Use this for initialization
@@ -34,19 +44,21 @@ public class PlayerController_Player : MonoBehaviour
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
 	{
-		if (JumpLimit) { // if reached maximum jump
+		if (JumpLimit) { // if reached maximum jump apply gravity
 			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-			if (cc_PlayerController.isGrounded) {
+			if (cc_PlayerController.isGrounded) { // if the player touched the ground, enable jumping again.
 				JumpLimit = false;
 
 			}
-		} else if (isCanJump) {
+		} else if (isCanJump) {// is the player is on a suitable ground to jump
 			if (Input.GetKey (KeyCode.Space)) {
+				// Enter "HandsJump" animation and Exit "HandsWalk" animation
 				handAnimator.SetBool ("isJumping", true);
 				handAnimator.SetBool ("isWalking", false);
+				// Jumping behavior
 				vec3_Movement.y = fl_MaxJump;
 				temp++;
-				if (temp > fl_MaxJump) {
+				if (temp > fl_MaxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
 					temp = 0;
 					JumpLimit = true;
 					handAnimator.SetBool ("isJumping", false);
@@ -61,11 +73,11 @@ public class PlayerController_Player : MonoBehaviour
 
 	void Sprint () // Sprint behavior and animations
 	{
-		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) { // if use shift for sprint
+		// if the player sprinting, apply sprint speed, activate sprint image effect, and Enter "HandsRunning" animation. Else, back to normal state.
+		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) { 
 			fl_MoveSpeed = fl_SprintAmount;
 			mainCameraEffect.enabled = true;
 			handAnimator.SetBool ("isRunning", true);
-			//handAnimator.SetBool ("isWalking", false);
 		} else {
 			fl_MoveSpeed = 8;
 			mainCameraEffect.enabled = false;
@@ -104,18 +116,18 @@ public class PlayerController_Player : MonoBehaviour
 	void OnControllerColliderHit (ControllerColliderHit hit)
 	{
 		if (hit.normal.y <= 0.7) {
-			//Debug.Log("no ");
+			//the player isn't on a suitable ground to jump
 			isCanJump = false;
 		} else {
-			//Debug.Log("yes");
+			// the player is on a suitable ground to jump
 			isCanJump = true;
 		}
 	}
 
 	void OnTriggerEnter (Collider col)
 	{
-		if (col.gameObject.tag == "Projectile") {
-			handAnimator.SetBool ("OnHit", true);
+		if (col.gameObject.tag == "Projectile") {// if the player gets hit, Enter "HandsOnHit" Animation.
+			handAnimator.SetBool ("OnHit", true);// The animation calls it's Exit function when it finishs.
 		}
 	}
 

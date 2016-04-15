@@ -3,15 +3,15 @@ using System.Collections;
 
 public class Damage_Projectile : MonoBehaviour
 {
-
-	public float fl_dmgAmount;
 	// Instant Damage amount for every Projectile.
-	public float fl_FreezeDmgAmount;
+	public float fl_dmgAmount;
 	// Freeze Damage amount for every projectile
+	public float fl_FreezeDmgAmount;
+	// how much should the freez effect lasts.
 	public float fl_FreezeTime;
-	// set to zero if the projectile isn't a freeze type.
-	//public Animation animation; // The animator of this object of being destroied.
-	//public string animationName; // the animation Name the will be played upon hitting something.
+	// how much should the poison effect lasts.
+	public float PoisonTime;
+	// Types of Projectiles
 	public enum ProjectileType
 	{
 		Freezedmg,
@@ -21,7 +21,7 @@ public class Damage_Projectile : MonoBehaviour
 	;
 
 	public ProjectileType projectile = ProjectileType.InstantDmg;
-	public float PoisonTime;
+
 
 	//Private:
 	private PlayerController_Player PlC_Ref;
@@ -40,29 +40,24 @@ public class Damage_Projectile : MonoBehaviour
 		ML_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<MouseLooker> ();
 	}
 
-	IEnumerator Wait ()
+	IEnumerator Wait () // Freezing effect
 	{
-		Debug.Log ("freezeWait");
 		yield return new WaitForSeconds (2.0f);
-		Debug.Log ("Freeze unlocked");
 		PlC_Ref.enabled = true;
 		PS_Ref.enabled = true;
-//        ML_Ref.enabled = true;
 		GameObject.Destroy (this.gameObject);
 	}
 
 	public void InstantDamage (Collider col) // Called when Instant Damage Type of projectile is selected
 	{
-		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit a character
+		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_dmgAmount);
-			//animation.Play(animationName);	
 			GameObject.Destroy (this.gameObject);
-			Debug.Log ("trigger Work");
-		} else if (col.gameObject.tag == "Player") {
+
+		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_dmgAmount);
-			//animation.Play(animationName);	
 			GameObject.Destroy (this.gameObject);
 		}
 	}

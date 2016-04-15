@@ -50,7 +50,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 			Mana.mana -= fl_UsedManaType;
 			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
-			handAnimator.SetBool ("isAttackingS", false);
+			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
 		}
 
 	}
@@ -77,7 +77,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 					//If there is enough mana
 					if (Mana.mana >= fl_UsedMana_Lightning) {
 						if (go_Lightningbullet) {
-							handAnimator.SetBool ("isAttackingS", true);
+							// setting the animation bool to true to enter the animation attack. the animation contains an event that calls lunch bullet in a certain frame.
+							handAnimator.SetBool ("isAttackingS", true); 
 						}
 					}
 				}
