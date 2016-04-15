@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LookAt : MonoBehaviour {
+public class LookAt : MonoBehaviour
+{
 
 	public Transform target;
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		transform.LookAt (target);
 	}
 }
