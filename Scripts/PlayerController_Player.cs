@@ -112,4 +112,11 @@ public class PlayerController_Player : MonoBehaviour
 		}
 	}
 
+	void OnTriggerEnter (Collider col)
+	{
+		if (col.gameObject.tag == "Projectile") {
+			handAnimator.SetBool ("OnHit", true);
+		}
+	}
+
 }

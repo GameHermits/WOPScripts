@@ -22,8 +22,6 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
-	// hero hands animator controller
-	public Animation anim;
 	//the four elements.
 	private enum enum_Elements
 	{
@@ -38,24 +36,21 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 
 	//Launch Bullet
-	void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
+	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-			handAnimator.SetBool ("isAttackingS", true);
-			if (anim.IsPlaying ("SingleHandsAttack") == false) {
-				
-				handAnimator.SetBool ("isAttackingS", false);
-				GameObject go_NewBullet = Instantiate (go_BulletType, //...
-					                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
+			
+			GameObject go_NewBullet = Instantiate (go_BulletType, //...
+				                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		
-				if (!go_NewBullet.GetComponent<Rigidbody> ()) {
-					go_NewBullet.AddComponent<Rigidbody> ();
-				}
-				go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);
-
-				Mana.mana -= fl_UsedManaType;
-				hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
+			if (!go_NewBullet.GetComponent<Rigidbody> ()) {
+				go_NewBullet.AddComponent<Rigidbody> ();
 			}
+			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);
+
+			Mana.mana -= fl_UsedManaType;
+			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
+			handAnimator.SetBool ("isAttackingS", false);
 		}
 
 	}
@@ -82,7 +77,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 					//If there is enough mana
 					if (Mana.mana >= fl_UsedMana_Lightning) {
 						if (go_Lightningbullet) {
-							LaunchBullet (go_Lightningbullet, fl_UsedMana_Lightning);
+							handAnimator.SetBool ("isAttackingS", true);
 						}
 					}
 				}
