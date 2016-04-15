@@ -5,7 +5,6 @@ using UnityStandardAssets.ImageEffects;
 public class PlayerController_Player : MonoBehaviour
 {
 	//public
-
 	// Max walk speed the player can walk with.
 	public float fl_MoveSpeed = 0.5f;
 	// for applying gravity to the player.
@@ -20,10 +19,12 @@ public class PlayerController_Player : MonoBehaviour
 	public Animator handAnimator;
 
 	//Private
-
-	// Reference of the player canvas.
+	//flag for ability to sprint or not
+	private bool isCanSprint = true;
+	//flag for ability to fill energy bar or not
+	private bool isCanFill = false;
+	//refrence for the player canvas
 	private GameObject go_PlayerCanvas;
-	// player canvas that include health and mana bar
 	// jump controling variables
 	bool JumpLimit = false;
 	float temp = 0;
@@ -31,15 +32,16 @@ public class PlayerController_Player : MonoBehaviour
 	private CharacterController cc_PlayerController;
 	// Refrence of an Image effect component in the main camera, for sprint.
 	private MotionBlur mainCameraEffect;
-
+	// for controlling player UI
+	private HPController_General hpc_GameObjectRef;
 	// Use this for initialization
-
 	void Start ()
 	{
 		//Get the character controller component to the object
 		cc_PlayerController = gameObject.GetComponent<CharacterController> ();
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
+		hpc_GameObjectRef = gameObject.GetComponent <HPController_General> ();
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
@@ -74,16 +76,36 @@ public class PlayerController_Player : MonoBehaviour
 	void Sprint () // Sprint behavior and animations
 	{
 		// if the player sprinting, apply sprint speed, activate sprint image effect, and Enter "HandsRunning" animation. Else, back to normal state.
-		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) { 
+		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift) && isCanSprint == true) { 
 			fl_MoveSpeed = fl_SprintAmount;
 			mainCameraEffect.enabled = true;
 			handAnimator.SetBool ("isRunning", true);
+			//if energy bar is more than zero 
+			if (hpc_GameObjectRef.fl_tmpEnergybar > 0) {
+				hpc_GameObjectRef.fl_tmpEnergybar = hpc_GameObjectRef.fl_tmpEnergybar - (0.01f / 2.0f);
+				isCanFill = false;
+			}//if the energy bar is lower or equal zero he will not be able to sprint
+				else if (hpc_GameObjectRef.fl_tmpEnergybar <= 0) {
+				isCanSprint = false;
+			}
+				
 		} else {
+			isCanFill = true;
 			fl_MoveSpeed = 8;
 			mainCameraEffect.enabled = false;
 			handAnimator.SetBool ("isRunning", false);
+
+			if (isCanFill) {
+				//fill the energy bar when isCanFill equal true
+				hpc_GameObjectRef.fl_tmpEnergybar = hpc_GameObjectRef.fl_tmpEnergybar + (0.01f / 2.0f);
+			}
+			//if the energy bar is higher than 0.3 after reaching zero he could use it again
+			if (hpc_GameObjectRef.fl_tmpEnergybar > 0.3f) {
+				isCanSprint = true;
+			}
 		}
 	}
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -111,7 +133,6 @@ public class PlayerController_Player : MonoBehaviour
 			cc_PlayerController.Move (vec3_Movement);
 		}
 	}
-
 
 	void OnControllerColliderHit (ControllerColliderHit hit)
 	{

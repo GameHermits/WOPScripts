@@ -22,6 +22,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
+
 	//the four elements.
 	private enum enum_Elements
 	{
@@ -29,17 +30,16 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		Ice,
 		Lightning,
 		BlackMagic}
-
 	;
+
 	//Default element
 	private enum_Elements currentElement = enum_Elements.Lightning;
-
 
 	//Launch Bullet
 	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-			
+
 			GameObject go_NewBullet = Instantiate (go_BulletType, //...
 				                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		
@@ -120,11 +120,9 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 					}
 				}
 				break;
-
 			}
-
 
 		}
 	}
-
 }
+	
