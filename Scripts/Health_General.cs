@@ -40,23 +40,23 @@ public class Health_General : MonoBehaviour
 
 	}
 
-	public void ApplayDamage (float fl_Damage)
+	public void ApplayDamage (float fl_Damage) // Applying damage effect to the gameObject. the fucntion is called by the projectile collided with this gameObject
 	{
 		fl_health = fl_health - (fl_Damage / 2);
 	}
 
-	public void DamageHealthBar (float fl_Damage)
+	public void DamageHealthBar (float fl_Damage) // Modifying UI health bar acoording to Damage amount
 	{
         
 		hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar - (fl_Damage / (fl_maxhealth * 2));
 	}
 
-	public void HealHealthBar (float fl_heal)
+	public void HealHealthBar (float fl_heal) // Modifying UI health bar according to heal amount
 	{
 		hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (fl_heal / (fl_maxhealth * 2));
 	}
 
-	IEnumerator Poison (float fl_Damage, float poisonTime)
+	IEnumerator Poison (float fl_Damage, float poisonTime) // Poison Behavior
 	{
 
 		if (poisonTime > 0) {
@@ -66,7 +66,7 @@ public class Health_General : MonoBehaviour
 			StopCoroutine ("Poison");
 	}
 
-	public void DamageOverTime (float fl_Damage, float poisonTime)
+	public void DamageOverTime (float fl_Damage, float poisonTime) // Apply Posion damage effect to the gameObject. the function is called by the projectile collided with this gameObject
 	{
 		fl_health = fl_health - (fl_Damage);
 		DamageHealthBar (fl_Damage);

@@ -19,8 +19,9 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	public float fl_UsedMana_BlackMagic;
 	//Movement power
 	public float fl_MovementForce = 10.0f;
-
+	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
+	public Animator handAnimator;
 
 	//the four elements.
 	private enum enum_Elements
@@ -29,19 +30,18 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		Ice,
 		Lightning,
 		BlackMagic}
-
 	;
+
 	//Default element
 	private enum_Elements currentElement = enum_Elements.Lightning;
 
-
 	//Launch Bullet
-	void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
+	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
 
 			GameObject go_NewBullet = Instantiate (go_BulletType, //...
-				                         go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
+				                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		
 			if (!go_NewBullet.GetComponent<Rigidbody> ()) {
 				go_NewBullet.AddComponent<Rigidbody> ();
@@ -50,6 +50,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 			Mana.mana -= fl_UsedManaType;
 			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
+			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
 		}
 
 	}
@@ -76,7 +77,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 					//If there is enough mana
 					if (Mana.mana >= fl_UsedMana_Lightning) {
 						if (go_Lightningbullet) {
-							LaunchBullet (go_Lightningbullet, fl_UsedMana_Lightning);
+							// setting the animation bool to true to enter the animation attack. the animation contains an event that calls lunch bullet in a certain frame.
+							handAnimator.SetBool ("isAttackingS", true); 
 						}
 					}
 				}
@@ -118,9 +120,9 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 					}
 				}
 				break;
-
 			}
+
 		}
 	}
-
 }
+	
