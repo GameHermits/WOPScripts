@@ -9,7 +9,6 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	public float fl_FireRate = 2f;
 	public GameObject go_ShootingPLace;
 
-	private float fl_Timer = 10;
 	private EnemyBehavior_Enemy eb_EnemyBehaviorRef;
 	private GameObject Player;
 	private int in_randomInteger;
@@ -38,7 +37,7 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	void NEnemyShoot ()
 	{// Enable Enemy to shoot
 		
-		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
+		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
 		newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
         
 		in_randomInteger = Random.Range (1, 3);
@@ -59,8 +58,8 @@ public class EnemyShooter_Enemy : MonoBehaviour
         
 		{// Controling fire rate by timer, every two seconds in timer Shoot
 
-			GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, gameObject.transform.rotation) as GameObject;
-			newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
+			GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
+			//newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
 
 			in_randomInteger = Random.Range (1, 3);
 			switch (in_randomInteger) {

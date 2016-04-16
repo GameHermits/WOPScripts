@@ -31,6 +31,11 @@ public class Damage_Projectile : MonoBehaviour
 	//A refrence object for the player Shooter compnent
 	//private EnemyBehavior_Enemy EB_Ref; // A refrnce to enemies main behavior component
 	//private EnemyBehavior_Enemy EB_Ref; // A refrnce to enemies main behavior component
+	IEnumerator Destroy (GameObject go)
+	{
+		yield return new WaitForSeconds (1.5f);
+		GameObject.Destroy (go);
+	}
 
 	void Start ()
 	{
@@ -38,7 +43,7 @@ public class Damage_Projectile : MonoBehaviour
 		PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
 	}
 
-	public void InstantDamage (Collider col) // Called when Instant Damage Type of projectile is selected
+	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
 		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
@@ -48,7 +53,7 @@ public class Damage_Projectile : MonoBehaviour
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_dmgAmount);
-			GameObject.Destroy (this.gameObject);
+			StartCoroutine (Destroy (gameObject));
 		}
 	}
 
@@ -60,7 +65,7 @@ public class Damage_Projectile : MonoBehaviour
 		PlC_Ref.enabled = true;
 	}
 
-	public void FreezeDamage (Collider col) // Called when Freeze Damage Type of projectile is selected
+	public void FreezeDamage (GameObject col) // Called when Freeze Damage Type of projectile is selected
 	{
 		gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
 		gameObject.GetComponent <Rigidbody> ().velocity = Vector3.zero;
@@ -75,17 +80,16 @@ public class Damage_Projectile : MonoBehaviour
 		}  
 	}
 
-	public void PoisonDamage (Collider col)
+	public void PoisonDamage (GameObject col)
 	{
 		gameObject.GetComponent <TimedObjectDestructor> ().enabled = false;
 		col.gameObject.GetComponent<Health_General> ().DamageOverTime (fl_dmgAmount, PoisonTime);
 	}
 
-	void OnTriggerEnter (Collider col)
+	void OnParticleCollision (GameObject col)
 	{
-
+		
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
-			//animation.Play(animationName);
 			GameObject.Destroy (this.gameObject);
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
@@ -93,6 +97,7 @@ public class Damage_Projectile : MonoBehaviour
 			FreezeDamage (col);
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
+		
 		}
 	}
 }
