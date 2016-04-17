@@ -76,7 +76,7 @@ public class PlayerController_Player : MonoBehaviour
 	void Sprint () // Sprint behavior and animations
 	{
 		// if the player sprinting, apply sprint speed, activate sprint image effect, and Enter "HandsRunning" animation. Else, back to normal state.
-		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift) && isCanSprint == true) { 
+		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && isCanSprint == true) { 
 			fl_MoveSpeed = fl_SprintAmount;
 			mainCameraEffect.enabled = true;
 			handAnimator.SetBool ("isRunning", true);
