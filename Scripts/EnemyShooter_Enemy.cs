@@ -38,7 +38,7 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	{// Enable Enemy to shoot
 		
 		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
-		newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
+		//newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
         
 		in_randomInteger = Random.Range (1, 3);
         
