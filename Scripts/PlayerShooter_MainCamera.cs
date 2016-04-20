@@ -43,10 +43,10 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			GameObject go_NewBullet = Instantiate (go_BulletType, //...
 				                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		
-			if (!go_NewBullet.GetComponent<Rigidbody> ()) {
+			/*if (!go_NewBullet.GetComponent<Rigidbody> ()) {
 				go_NewBullet.AddComponent<Rigidbody> ();
 			}
-			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);
+			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);*/
 
 			Mana.mana -= fl_UsedManaType;
 			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
