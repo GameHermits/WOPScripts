@@ -1,29 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using Image = UnityEngine.UI.Image;
 public class DoorCondition_DoorArea : MonoBehaviour
 {
 
 	public GameObject go_DoorCollider;
-	public string str_Key;
+	//public string str_Key;
+	public Sprite key;
+	private bool isUseable;
 	public Animation anim_Door;
-
+	public GameObject doorCollider;
 	private bool isOpen = false;
 
 	void OnTriggerEnter (Collider col)
 	{
-		if (col.gameObject.tag == "Player" && ItemCollect_Item.isUseable == true) {
-			if (isOpen == false) { 
-				for (int i = 0; i < 6; i++) {
-					if (Inventory.bag [i].tag == str_Key) {
-						GameObject.Destroy (go_DoorCollider);
-						ItemCollect_Item.isUseable = false;
-						//Inventory.Ibag--;
-						anim_Door.Play ("DoorOpen");
-						isOpen = true;
-						break;
-					}
-				}
+		if (col.gameObject.tag == "Player" ) {
+			isUseable = Inventory.IN.CanUseItem (key);
+			if (isUseable == true) {
+				GameObject.Destroy (doorCollider);
+			} else {
 			}
 		}
 	}
