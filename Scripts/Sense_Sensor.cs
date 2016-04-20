@@ -5,7 +5,7 @@ public class Sense_Sensor : MonoBehaviour
 {
 
 	public GameObject go_Spawners;
-// will have game object of spawners
+	// will have game object of spawners
 
 	void OnTriggerEnter (Collider col)
 	{// when the player collide with sensor
