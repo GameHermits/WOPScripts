@@ -72,7 +72,7 @@ public class Damage_Projectile : MonoBehaviour
 		gameObject.GetComponent <Rigidbody> ().angularVelocity = Vector3.zero;
 		gameObject.GetComponent <Rigidbody> ().Sleep ();
 		if (col.gameObject.tag == "Player") {
-			PlC_Ref.enabled = false;
+			
 			PS_Ref.enabled = false;
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_FreezeDmgAmount);
