@@ -64,11 +64,11 @@ public class EnemyShooter_Enemy : MonoBehaviour
 			in_randomInteger = Random.Range (1, 3);
 			switch (in_randomInteger) {
 			case 1:
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 3,
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 10,
 					gameObject.transform.position.y, gameObject.transform.position.z);                    
 				break;
 			case 2:
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 3,
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 10,
 					gameObject.transform.position.y, gameObject.transform.position.z);
 				break;
 			}
