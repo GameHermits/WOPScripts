@@ -34,7 +34,13 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 	//Default element
 	private enum_Elements currentElement = enum_Elements.Lightning;
+	//Object to play character sounds.
+	private CharacterSound_General playersounds;
 
+	void Start ()
+	{
+		playersounds = gameObject.GetComponent <CharacterSound_General> ();
+	}
 	//Launch Bullet
 	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
@@ -51,6 +57,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			Mana.mana -= fl_UsedManaType;
 			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
 			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
+			playersounds.Attack ();
 		}
 
 	}

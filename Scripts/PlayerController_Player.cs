@@ -34,6 +34,8 @@ public class PlayerController_Player : MonoBehaviour
 	private MotionBlur mainCameraEffect;
 	// for controlling player UI
 	private HPController_General hpc_GameObjectRef;
+	//Object to play character sounds.
+	private CharacterSound_General playerSounds;
 	// Use this for initialization
 	void Start ()
 	{
@@ -42,6 +44,7 @@ public class PlayerController_Player : MonoBehaviour
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
 		hpc_GameObjectRef = gameObject.GetComponent <HPController_General> ();
+		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
