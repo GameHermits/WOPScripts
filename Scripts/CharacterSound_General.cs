@@ -44,8 +44,8 @@ public class CharacterSound_General : MonoBehaviour
 		Sounds.clip = jump [Random.Range (0, jump.Length)];
 	}
 
-	public void Achieving ()
+	public void Move ()
 	{ // playing random clips when achieving a goal or unlocking something
-		Sounds.clip = achieving [Random.Range (0, achieving.Length)];
+		Sounds.clip = move [Random.Range (0, achieving.Length)];
 	}
 }
