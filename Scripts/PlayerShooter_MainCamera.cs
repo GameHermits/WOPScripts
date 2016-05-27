@@ -5,7 +5,6 @@
  * Definition : This class is cutomized on Nykean the main character of the game, however, the function Lunchbullet can be easly generlized.
  * The class goal is to provide the ability to shoot bulltes as particle systems. That means it doesn't deal with objects that use physics.
 */
-
 using UnityEngine;
 using System.Collections;
 
