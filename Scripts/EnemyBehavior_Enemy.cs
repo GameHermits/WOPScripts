@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/* Class : EnemyBehavior
+ * Requires : Enemy component ( EnemyIdelMove, EnemyShooter, Enemy), NavMesh enviroment, NavMeshagent component.
+ * Provides : Full functionality of AI enemy agent that gaurd or move in an area whenever out of combat, and attack and chase whoever attackes it or enter it's combat range.
+ * Definition : The class is attached to the Enemy object along with other classes that define a complete AI enemy component. The class toggles between different classes that do different functionailty based
+ * on the situation. The class also uses Unity.NavMesh to detect obstecals and calculate the shortest path to the target.
+*/
+using UnityEngine;
 using System.Collections;
 
 //[RequireComponent(typeof(CharacterController))]
