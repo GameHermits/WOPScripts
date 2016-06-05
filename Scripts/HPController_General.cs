@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/*Class: HPController
+ * Requires: none
+ * Provides: control of UI health bars and mana bars if found.
+ * Definition: this class is a part of health component of any character, it provides control to the UI that each character has. it's called by Health class.
+*/
+using UnityEngine;
 using System.Collections;
 using Image = UnityEngine.UI.Image;
 

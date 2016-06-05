@@ -3,7 +3,8 @@
  * Requires : Attach to main camera
  * Provides : Different types of projectile, Mana modification, character hand animation.
  * Definition : This class is cutomized on Nykean the main character of the game, however, the function Lunchbullet can be easly generlized.
- * The class goal is to provide the ability to shoot bulltes as particle systems. That means it doesn't deal with objects that use physics.
+ * The class goal is to provide the ability to enter attacking hand animations that contain events that call lunchbullet to lunch attacks as particle systems.
+ * That means it doesn't deal with objects that use physics.
 */
 using UnityEngine;
 using System.Collections;

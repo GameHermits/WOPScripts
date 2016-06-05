@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*Class: EnemyShooter
+ * Requires: EnemyBehavior object, target object
+ * Provides: Shooting magic in different forms depend on the the enemy tag the class attached to.
+ * Definition: This class is one of Enemy component where it define the behavior of shooting for different types of enemies based on their tags.
+ * Recommended : set the class enable checkbox in the inspector to false for better performance and error-free.
+*/
+using UnityEngine;
 using System.Collections;
 
 public class EnemyShooter_Enemy : MonoBehaviour
