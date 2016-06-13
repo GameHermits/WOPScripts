@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*Class: Sense
+ * Requires: none
+ * Provides: detection of player entering some area, and blocking road he entered from aftre a certain amount of time.
+ * Definition: This class is used to detect player object that enter a spacific area and block the road behind him after a certain amount of time. the class can be generlized to serve more functionality.
+ * Recommended: attach the class to an empty game object that have a rigidbody and collider set to trigger, while render set to disale
+*/
+using UnityEngine;
 using System.Collections;
 
 public class Sense_Sensor : MonoBehaviour

@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/* Class : PlayerController
+ * Uses : any object with character controller component.
+ * Requires : character controller, canvas, hpcontoller, main camera blur effect, playerCnavas, player sound, character hand animator
+ * Provides : Character movement, sprint, jump, gravity and physics, camera effect control, hand animation for walking, running and jumping, mana modification.
+ * Definition : This class can be applied on any character controller as long as it have the requires componenets and classes on the attached to the same object. It enables movement through (W, A, S, D)
+ * or Arrow. Sprint with holding right/left shift and jump using space. It also detect edges that have hard ridges. The class also modify energy when use sprint and detect hits from enemies and trigger Onhit
+ * animaiton for charactrer's hand model.
+*/
+using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
 
@@ -34,6 +42,8 @@ public class PlayerController_Player : MonoBehaviour
 	private MotionBlur mainCameraEffect;
 	// for controlling player UI
 	private HPController_General hpc_GameObjectRef;
+	//Object to play character sounds.
+	private CharacterSound_General playerSounds;
 	// Use this for initialization
 	void Start ()
 	{
@@ -42,6 +52,7 @@ public class PlayerController_Player : MonoBehaviour
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
 		hpc_GameObjectRef = gameObject.GetComponent <HPController_General> ();
+		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations

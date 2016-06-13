@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/*Class: SpawnGameObjects
+ * Requires: none
+ * Provides: a mechanism to spawn game objects in go_SpawnPrefab.
+ * Definition: the class is attached to an empty game object that serve as the location of the spawn of certain prefabs specified fro mthe user.
+*/
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 

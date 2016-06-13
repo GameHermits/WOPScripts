@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*Class: EnemyShooter
+ * Requires: EnemyBehavior object, target object
+ * Provides: Shooting magic in different forms depend on the the enemy tag the class attached to.
+ * Definition: This class is one of Enemy component where it define the behavior of shooting for different types of enemies based on their tags.
+ * Recommended : set the class enable checkbox in the inspector to false for better performance and error-free.
+*/
+using UnityEngine;
 using System.Collections;
 
 public class EnemyShooter_Enemy : MonoBehaviour
@@ -64,11 +70,11 @@ public class EnemyShooter_Enemy : MonoBehaviour
 			in_randomInteger = Random.Range (1, 3);
 			switch (in_randomInteger) {
 			case 1:
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 3,
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 10,
 					gameObject.transform.position.y, gameObject.transform.position.z);                    
 				break;
 			case 2:
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 3,
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 10,
 					gameObject.transform.position.y, gameObject.transform.position.z);
 				break;
 			}

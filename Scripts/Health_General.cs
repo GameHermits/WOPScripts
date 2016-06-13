@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*Class: Health
+ * Requires: HPcontroller
+ * Provides: health amount points, applying damage of different kinds and calling upon HPController.
+ * Definition: this is a part of Health component and the most generalized class that should be attached to any character object that should have health, it assaign health points for the character, apply damage when happens of different 
+ * types of attacks and bullets. On top of that, it calls upon modifying the UI of the health bar by calling HPController class. it also destroy the game object when he reachs zero in health points.
+*/
+using UnityEngine;
 using System.Collections;
 
 public class Health_General : MonoBehaviour
@@ -20,8 +26,7 @@ public class Health_General : MonoBehaviour
 
 	void Start ()
 	{
-		/*if (gameObject.tag == "Player")
-            go_itemHolder = null;*/
+
 		hpc_GameObjectRef = gameObject.GetComponent<HPController_General> ();
 	}
 

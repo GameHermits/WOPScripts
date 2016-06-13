@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 using Image = UnityEngine.UI.Image;
+
 public class DoorCondition_DoorArea : MonoBehaviour
 {
 
-	public GameObject go_DoorCollider;
-	public Sprite key;// to hold the image of needed key
+	public Sprite key;
+	// to hold the image of needed key
 	private bool isUseable;
 	public Animation anim_Door;
 	public GameObject doorCollider;
@@ -17,6 +19,7 @@ public class DoorCondition_DoorArea : MonoBehaviour
 			isUseable = Inventory.IN.CanUseItem (key);//to check if you have the key in the inventory and use it
 			if (isUseable == true) {
 				isOpen = true;
+				//anim_Door.Play ();
 				GameObject.Destroy (doorCollider);//remove the collider and open the door
 			} else {
 			}

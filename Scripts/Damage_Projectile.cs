@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/* Class : DamageProjectile
+ * Uses : Attach to particle systems only, other objects that uses physics will not work with this class.
+ * Requires : PlayerShooter and Player controller classes.
+ * Provides : Different damage types ( freez, instant damage, poison, Area of effect).
+ * Definition : This class is attached to customize different type of projectile and how will they act in the game.
+ * The class calls functions form the object it hits, these functions are located in the folllowing scripts ( Health, Unity.RigidBody).
+*/
+using UnityEngine;
 using System.Collections;
 
 public class Damage_Projectile : MonoBehaviour
