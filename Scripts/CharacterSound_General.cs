@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*Class: CharacterSound
+ * Requires: none
+ * Provides: general sound functions for different situations
+ * Definition: this class can be attached to any character game object that need to speak. it have arrays of sounds for different situations, and have funtions that play random sound of the spacific array
+ * of sounds in each function.
+ * Note: The user must add sound clips and records manually to each array.
+*/
+using UnityEngine;
 using System.Collections;
 
 public class CharacterSound_General : MonoBehaviour
