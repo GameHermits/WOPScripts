@@ -1,51 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Support : MonoBehaviour {
+public class Support : MonoBehaviour
+{
+	//Private:
+	private SupportCharacter[] SC_NykeanSupp = new SupportCharacter[1];
+	private int in_SuppIndex = 0;
+	//Clover Assets
+	private Health_General he_Heal;
+	private HPController_General hpc_GameObjectRef;
+	private float in_HealAmount;
 
-    public float fl_CDTimer;
-    public int in_suppLimit;
-
-    private enum SupportCharacters{Clover, Adam, Ethan, Lauren }
-    private SupportCharacters sc_CurrentSupp = SupportCharacters.Clover;
-
-    private float fl_CoolDown = 0;
-    private Health_General he_Heal;
-    private bool Is_SuppUsed = false;
-    private HPController_General hpc_GameObjectRef;
-
-	// Use this for initialization
-	void Start () {
-        he_Heal = GameObject.FindGameObjectWithTag("Player").GetComponent<Health_General>();
-        hpc_GameObjectRef = GameObject.FindGameObjectWithTag("Player").GetComponent<HPController_General>();
+	void Start ()
+	{ //Initialaization
+		//Player Componenets
+		he_Heal = GameObject.FindGameObjectWithTag ("Player").GetComponent<Health_General> ();
+		hpc_GameObjectRef = GameObject.FindGameObjectWithTag ("Player").GetComponent<HPController_General> ();
+		//Clover Components
+		in_HealAmount = 300 * SC_NykeanSupp [0].fl_SuppLevel;
 	}
-	
-    public void SupportJob()
-    {
-        switch (sc_CurrentSupp)
-        {
-            case SupportCharacters.Clover:
-                he_Heal.fl_health = he_Heal.fl_maxhealth;
-                he_Heal.HealHealthBar(he_Heal.fl_maxhealth);
-                fl_CoolDown = 60;
-                Mana.mana = Mana.maxMana;
-                hpc_GameObjectRef.fl_tmpManabar = 1;
 
-                break;
-        }
-    }
-	// Update is called once per frame
-	void Update () {
-	    if (Input.GetKeyUp(KeyCode.Mouse1) && Is_SuppUsed == false)
-        {
-            SupportJob();
-            Is_SuppUsed = true;
-        }
-        if (Is_SuppUsed == true)
-            fl_CoolDown -= 60 * Time.deltaTime;
+	void SupportJob ()
+	{
+		//If Support can be used
+		if (SC_NykeanSupp [in_SuppIndex].CanUse () == true) {
 
-        else if (fl_CoolDown <=0) {
-            Is_SuppUsed = false;
-        } 
+			switch (in_SuppIndex) {
+			//Clover
+			case 0:
+				he_Heal.fl_health += in_HealAmount;
+				he_Heal.HealHealthBar (in_HealAmount);
+				Mana.mana += in_HealAmount;
+				hpc_GameObjectRef.im_Manabar += (in_HealAmount / (Mana.maxMana * 2));
+			}
+		}
+	}
+
+	void Update ()
+	{
+		if (Input.GetKey (KeyCode.Tab)) {
+			if (in_SuppIndex == 3)
+				in_SuppIndex = 0;
+			else
+				in_SuppIndex++;
+		}
+		if (Input.GetKey (KeyCode.R)) {
+			SupportJob (); //Call the support upon clicking R
+		}
 	}
 }
