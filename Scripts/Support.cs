@@ -4,12 +4,13 @@ using System.Collections;
 public class Support : MonoBehaviour
 {
 	//Private:
-	private SupportCharacter[] SC_NykeanSupp = new SupportCharacter[1];
+	private SupportCharacter[] SC_NykeanSupp = new SupportCharacter[4];
 	private int in_SuppIndex = 0;
 	//Clover Assets
 	private Health_General he_Heal;
 	private HPController_General hpc_GameObjectRef;
 	private float in_HealAmount;
+	//Adam Assets
 
 	void Start ()
 	{ //Initialaization
@@ -17,7 +18,8 @@ public class Support : MonoBehaviour
 		he_Heal = GameObject.FindGameObjectWithTag ("Player").GetComponent<Health_General> ();
 		hpc_GameObjectRef = GameObject.FindGameObjectWithTag ("Player").GetComponent<HPController_General> ();
 		//Clover Components
-		in_HealAmount = 300 * SC_NykeanSupp [0].fl_SuppLevel;
+		Debug.Log (SC_NykeanSupp [0].fl_SuppLevel);
+		//in_HealAmount = 300 * SC_NykeanSupp [0].fl_SuppLevel;
 	}
 
 	void SupportJob ()
@@ -31,7 +33,18 @@ public class Support : MonoBehaviour
 				he_Heal.fl_health += in_HealAmount;
 				he_Heal.HealHealthBar (in_HealAmount);
 				Mana.mana += in_HealAmount;
-				hpc_GameObjectRef.im_Manabar += (in_HealAmount / (Mana.maxMana * 2));
+				hpc_GameObjectRef.fl_tmpManabar += (in_HealAmount / (Mana.maxMana * 2));
+				break;
+			//Adam
+			case 1:
+				break;
+			//Ethan
+			case 2:
+				break;
+			//Lauren
+			case 3:
+				break;
+				
 			}
 		}
 	}
