@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Support : MonoBehaviour
 {
-	//Private:
 	//Collection for holding supports that Nykean can have.
 	private SupportData[] SC_NykeanSupp;
 	private int in_SuppIndex = 0;
@@ -19,6 +18,9 @@ public class Support : MonoBehaviour
 	//Adam Assets
 	//The shield that adam summons
 	public GameObject Shield;
+
+	//Base CoolDown for any support. Note: each support has his/her own cooldown timer, if adjust is required for a cooldown reduction, modify each support from support data in Game Manager.
+	private float fl_BaseCD = 0f;
 
 	void Start ()
 	{ //Initilaization
@@ -50,6 +52,7 @@ public class Support : MonoBehaviour
 					Mana.mana += in_HealAmount;
 					hpc_GameObjectRef.fl_tmpManabar += (in_HealAmount / (Mana.maxMana * 2));
 					GameManager.GM.Clover.Use ();
+
 					break;
 				//Adam
 				case 1:
@@ -74,8 +77,11 @@ public class Support : MonoBehaviour
 			else
 				in_SuppIndex++;
 		}
-		if (Input.GetKey (KeyCode.R)) {
-			SupportJob (); //Call the support upon clicking R
+		if (Input.GetKeyUp (KeyCode.R)) {
+			if (Time.time >= fl_BaseCD) {
+				fl_BaseCD = Time.time + SC_NykeanSupp [in_SuppIndex].fl_CoolDown;
+				SupportJob (); //Call the support upon clicking R
+			}
 		}
 	}
 }

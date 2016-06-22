@@ -18,7 +18,7 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	private EnemyBehavior_Enemy eb_EnemyBehaviorRef;
 	private GameObject Player;
 	private int in_randomInteger;
-	private float fl_nextDamage = 0f;
+	private float fl_CoolDown = 0f;
 
 	void Start ()
 	{
@@ -30,8 +30,8 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	{
 
 		transform.LookAt (eb_EnemyBehaviorRef.tr_Target);
-		if (Time.time >= fl_nextDamage) {// after passing spacific seconds, assigne a new value to timer.
-			fl_nextDamage = Time.time + fl_FireRate;
+		if (Time.time >= fl_CoolDown) {// after passing spacific seconds, assigne a new value to timer.
+			fl_CoolDown = Time.time + fl_FireRate;
 			if (gameObject.tag == "NEnemy") {
 				NEnemyShoot ();
 

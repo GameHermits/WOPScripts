@@ -92,6 +92,8 @@ public class SupportData //Data container for support characters.
 	public int in_Level;
 	// did the player unlocked this support or not
 	public bool isOpen;
+	//Cool down for each support
+	public float fl_CoolDown = 100;
 	// limit of use for one level, can be adjust in shop
 	private int in_UseTimes = 3;
 	// did the support exceed the limit of uses in one level or not
