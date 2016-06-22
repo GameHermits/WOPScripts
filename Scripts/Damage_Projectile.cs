@@ -27,6 +27,7 @@ public class Damage_Projectile : MonoBehaviour
 		OverTimeDmg}
 
 	;
+	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
 	public ProjectileType projectile = ProjectileType.InstantDmg;
 
