@@ -16,12 +16,12 @@ public class SceneManager : MonoBehaviour
 	//Public:
 	//Contain all Checkpoints location in the Scene. Initially empty gameObject if there is no model avaliable. zero index in any level is always the starter location of the player
 	public CheckPointInfo[] CheckPoints;
-	//Contain all objectives in the current Scene.
-	public Objective[] Objectives;
+	//contain all inputed string objectives.
+	public string[] Objectives_Stirngs;
 	//Indecate how many treasures are there in the Scene, each time the player opens one, this number is decreased
-	public int TreasureNumber;
+	public int treasureNumber;
 	//Indecates the over all enemy levels in the current Scene.
-	public int EnemiesLevel;
+	public int enemiesLevel;
 	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
 	public int checkpointIndex = 0;
 	//Private:
@@ -61,7 +61,7 @@ public class SceneManager : MonoBehaviour
 	}
 }
 
-public class Objective
+public class ObjectiveState
 {
 	public string objective;
 	public Transform objectiveLocation;
