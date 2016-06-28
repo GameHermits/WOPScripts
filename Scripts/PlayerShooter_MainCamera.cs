@@ -62,8 +62,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			/*if (!go_NewBullet.GetComponent<Rigidbody> ()) {
 				go_NewBullet.AddComponent<Rigidbody> ();
 			}
-			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);*/
-
+			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);*/	
+			go_NewBullet.GetComponent <Damage_Projectile> ().fl_dmgAmount = 100 * GameManager.GM.Player.ThunderWisdom;
 			GameManager.GM.Player.mana -= fl_UsedManaType;
 			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / GameManager.GM.Player.maxMana;
 			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
@@ -143,7 +143,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	
 	}
 
-	IEnumerator LockedStyletrigger ()
+	/*IEnumerator LockedStyletrigger ()
 	{
 		yield return new WaitForSeconds (4);
 		lockedStyle = false;
@@ -156,6 +156,6 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			LockedStyletrigger ();
 		}
 
-	}
+	}*/
 }
 	

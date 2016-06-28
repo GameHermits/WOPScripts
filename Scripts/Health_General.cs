@@ -31,6 +31,7 @@ public class Health_General : MonoBehaviour
 
 		if (gameObject.tag == "Player") {
 			fl_health = GameManager.GM.Player.health;
+			Debug.Log (GameManager.GM.Player.health);
 			fl_maxhealth = GameManager.GM.Player.maxHealth;
 		}
 	}
