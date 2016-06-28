@@ -26,8 +26,6 @@ public class SceneManager : MonoBehaviour
 	public int checkpointIndex = 0;
 	//Private:
 
-	//ObjectiveIndex should decrease everytime an objective is completed
-	private int ObjectiveIndex;
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
 	private int totalProgress = 0;
@@ -36,7 +34,6 @@ public class SceneManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		ObjectiveIndex = Objectives.Length; 
 	}
 	
 	// Update is called once per frame
