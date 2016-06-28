@@ -13,7 +13,6 @@ using System;
 public class GameManager : MonoBehaviour
 {
 	//Private:
-	private float fl_Revive = 3;
 
 	//Public
 	public static List<GameObject> li_Enemys = new List<GameObject> ();
@@ -21,6 +20,7 @@ public class GameManager : MonoBehaviour
 	//Pause assets
 	public bool ispaused = false;
 	public  bool isDead = false;
+
 	//Game Manager static object
 	public static GameManager GM;
 
@@ -73,11 +73,9 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		if (isDead == true && fl_Revive > 0) {
-
+		if (isDead == true) {
 			Time.timeScale = 0;
 			DieCanvas.SetActive (true);
-			fl_Revive--;
 		}
 		/*else{ This should indicate the global saving point for the player that can be changer whenever a player unlocks a new city.
 			Application.LoadLevel ("");
@@ -120,8 +118,53 @@ public class SupportData //Data container for support characters.
 		Debug.Log (in_UseTimes);
 	}
 }
+//ADD INVINTORY OBJECT REFERENCE TO SCENE MANAGER
 
-class PlayerState //Data Container for Player state.
+public class PlayerState //Data Container for Player state.
 {
-	
+	//Player Skills state:- (All skills scale upon leveling up)
+
+	//Health data. Initially 2000.
+	public float health = 2000f;
+	public float maxHealth = 2000f;
+	//Mana data. Initially 1000.
+	public float mana = 1000f;
+	public float maxMana = 1000f;
+	//Sprint data. Initially 20.
+	public float sprintAmout = 20f;
+
+	//Magic styles EXP:-(leveling up as 200,400,800,1600,3200... Max level is 30)
+
+	//Thunder
+	public int ThunderEXP = 3200;
+	//Fire
+	public int FireEXP = 0;
+	//Ice
+	public int IceEXP = 0;
+	//BlackMagic
+	public int BlackMagicEXP = 0;
+
+	//Player Wisdom:- (Increase upon levleing up in a specific magic style. Each shot with a magic style increase it's EXP)
+
+	//Thunder Wisdom. Initially five.
+	public int ThunderWisdom = 5;
+	//Fire Wisdom. Initially one.
+	public int FireWisdom = 1;
+	//Ice Wisdom. Initially one.
+	public int IceWisdom = 1;
+	//Black Magic Wisdom. Initially one.
+	public int BlackMagicWisdom = 1;
+
+	//Exp for player character. Initially zero. (leveling up as 200,400,800,1600,3200... Max level is 50) Player can aqquire EXP from killing enemies.
+	public int EXP = 0;
+	//Player Gold
+	public int gold = 0;
+	//Player Backbag that contain treasures, spell books, and any other item drop that can be used outside the level. Initially 20 free slots.
+	public GameObject[] Backbag = new GameObject[20];
+	//Player avilable magic styles. Initially only Thunder magic is true.
+	public bool ThunderMagic = true;
+	public bool FireMagic = false;
+	public bool IceMagic = false;
+	public bool BlackMagic = false;
+
 }
