@@ -28,6 +28,11 @@ public class Health_General : MonoBehaviour
 	{
 
 		hpc_GameObjectRef = gameObject.GetComponent<HPController_General> ();
+
+		if (gameObject.tag == "Player") {
+			fl_health = GameManager.GM.Player.health;
+			fl_maxhealth = GameManager.GM.Player.maxHealth;
+		}
 	}
 
 	void Update ()

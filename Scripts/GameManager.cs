@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
 	//Game Manager static object
 	public static GameManager GM;
 
+	//Player Object.
+	public PlayerState Player;
+
 	//Canvas Refrences
 	public GameObject PauseCanvas;
 	public GameObject PlayerCanvas;

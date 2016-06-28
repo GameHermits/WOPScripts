@@ -44,6 +44,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	private enum_Elements currentElement = enum_Elements.Lightning;
 	//Object to play character sounds.
 	private CharacterSound_General playersounds;
+	//boolean to control UI funcion
+	private bool lockedStyle = false;
 
 	void Start ()
 	{
@@ -62,8 +64,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			}
 			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);*/
 
-			Mana.mana -= fl_UsedManaType;
-			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / Mana.maxMana;
+			GameManager.GM.Player.mana -= fl_UsedManaType;
+			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / GameManager.GM.Player.maxMana;
 			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
 			playersounds.Attack ();
 		}
@@ -75,22 +77,25 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
 
 			// these conditions to check the input (1,2,3,4) and change element type
-			if (Input.GetKey (KeyCode.Alpha1)) {
+			if (Input.GetKey (KeyCode.Alpha1) && GameManager.GM.Player.ThunderMagic == true) {
 				currentElement = enum_Elements.Lightning;
-			} else if (Input.GetKey (KeyCode.Alpha2)) {
+			} else if (Input.GetKey (KeyCode.Alpha2) && GameManager.GM.Player.FireMagic == true) {
 				currentElement = enum_Elements.Fire;
-			} else if (Input.GetKey (KeyCode.Alpha3)) {
+			} else if (Input.GetKey (KeyCode.Alpha3) && GameManager.GM.Player.IceMagic == true) {
 				currentElement = enum_Elements.Ice;
-			} else if (Input.GetKey (KeyCode.Alpha4)) {
+			} else if (Input.GetKey (KeyCode.Alpha4) && GameManager.GM.Player.BlackMagic == true) {
 				currentElement = enum_Elements.BlackMagic;
+			} else {
+				lockedStyle = true;
 			}
+
 			//this condition checks on the element type and fire the right prefab attached.
 			switch (currentElement) {
 			//when the player choose '1' or 'lightning'
 			case enum_Elements.Lightning:
 				if (Input.GetKeyUp (KeyCode.Mouse0)) {
 					//If there is enough mana
-					if (Mana.mana >= fl_UsedMana_Lightning) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning) {
 						if (go_Lightningbullet) {
 							// setting the animation bool to true to enter the animation attack. the animation contains an event that calls lunch bullet in a certain frame.
 							handAnimator.SetBool ("isAttackingS", true); 
@@ -100,15 +105,11 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 				break;
 
 			case enum_Elements.Fire:
-
-				if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-			
-					if (Input.GetKeyUp (KeyCode.Mouse0)) {
-						//If there is enough mana
-						if (Mana.mana >= fl_UsedMana_Fire) {
-							if (go_Firebullet) {
-								LaunchBullet (go_Firebullet, fl_UsedMana_Fire);
-							}
+				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+					//If there is enough mana
+					if (GameManager.GM.Player.mana >= fl_UsedMana_Fire) {
+						if (go_Firebullet) {
+							LaunchBullet (go_Firebullet, fl_UsedMana_Fire);
 						}
 					}
 				}
@@ -117,7 +118,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			case enum_Elements.Ice:
 				if (Input.GetKeyUp (KeyCode.Mouse0)) {
 					//If there is enough mana
-					if (Mana.mana >= fl_UsedMana_Ice) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_Ice) {
 						if (go_Icebullet) {
 							LaunchBullet (go_Icebullet, fl_UsedMana_Ice);
 						}
@@ -128,7 +129,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			case enum_Elements.BlackMagic:
 				if (Input.GetKeyUp (KeyCode.Mouse0)) {
 					//If there is enough mana
-					if (Mana.mana >= fl_UsedMana_BlackMagic) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_BlackMagic) {
 						if (go_BlackMagicbullet) {
 							LaunchBullet (go_BlackMagicbullet, fl_UsedMana_BlackMagic);
 						}
@@ -138,6 +139,23 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			}
 
 		}
+  
+	
+	}
+
+	IEnumerator LockedStyletrigger ()
+	{
+		yield return new WaitForSeconds (4);
+		lockedStyle = false;
+	}
+
+	void onGUI ()
+	{
+		if (lockedStyle == true) {
+			GUI.TextArea (Rect (100, 200, 100, 200), "You did not learn this style of magic yet");
+			LockedStyletrigger ();
+		}
+
 	}
 }
 	
