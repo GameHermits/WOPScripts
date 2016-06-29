@@ -49,6 +49,8 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		PlC_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController_Player> ();
 		PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
+
+
 	}
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
