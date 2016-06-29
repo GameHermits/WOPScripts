@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
 		} else if (GM != this) {
 			Destroy (gameObject);
 		}
+		//Player Support
+		Player = new PlayerState ();
 		//Support Initilaization
 		Clover = new SupportData (1, true, true);
 		Adam = new SupportData (1, true, false);
