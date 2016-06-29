@@ -19,6 +19,8 @@ public class Damage_Projectile : MonoBehaviour
 	public float fl_FreezeTime;
 	// how much should the poison effect lasts.
 	public float PoisonTime;
+	public float fl_Radius;
+	//radius for aoe
 	// Types of Projectiles
 	public enum ProjectileType
 	{
@@ -32,8 +34,7 @@ public class Damage_Projectile : MonoBehaviour
 	;
 	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
-	public ProjectileType projectile = ProjectileType.InstantDmg;
-	public ProjectileType aoeProjectile = ProjectileType.AoeInstantDmg;
+	public ProjectileType projectile = ProjectileType.AoeInstantDmg;
 
 	//Private:
 	private PlayerController_Player PlC_Ref;
@@ -101,13 +102,14 @@ public class Damage_Projectile : MonoBehaviour
 	public void AoeDmg (Vector3 position, float radius)
 	{
 		var objectsInRange = Physics.OverlapSphere (position, radius);
+		Debug.Log (objectsInRange.Length);
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
-				if (aoeProjectile == ProjectileType.AoeInstantDmg) {
+				if (projectile == ProjectileType.AoeInstantDmg) {
 					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
-				} else if (aoeProjectile == ProjectileType.AoeOverTimeDmg) {
+				} else if (projectile == ProjectileType.AoeOverTimeDmg) {
 					PoisonDamage (col.gameObject);//send the game object of the collider to make the proper damage
-				} else if (aoeProjectile == ProjectileType.AoeFreezeDmg) {
+				} else if (projectile == ProjectileType.AoeFreezeDmg) {
 					FreezeDamage (col.gameObject);//send the game object of the collider to make the proper damage
 				}
 			}
@@ -125,6 +127,9 @@ public class Damage_Projectile : MonoBehaviour
 			FreezeDamage (col);
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
+		} else if (projectile == ProjectileType.AoeInstantDmg) {
+			
+			AoeDmg (col.gameObject.transform.position, fl_Radius);
 		}
 	}
 }
