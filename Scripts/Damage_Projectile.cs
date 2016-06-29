@@ -24,13 +24,16 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		Freezedmg,
 		InstantDmg,
-		OverTimeDmg}
+		OverTimeDmg,
+		AoeInstantDmg,
+		AoeOverTimeDmg,
+		AoeFreezeDmg}
 
 	;
 	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
 	public ProjectileType projectile = ProjectileType.InstantDmg;
-
+	public ProjectileType aoeProjectile = ProjectileType.AoeInstantDmg;
 
 	//Private:
 	private PlayerController_Player PlC_Ref;
@@ -94,6 +97,23 @@ public class Damage_Projectile : MonoBehaviour
 		col.gameObject.GetComponent<Health_General> ().DamageOverTime (fl_dmgAmount, PoisonTime);
 	}
 
+	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
+	public void AoeDmg (Vector3 position, float radius)
+	{
+		var objectsInRange = Physics.OverlapSphere (position, radius);
+		foreach (Collider col in objectsInRange) {
+			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
+				if (aoeProjectile == ProjectileType.AoeInstantDmg) {
+					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
+				} else if (aoeProjectile == ProjectileType.AoeOverTimeDmg) {
+					PoisonDamage (col.gameObject);//send the game object of the collider to make the proper damage
+				} else if (aoeProjectile == ProjectileType.AoeFreezeDmg) {
+					FreezeDamage (col.gameObject);//send the game object of the collider to make the proper damage
+				}
+			}
+		}
+	}
+
 	void OnParticleCollision (GameObject col)
 	{
 		
@@ -105,7 +125,6 @@ public class Damage_Projectile : MonoBehaviour
 			FreezeDamage (col);
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
-		
 		}
 	}
 }
