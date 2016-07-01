@@ -38,11 +38,11 @@ public class ManaReplenish_ManaCrystal : MonoBehaviour
 
 		if (col.gameObject.tag == "Player") {// on collision with the player give more mana and modify mana power accordingly.
 
-			if (Mana.mana <= Mana.maxMana) {
-				Mana.mana += fl_manaAmount;
-				HPC_GameObjectRef.fl_tmpManabar += fl_manaAmount / Mana.maxMana;
-			} else if (Mana.mana > Mana.maxMana) {
-				Mana.mana = Mana.maxMana;
+			if (GameManager.GM.Player.mana <= GameManager.GM.Player.maxMana) {
+				GameManager.GM.Player.mana += fl_manaAmount;
+				HPC_GameObjectRef.fl_tmpManabar += fl_manaAmount / GameManager.GM.Player.maxMana;
+			} else if (GameManager.GM.Player.mana > GameManager.GM.Player.maxMana) {
+				GameManager.GM.Player.mana = GameManager.GM.Player.maxMana;
 
 			}
 			GameObject.Destroy (gameObject);

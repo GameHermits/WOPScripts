@@ -11,13 +11,13 @@ public class Inventory : MonoBehaviour
 {
 
 	public  Sprite empty_Sprite;
-//empty image to put it in the inventory when its clear
+	//empty image to put it in the inventory when its clear
 	public  Image[] bag;
-//the array of items images in the inventory
+	//the array of items images in the inventory
 	private int Ibag = 0;
-//the indexer that hold the number of item in the bag
+	//the indexer that hold the number of item in the bag
 	private int IMAXbag = 6;
-//the maximum size of the bag
+	//the maximum size of the bag
 
 	private static Inventory inv;
 
