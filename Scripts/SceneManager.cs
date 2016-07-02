@@ -15,9 +15,11 @@ public class SceneManager : MonoBehaviour
 
 	//Public:
 	//Contain all Checkpoints location in the Scene. Initially empty gameObject if there is no model avaliable. zero index in any level is always the starter location of the player
-	public CheckPointInfo[] CheckPoints;
+	//public CheckPointInfo[] CheckPoints;
 	//contain all inputed string objectives.
-	public string[] Objectives_Stirngs;
+	public string[] Objectives_Strings;
+	//contains ObjectiveState objects
+	public ObjectiveState[] objectives;
 	//Indecate how many treasures are there in the Scene, each time the player opens one, this number is decreased
 	public int treasureNumber;
 	//Indecates the over all enemy levels in the current Scene.
@@ -29,38 +31,64 @@ public class SceneManager : MonoBehaviour
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
 	private int totalProgress = 0;
-
-
 	// Use this for initialization
 	void Start ()
 	{
+		MapObjectivesStrings (Objectives_Strings);
 	}
-	
 	// Update is called once per frame
 	void Update ()
-	{
-	
+	{	
 	}
-
 	public string CurrentObjective ()
 	{ //Return the current Objective in the Objectives array
 		return "null";
 	}
-
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
 		
 	}
-
 	public int TotalProgress ()
 	{ //Calulate the totalprogress and return totalProgress.
 		return 0;
 	}
-}
+	void OnGUI()
+	{	
+		if (Input.GetKey(KeyCode.O)) 
+		{
+			GUI.contentColor = Color.yellow;
+			GUI.skin.label.fontSize = 20;
+			GUI.Box (new Rect (1000, 15, 400, Objectives_Strings.Length*50),"");
+			for (int i = 0; i < Objectives_Strings.Length; i++) {
+				GUI.Label (new Rect (1000, 15*(i+1), 200, 30), Objectives_Strings[i]);
+			}		
+		}
 
+	}
+	public void MapObjectivesStrings(string[] objectivesStrings)
+	{
+		
+		for (int i = 0; i < objectivesStrings.Length; i++) {
+			if (i==0) 
+			{
+				objectives [i] = new ObjectiveState (objectivesStrings[i],false,true);
+			} 
+			else 
+			{
+				objectives [i] = new ObjectiveState (objectivesStrings[i],false,false);
+			}
+		}
+	}
+}
 public class ObjectiveState
 {
 	public string objective;
-	public Transform objectiveLocation;
 	public bool isComplete = false;
+	public bool isMain=false;
+	public ObjectiveState(string objective,bool isComplete,bool isMain)
+	{
+		this.objective = objective;
+		this.isComplete = isComplete;
+		this.isMain = isMain;
+	}
 }
