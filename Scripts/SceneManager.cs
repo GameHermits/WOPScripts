@@ -10,12 +10,14 @@ using System.Collections;
 
 public class SceneManager : MonoBehaviour
 {
+	private PlayerState PlayerInfo = GameManager.GM.Player;
+	private GameObject Player = GameObject.FindGameObjectWithTag("Player");
 	//The one and only copy of the SceneManager located in the current Scene. all access to SceneManager class should be through this object only.
 	public static SceneManager SM;
 
 	//Public:
 	//Contain all Checkpoints location in the Scene. Initially empty gameObject if there is no model avaliable. zero index in any level is always the starter location of the player
-	//public CheckPointInfo[] CheckPoints;
+	public CheckPointInfo[] CheckPoints;
 	//contain all inputed string objectives.
 	public string[] Objectives_Strings;
 	//contains ObjectiveState objects
@@ -26,8 +28,12 @@ public class SceneManager : MonoBehaviour
 	public int enemiesLevel;
 	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
 	public int checkpointIndex = 0;
+	//This is Index that loops in the array's CheckPoints elements to detect which is the last CheckPoint of them.
+	public int VIndexer = 0;
 	//Private:
 
+	//this to count all the enemys in the level
+	public int TotalEnemys=0;
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
 	private int totalProgress = 0;
@@ -35,10 +41,14 @@ public class SceneManager : MonoBehaviour
 	void Start ()
 	{
 		MapObjectivesStrings (Objectives_Strings);
+
+		Player.transform.position = CheckPoints[0].gameObject.transform.position;
+		AllEnemysNumber ();
 	}
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{	
+		ResetSecneState ();
 	}
 	public string CurrentObjective ()
 	{ //Return the current Objective in the Objectives array
@@ -46,11 +56,16 @@ public class SceneManager : MonoBehaviour
 	}
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
-		
+		if (PlayerInfo.health <= 0 && PlayerInfo.lives > 0)
+		{
+			PlayerInfo.lives--;
+			Player.transform.position = CheckPoints [checkpointIndex].gameObject.transform.position;
+		}
 	}
 	public int TotalProgress ()
 	{ //Calulate the totalprogress and return totalProgress.
-		return 0;
+		
+		return (100 - treasureNumber - TotalEnemys - objectives.Length);
 	}
 	void OnGUI()
 	{	
@@ -79,6 +94,23 @@ public class SceneManager : MonoBehaviour
 			}
 		}
 	}
+
+	public void SetActivePoints ()
+	{
+		for (int i = 0; i < CheckPoints.Length; i++)
+		{
+			CheckPoints [i].gameObject.GetComponent<CheckPointInfo> ().isActive = false;
+		}
+	}
+
+	public void AllEnemysNumber ()
+	{
+		for (int X = 0; X < CheckPoints.Length; X++) 
+		{
+			TotalEnemys += CheckPoints[X].EmenyAroundCP.Length + 1;
+		}
+	}
+
 }
 public class ObjectiveState
 {
