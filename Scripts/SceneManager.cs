@@ -10,8 +10,10 @@ using System.Collections;
 
 public class SceneManager : MonoBehaviour
 {
-	private PlayerState PlayerInfo = GameManager.GM.Player;
-	private GameObject Player = GameObject.FindGameObjectWithTag("Player");
+	
+	//if Unity couldn't find the Player GameObject with it's tag
+	//but it manually by attaching it to this variable
+	public GameObject Player; // = GameObject.FindGameObjectWithTag("Player");
 	//The one and only copy of the SceneManager located in the current Scene. all access to SceneManager class should be through this object only.
 	public static SceneManager SM;
 
@@ -46,9 +48,9 @@ public class SceneManager : MonoBehaviour
 		AllEnemysNumber ();
 	}
 	// Update is called once per frame
-	void FixedUpdate ()
+	void Update ()
 	{	
-		ResetSecneState ();
+		
 	}
 	public string CurrentObjective ()
 	{ //Return the current Objective in the Objectives array
@@ -56,11 +58,9 @@ public class SceneManager : MonoBehaviour
 	}
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
-		if (PlayerInfo.health <= 0 && PlayerInfo.lives > 0)
-		{
-			PlayerInfo.lives--;
-			Player.transform.position = CheckPoints [checkpointIndex].gameObject.transform.position;
-		}
+		
+		Player.transform.position = CheckPoints [checkpointIndex].gameObject.transform.position;
+		
 	}
 	public int TotalProgress ()
 	{ //Calulate the totalprogress and return totalProgress.
