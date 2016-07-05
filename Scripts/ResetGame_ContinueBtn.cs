@@ -15,12 +15,13 @@ public class ResetGame_ContinueBtn : MonoBehaviour
 	{
 		if (GameManager.GM.isDead == true) {
 			GameManager.GM.isDead = false;
-			if (relive__GameObjectRef.fl_health <= 0) {
+			if (relive__GameObjectRef.fl_health <= 0)
+			{
 				relive__GameObjectRef.fl_health = (relive__GameObjectRef.fl_maxhealth) / 2;
 				GameManager.GM.Player.mana = (GameManager.GM.Player.maxMana) / 2;
 				GameManager.GM.DieCanvas.SetActive (false);
 			}
-
+			SceneManager.SM.ResetSecneState ();
 		}
 	}
 }
