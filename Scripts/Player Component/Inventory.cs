@@ -9,25 +9,19 @@ using Image = UnityEngine.UI.Image;
 
 public class Inventory : MonoBehaviour
 {
-
-	public  Sprite empty_Sprite;
+	
 	//empty image to put it in the inventory when its clear
-	public  Image[] bag;
+	public  Sprite empty_Sprite;
 	//the array of items images in the inventory
-	private int Ibag = 0;
+	public  Image[] bag;
 	//the indexer that hold the number of item in the bag
-	private int IMAXbag = 6;
+	[HideInInspector]
+	public int Ibag = 0;
 	//the maximum size of the bag
+	[HideInInspector]
+	public int IMAXbag = 6;
 
-	private static Inventory inv;
-
-	public static Inventory IN {
-		get {
-			if (inv == null)
-				inv = Inventory.FindObjectOfType<Inventory> ();
-			return Inventory.inv;
-		}
-	}
+	public static Inventory INV;
 
 	public void AddItem (Sprite item)
 	{//to add item in the inventory type inventory.IN.AddItem(the item Sprite);
@@ -124,4 +118,17 @@ public class Inventory : MonoBehaviour
 			}
 		}
 	}
+}
+
+public class InventoryData
+{
+	//empty image to put it in the inventory when its clear
+	public  Sprite empty_Sprite;
+	//the array of items images in the inventory
+	public  Image[] bag;
+	//the indexer that hold the number of item in the bag
+	public int Ibag = 0;
+	//the maximum size of the bag
+	public int IMAXbag = 6;
+
 }

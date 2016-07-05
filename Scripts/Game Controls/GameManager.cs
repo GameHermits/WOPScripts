@@ -9,6 +9,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		
 		// if player pressed "P" on keyboard pause the game
 		if (Input.GetKeyDown (KeyCode.P)) { 
 			ispaused = !ispaused;
@@ -82,13 +85,24 @@ public class GameManager : MonoBehaviour
 			Time.timeScale = 0;
 			DieCanvas.SetActive (true);
 		}
-		/*else{ This should indicate the global saving point for the player that can be changer whenever a player unlocks a new city.
-			Application.LoadLevel ("");
-		}*/
+
 	}
+
+	public void Save ()
+	{ //Saves data to a file
+		BinaryFormatter bF = new BinaryFormatter (); //the formater that will write the data to the file
+		FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open); // the file that will contain the data
+		FileStream supportFile = File.Open (Application.persistentDataPath + "/SupportInfo.dat", FileMode.Open);
+		FileStream SMFile = File.Open (Application.persistentDataPath + "/SM.dat", FileMode.Open);
+
+		bF.Serialize (playerFile, Player);
+//		bF.Serialize (supportfile, );
+	}
+
 	
 }
 
+[Serializable]
 public class SupportData //Data container for support characters.
 {
 	// support level, can be adjust in training place
@@ -125,6 +139,7 @@ public class SupportData //Data container for support characters.
 }
 //ADD INVINTORY OBJECT REFERENCE TO SCENE MANAGER
 
+[Serializable]
 public class PlayerState //Data Container for Player state.
 {
 	//Player Skills state:- (All skills scale upon leveling up)
@@ -174,4 +189,12 @@ public class PlayerState //Data Container for Player state.
 	public bool IceMagic = false;
 	public bool BlackMagic = false;
 
+}
+
+class Datacontainer
+{
+	// This contain all the objects that are going to be saved in a file
+	public PlayerState player;
+	public SupportData[] Supports = new SupportData[4];
+	//public SceneManager
 }
