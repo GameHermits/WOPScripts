@@ -92,9 +92,7 @@ public class GameManager : MonoBehaviour
 	{ //Saves data to a file
 		BinaryFormatter bF = new BinaryFormatter (); //the formater that will write the data to the file
 		FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open); // the file that will contain the data
-		FileStream supportFile = File.Open (Application.persistentDataPath + "/SupportInfo.dat", FileMode.Open);
-		FileStream SMFile = File.Open (Application.persistentDataPath + "/SM.dat", FileMode.Open);
-
+		//Datacontainer data
 		bF.Serialize (playerFile, Player);
 //		bF.Serialize (supportfile, );
 	}
@@ -102,7 +100,6 @@ public class GameManager : MonoBehaviour
 	
 }
 
-[Serializable]
 public class SupportData //Data container for support characters.
 {
 	// support level, can be adjust in training place
@@ -139,7 +136,6 @@ public class SupportData //Data container for support characters.
 }
 //ADD INVINTORY OBJECT REFERENCE TO SCENE MANAGER
 
-[Serializable]
 public class PlayerState //Data Container for Player state.
 {
 	//Player Skills state:- (All skills scale upon leveling up)
@@ -191,10 +187,26 @@ public class PlayerState //Data Container for Player state.
 
 }
 
-class Datacontainer
+[Serializable]
+class DataContainer
 {
 	// This contain all the objects that are going to be saved in a file
 	public PlayerState player;
+	//Supports states
 	public SupportData[] Supports = new SupportData[4];
 	//public SceneManager
+	public SMData Sm;
+	//Current Inventory
+	public INVData Inv;
+
+	public DataContainer (PlayerState pl, SupportData cl, SupportData ad, SupportData et, SupportData la, SMData sm, INVData inv)
+	{
+		this.player = pl;
+		this.Sm = sm;
+		this.Inv = inv;
+		this.Supports [0] = cl;
+		this.Supports [1] = ad;
+		this.Supports [2] = et;
+		this.Supports [3] = la;
+	}
 }

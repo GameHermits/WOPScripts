@@ -16,7 +16,7 @@ public class DoorCondition_DoorArea : MonoBehaviour
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == "Player" && isOpen == false) { // when the door collision to the player open it and remove the item from the inventory
-			isUseable = Inventory.IN.CanUseItem (key);//to check if you have the key in the inventory and use it
+			isUseable = Inventory.INV.CanUseItem (key);//to check if you have the key in the inventory and use it
 			if (isUseable == true) {
 				isOpen = true;
 				//anim_Door.Play ();

@@ -40,6 +40,7 @@ public class SceneManager : MonoBehaviour
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
 	[HideInInspector]
 	public int totalProgress = 0;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -151,5 +152,13 @@ public class SMData
 	public int TotalEnemys;
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
-	private int totalProgress;
+	public int totalProgress;
+
+	public SMData (CheckPointInfo[] CPI, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int checkpointIndex, int VIndexer, int TotalEnemies, int totalProgress)
+	{
+		// Assigning 
+		/*for (int i = 0; i < ; i++) {
+			
+		}*/
+	}
 }

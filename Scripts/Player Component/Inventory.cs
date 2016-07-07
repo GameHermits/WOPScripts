@@ -120,7 +120,7 @@ public class Inventory : MonoBehaviour
 	}
 }
 
-public class InventoryData
+public class INVData
 {
 	//empty image to put it in the inventory when its clear
 	public  Sprite empty_Sprite;
