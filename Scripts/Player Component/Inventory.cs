@@ -128,7 +128,15 @@ public class INVData
 	public  Image[] bag;
 	//the indexer that hold the number of item in the bag
 	public int Ibag = 0;
-	//the maximum size of the bag
-	public int IMAXbag = 6;
+
+	public INVData (Sprite emptySprite, Image[] bag, int Ibag)
+	{
+		this.empty_Sprite = emptySprite;
+		this.Ibag = Ibag;
+
+		for (int i = 0; i < bag.Length; i++) {
+			this.bag [i] = bag [i];
+		}
+	}
 
 }

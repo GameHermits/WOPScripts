@@ -157,8 +157,23 @@ public class SMData
 	public SMData (CheckPointInfo[] CPI, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int checkpointIndex, int VIndexer, int TotalEnemies, int totalProgress)
 	{
 		// Assigning 
-		/*for (int i = 0; i < ; i++) {
-			
-		}*/
+		for (int i = 0; i < CPI.Length; i++) {
+			this.CheckPoints [i] = CPI [i];
+		}
+
+		for (int i = 0; i < ObjSt.Length; i++) {
+			this.Objectives_Strings [i] = ObjSt [i];
+		}
+
+		for (int i = 0; i < ObjS.Length; i++) {
+			this.objectives [i] = ObjS [i];
+		}
+
+		this.treasureNumber = treasureNumber;
+		this.enemiesLevel = enemiesLevel;
+		this.checkpointIndex = checkpointIndex;
+		this.VIndexer = VIndexer;
+		this.TotalEnemys = TotalEnemies;
+		this.totalProgress = totalProgress;
 	}
 }
