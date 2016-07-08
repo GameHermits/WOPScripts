@@ -91,13 +91,60 @@ public class GameManager : MonoBehaviour
 	public void Save ()
 	{ //Saves data to a file
 		BinaryFormatter bF = new BinaryFormatter (); //the formater that will write the data to the file
-		FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open); // the file that will contain the data
-		//Datacontainer data
-		bF.Serialize (playerFile, Player);
-//		bF.Serialize (supportfile, );
+		FileStream playerFile = File.Create (Application.persistentDataPath + "/PlayerInfo.dat"); // the file that will contain the data
+
+		DataContainer data = new DataContainer (Player, Clover, Adam, Ethan, Lauren);
+		bF.Serialize (playerFile, data);
+		playerFile.Close ();
 	}
 
-	
+	public void Load ()
+	{ //Load data from a file
+		if (File.Exists (Application.persistentDataPath + "/PlayerInfo.dat") == true) {
+
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open);
+
+			DataContainer data = (DataContainer)bf.Deserialize (playerFile);
+			playerFile.Close ();
+			AssignBack (ref data);
+		}
+	}
+
+	private void AssignBack (ref DataContainer data)
+	{
+		//Assigne values from the object that pulled the data from a file to each spacific object
+
+		//Player Assignment.
+		Player = data.player;
+		//Support Assingments. 
+		Clover = data.Supports [0];
+		Adam = data.Supports [1];
+		Ethan = data.Supports [2];
+		Lauren = data.Supports [3];
+		//Inventory Assignments.
+		Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
+		Inventory.INV.Ibag = data.Inv.Ibag;
+		for (int i = 0; i < Inventory.INV.bag.Length; i++) {
+			Inventory.INV.bag [i] = data.Inv.bag [i];
+		}
+		//SceneManager Assignment.
+		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
+			SceneManager.SM.CheckPoints [i] = data.Sm.CheckPoints [i];
+		}
+		for (int i = 0; i < SceneManager.SM.Objectives_Strings.Length; i++) {
+			SceneManager.SM.Objectives_Strings [i] = data.Sm.Objectives_Strings [i];
+		}
+		for (int i = 0; i < SceneManager.SM.objectives.Length; i++) {
+			SceneManager.SM.objectives [i] = data.Sm.objectives [i];
+		}
+		SceneManager.SM.enemiesLevel = data.Sm.enemiesLevel;
+		SceneManager.SM.treasureNumber = data.Sm.treasureNumber;
+		SceneManager.SM.TotalEnemys = data.Sm.TotalEnemys;
+		SceneManager.SM.totalProgress = data.Sm.totalProgress;
+		SceneManager.SM.VIndexer = data.Sm.VIndexer;
+		SceneManager.SM.checkpointIndex = data.Sm.checkpointIndex;
+	}
 }
 
 public class SupportData //Data container for support characters.
@@ -199,14 +246,15 @@ class DataContainer
 	//Current Inventory
 	public INVData Inv;
 
-	public DataContainer (PlayerState pl, SupportData cl, SupportData ad, SupportData et, SupportData la, SMData sm, INVData inv)
+	public DataContainer (PlayerState pl, SupportData cl, SupportData ad, SupportData et, SupportData la)
 	{
 		this.player = pl;
-		this.Sm = sm;
-		this.Inv = inv;
 		this.Supports [0] = cl;
 		this.Supports [1] = ad;
 		this.Supports [2] = et;
 		this.Supports [3] = la;
+		this.Sm = new SMData (SceneManager.SM.CheckPoints, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.checkpointIndex
+			, SceneManager.SM.VIndexer, SceneManager.SM.TotalEnemys, SceneManager.SM.totalProgress);
+		this.Inv = new INVData (Inventory.INV.empty_Sprite, Inventory.INV.bag, Inventory.INV.Ibag);
 	}
 }

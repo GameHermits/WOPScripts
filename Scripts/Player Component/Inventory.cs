@@ -127,7 +127,7 @@ public class INVData
 	//the array of items images in the inventory
 	public  Image[] bag;
 	//the indexer that hold the number of item in the bag
-	public int Ibag = 0;
+	public int Ibag;
 
 	public INVData (Sprite emptySprite, Image[] bag, int Ibag)
 	{
