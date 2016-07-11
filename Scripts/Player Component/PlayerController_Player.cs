@@ -68,13 +68,17 @@ public class PlayerController_Player : MonoBehaviour
 				// Enter "HandsJump" animation and Exit "HandsWalk" animation
 				handAnimator.SetBool ("isJumping", true);
 				handAnimator.SetBool ("isWalking", false);
-				// Jumping behavior
-				vec3_Movement.y = fl_MaxJump;
-				temp++;
-				if (temp > fl_MaxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
-					temp = 0;
-					JumpLimit = true;
-					handAnimator.SetBool ("isJumping", false);
+				if (true) {
+					
+				
+					// Jumping behavior
+					vec3_Movement.y = fl_MaxJump;
+					temp++;
+					if (temp > fl_MaxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
+						temp = 0;
+						JumpLimit = true;
+						handAnimator.SetBool ("isJumping", false);
+					}
 				}
 			}
 		} else {
@@ -122,7 +126,7 @@ public class PlayerController_Player : MonoBehaviour
 	{
 
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-            
+			
 			// movement in Z direction
 			Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
 			// movement in X direction
@@ -137,12 +141,13 @@ public class PlayerController_Player : MonoBehaviour
 			} else if ((Input.GetKey (KeyCode.LeftShift) != true || Input.GetKey (KeyCode.RightShift) != true)) {
 				handAnimator.SetBool ("isWalking", true);
 			}
-
+			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down
 			Jump (ref vec3_Movement);
 			Sprint ();
 			//actual movement
 			cc_PlayerController.Move (vec3_Movement);
 		}
+
 	}
 
 	void OnControllerColliderHit (ControllerColliderHit hit)
