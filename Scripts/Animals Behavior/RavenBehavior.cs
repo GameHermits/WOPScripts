@@ -9,6 +9,7 @@ public class RavenBehavior : MonoBehaviour
 	private float fl_DangerRange;
 	private Animator RavenAnimator;
 	private int WayPointsIndex = 0;
+	private bool canMove = false;
 	//Public:
 	public GameObject[] WayPoints;
 	// Use this for initialization
@@ -24,20 +25,31 @@ public class RavenBehavior : MonoBehaviour
 		fl_DangerRange = Vector3.Distance (gameObject.transform.position, go_PlayerLocationRef.transform.position);
 
 		if (fl_DangerRange <= 4) {
-			if (WayPoints != null) {
-				transform.LookAt (WayPoints [WayPointsIndex].transform);
-				RavenAnimator.SetBool ("ShouldFly", true);
-				transform.position = Vector3.MoveTowards (gameObject.transform.position, WayPoints [WayPointsIndex].transform.position, 4 * Time.deltaTime);
-			}
+			canMove = true;
 		}
-		if (Vector3.Distance (transform.position, WayPoints [WayPointsIndex].transform.position) <= 0) {
-			if (fl_DangerRange > 4)
-				RavenAnimator.SetBool ("ShouldFly", false);
-			
-			if (WayPointsIndex != WayPoints.Length - 1)
-				WayPointsIndex++;
-			else
-				WayPointsIndex = 0;
+		Move ();
+	}
+
+	private void Move ()
+	{
+		if (canMove == true) {
+
+			if (WayPoints != null) {
+
+				if (Vector3.Distance (gameObject.transform.position, WayPoints [WayPointsIndex].transform.position) <= 0) {
+					canMove = false;
+					RavenAnimator.SetBool ("ShouldFly", false);
+
+					if (WayPointsIndex != WayPoints.Length - 1)
+						WayPointsIndex++;
+					else
+						WayPointsIndex = 0;
+				} else {
+					transform.LookAt (WayPoints [WayPointsIndex].transform);
+					RavenAnimator.SetBool ("ShouldFly", true);
+					transform.position = Vector3.MoveTowards (gameObject.transform.position, WayPoints [WayPointsIndex].transform.position, 4 * Time.deltaTime);
+				}
+			}
 		}
 	}
 }
