@@ -198,7 +198,7 @@ public class PlayerState //Data Container for Player state.
 	//Sprint data. Initially 20.
 	public float sprintAmout = 20f;
 	//Jump data. Initially 10.
-	public float maxJump = 10f;
+	public float maxJump = 3.5f;
 	//Movement speed data. Initially 10.
 	public float movementSpeed = 10f;
 
