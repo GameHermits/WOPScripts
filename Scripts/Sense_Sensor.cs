@@ -6,12 +6,25 @@
 */
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Sense_Sensor : MonoBehaviour
 {
 	// will have game object of spawners
 	public GameObject go_Spawners;
+	//Spawners gameobjects that will be active. Note: Usually empty gameobjects.
 	public GameObject blockParticle;
+	//the particle system that should block the road.
+	public List<GameObject> Spawned;
+	//list of all enemies spawned by spawners
+	public bool startCheck = false;
+	//Indicating if the spawners started spawning or not.
+	//Private
+
+	void Start ()
+	{
+		Spawned = new List<GameObject> ();
+	}
 
 	void OnTriggerEnter (Collider col)
 	{// when the player collide with sensor
@@ -33,4 +46,12 @@ public class Sense_Sensor : MonoBehaviour
 
 	//idont think we need this function any more
 
+	void Update ()
+	{
+		if (startCheck == true) {
+			if (Spawned == null) {
+				GameObject.Destroy (this.gameObject);
+			}
+		}
+	}
 }

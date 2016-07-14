@@ -14,16 +14,20 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 	public GameObject go_SwitchSenseCollider;
 	public int int_EnemyCounter = 5;
 
-	public float fl_MinSpawnInterval_Sec = 3.0f;
 	//minimum time between every spawning in seconds..
-	public float fl_MaxSpawnInterval_Sec = 6.0f;
+	public float fl_MinSpawnInterval_Sec = 3.0f;
 	//maximum time between every spawning in seconds..
-	
+	public float fl_MaxSpawnInterval_Sec = 6.0f;
+
+	//The target in which the spawned objects will should chase.
 	public Transform trans_ChasedTarget;
-	
+	//the sensor gameobject of the current combat area.
+	public GameObject Sensor;
+
+	//Private:
 	private float fl_SavedTime;
-	private float SpawnInterval_Sec;
 	//time between every spawning in seconds..
+	private float SpawnInterval_Sec;
 	
 	// Use this for initialization
 	void Start ()
@@ -39,7 +43,10 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 			MakeThingToSpawn ();
 			fl_SavedTime = Time.time; // store for next spawn
 			SpawnInterval_Sec = Random.Range (fl_MinSpawnInterval_Sec, fl_MaxSpawnInterval_Sec);
-		}	
+		}
+		if (int_EnemyCounter == 0) {
+			GameObject.Destroy (this.gameObject);
+		}
 	}
 
 	void MakeThingToSpawn ()
@@ -47,7 +54,8 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 		if (int_EnemyCounter != 0) {
 			// create a new gameObject
 			GameObject clone = Instantiate (go_SpawnPrefab, transform.position, transform.rotation) as GameObject;
-			GameManager.li_Enemys.Add (clone);
+			Sensor.GetComponent <Sense_Sensor> ().Spawned.Add (clone); // Adding every spawned enemy to the spawned list in the sensor.
+			Sensor.GetComponent <Sense_Sensor> ().startCheck = true; //Indicating to start checking the spawned list.
 			int_EnemyCounter--;
 			// set chaseTarget if specified
 			if ((trans_ChasedTarget != null) && (clone.gameObject.GetComponent<EnemyBehavior_Enemy> () != null)) {
@@ -55,15 +63,5 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 			}
 		} 
 
-	}
-
-	void BattleCleared ()
-	{
-			
-		if (GameManager.li_Enemys.Count == 0) {
-			GameObject.Destroy (go_SwitchSenseCollider);
-			//or you can directly open it//GameObject.Find("Sensor").gameObject.GetComponent<Collider>().isTrigger = true;
-			GameObject.Destroy (gameObject);
-		}
 	}
 }
