@@ -44,7 +44,7 @@ public class PlayerController_Player : MonoBehaviour
 	private HPController_General hpc_GameObjectRef;
 	//Object to play character sounds.
 	private CharacterSound_General playerSounds;
-	// Use this for initialization
+
 	void Start ()
 	{
 		//Get the character controller component to the object
@@ -53,6 +53,10 @@ public class PlayerController_Player : MonoBehaviour
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
 		hpc_GameObjectRef = gameObject.GetComponent <HPController_General> ();
 		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
+		//Set player data
+		fl_SprintAmount = GameManager.GM.Player.sprintAmout;
+		fl_MaxJump = GameManager.GM.Player.maxJump;
+		fl_MoveSpeed = GameManager.GM.Player.movementSpeed;
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations

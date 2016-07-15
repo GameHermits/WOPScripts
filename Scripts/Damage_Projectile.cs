@@ -104,7 +104,6 @@ public class Damage_Projectile : MonoBehaviour
 	public void AoeDmg (Vector3 position, float radius)
 	{
 		var objectsInRange = Physics.OverlapSphere (position, radius);
-		Debug.Log (objectsInRange.Length);
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
 				if (projectile == ProjectileType.AoeInstantDmg) {

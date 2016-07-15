@@ -67,7 +67,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			GameManager.GM.Player.mana -= fl_UsedManaType;
 			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / GameManager.GM.Player.maxMana;
 			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
-			playersounds.Attack ();
+			//playersounds.Attack ();
 		}
 
 	}

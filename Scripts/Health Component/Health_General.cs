@@ -11,10 +11,10 @@ public class Health_General : MonoBehaviour
 {
 	
 
-	public float fl_health = 2000;
+	public float fl_health;
 	//the main health variable
 	 
-	public float fl_maxhealth = 2000;
+	public float fl_maxhealth;
 	//the maxmum health value
 
 	public GameObject go_itemHolder;

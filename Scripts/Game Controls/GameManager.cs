@@ -197,6 +197,10 @@ public class PlayerState //Data Container for Player state.
 	public float maxMana = 1000f;
 	//Sprint data. Initially 20.
 	public float sprintAmout = 20f;
+	//Jump data. Initially 10.
+	public float maxJump = 3.5f;
+	//Movement speed data. Initially 10.
+	public float movementSpeed = 10f;
 
 	//Magic styles EXP:-(leveling up as 200,400,800,1600,3200... Max level is 30)
 
