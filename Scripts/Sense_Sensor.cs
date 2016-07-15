@@ -10,20 +10,33 @@ using System.Collections.Generic;
 
 public class Sense_Sensor : MonoBehaviour
 {
-	// will have game object of spawners
-	public GameObject go_Spawners;
 	//Spawners gameobjects that will be active. Note: Usually empty gameobjects.
-	public GameObject blockParticle;
+	public GameObject go_Spawners;
 	//the particle system that should block the road.
-	public List<GameObject> Spawned;
-	//list of all enemies spawned by spawners
-	public bool startCheck = false;
+	public GameObject blockParticle;
+	//array of all enemies spawned by spawners
+	[HideInInspector]
+	public GameObject[] Spawned;
 	//Indicating if the spawners started spawning or not.
-	//Private
+	[HideInInspector]
+	public bool startCheck = false;
+	// integer indicating array size, it also indicate how many spawned enemies player should defeat to open the way out of combat area
+	public int clearingNumber;
+	//Indicates where is the array indexer to spawners to access
+	[HideInInspector]
+	public int globalIterator;
 
-	void Start ()
+	//Private:
+
+	//Iterates on spawned array in Update loop
+	private int localIterator = 0;
+	//Used to check if all gameobjects within spawned is null (Destroied)
+	private int Indicator = 0;
+
+	void Awake ()
 	{
-		Spawned = new List<GameObject> ();
+		Spawned = new GameObject[clearingNumber];
+		globalIterator = 0;
 	}
 
 	void OnTriggerEnter (Collider col)
@@ -49,9 +62,20 @@ public class Sense_Sensor : MonoBehaviour
 	void Update ()
 	{
 		if (startCheck == true) {
-			if (Spawned == null) {
+			
+			if (Indicator == clearingNumber)
 				GameObject.Destroy (this.gameObject);
+			else if (localIterator <= Spawned.Length) {
+
+				if (Spawned [localIterator] == null) {
+					if (Indicator != Spawned.Length) {
+						Indicator++;
+						localIterator++;
+						Debug.Log (Indicator);
+					} 
+				}
 			}
 		}
+
 	}
 }

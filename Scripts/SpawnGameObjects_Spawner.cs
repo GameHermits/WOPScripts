@@ -22,7 +22,7 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 	//The target in which the spawned objects will should chase.
 	public Transform trans_ChasedTarget;
 	//the sensor gameobject of the current combat area.
-	public GameObject Sensor;
+	public Sense_Sensor Sensor;
 
 	//Private:
 	private float fl_SavedTime;
@@ -54,8 +54,9 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 		if (int_EnemyCounter != 0) {
 			// create a new gameObject
 			GameObject clone = Instantiate (go_SpawnPrefab, transform.position, transform.rotation) as GameObject;
-			Sensor.GetComponent <Sense_Sensor> ().Spawned.Add (clone); // Adding every spawned enemy to the spawned list in the sensor.
-			Sensor.GetComponent <Sense_Sensor> ().startCheck = true; //Indicating to start checking the spawned list.
+			Sensor.Spawned [Sensor.globalIterator] = clone; // Adding every spawned enemy to the spawned list in the sensor.
+			Sensor.globalIterator++;
+			Sensor.startCheck = true; //Indicating to start checking the spawned list.
 			int_EnemyCounter--;
 			// set chaseTarget if specified
 			if ((trans_ChasedTarget != null) && (clone.gameObject.GetComponent<EnemyBehavior_Enemy> () != null)) {
