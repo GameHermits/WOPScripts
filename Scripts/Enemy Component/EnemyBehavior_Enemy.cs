@@ -14,10 +14,13 @@ public class EnemyBehavior_Enemy : MonoBehaviour
 	//private:
 	private bool isHit = false;
 
-	public float fl_MovementSpeed = 25.0f;
-	//public float fl_minDist = 0f;
+	//Public:
+
 	public float fl_ShootingRange = 20f;
+	//Range in which enemy will start shooting the target
+
 	public float fl_CombatRange = 30f;
+	// ranger in which enemy will start chasing the target
 	public Transform tr_Target;
 	//public Vector3 vec_Target;
 	[HideInInspector] 
