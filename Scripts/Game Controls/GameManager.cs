@@ -204,6 +204,8 @@ public class PlayerState //Data Container for Player state.
 	public float maxJump = 3.5f;
 	//Movement speed data. Initially 10.
 	public float movementSpeed = 10f;
+	//Fury Ability variables
+	public float fl_Fury;
 
 	//Magic styles EXP:-(leveling up as 200,400,800,1600,3200... Max level is 30)
 
