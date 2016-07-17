@@ -12,9 +12,9 @@ public class SceneManager : MonoBehaviour
 {
 	
 	//if Unity couldn't find the Player GameObject with it's tag
-	//but it manually by attaching it to this variable
+	//put it manually by attaching it to this variable
 	public GameObject Player;
-	// = GameObject.FindGameObjectWithTag("Player");
+
 	//The one and only copy of the SceneManager located in the current Scene. all access to SceneManager class should be through this object only.
 	public static SceneManager SM;
 
@@ -31,6 +31,8 @@ public class SceneManager : MonoBehaviour
 	public int enemiesLevel;
 	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
 	public int checkpointIndex = 0;
+	//Scene name
+	public string sceneName;
 	//This is Index that loops in the array's CheckPoints elements to detect which is the last CheckPoint of them.
 	[HideInInspector]
 	public int VIndexer = 0;
@@ -107,7 +109,7 @@ public class SceneManager : MonoBehaviour
 	public void SetActivePoints ()
 	{
 		for (int i = 0; i < CheckPoints.Length; i++) {
-			CheckPoints [i].gameObject.GetComponent<CheckPointInfo> ().isActive = false;
+			CheckPoints [i].isActive = false;
 		}
 	}
 

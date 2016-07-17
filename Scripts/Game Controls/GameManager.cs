@@ -14,11 +14,11 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-	//Private:
+	//Public:
 
-	//Public
-	public static List<GameObject> li_Enemys = new List<GameObject> ();
-
+	//Keep track of player current scene.
+	[HideInInspector]
+	public int ScenesIndexer = 0;
 	//Pause assets
 	public bool ispaused = false;
 	public  bool isDead = false;
@@ -107,7 +107,10 @@ public class GameManager : MonoBehaviour
 
 			DataContainer data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
+
 			AssignBack (ref data);
+			Application.LoadLevel (Player.currentScene);
+
 		}
 	}
 
@@ -235,6 +238,9 @@ public class PlayerState //Data Container for Player state.
 	public bool FireMagic = false;
 	public bool IceMagic = false;
 	public bool BlackMagic = false;
+
+	//Latest scene player arrived to.
+	public string currentScene;
 
 }
 

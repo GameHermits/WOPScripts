@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CheckPointInfo : MonoBehaviour {
+public class CheckPointInfo : MonoBehaviour
+{
 
 	//when player pass on this checkpoint any time it sets isPassed to true always
 	public bool isPassed;
@@ -11,12 +12,14 @@ public class CheckPointInfo : MonoBehaviour {
 	public GameObject[] EmenyAroundCP;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 
@@ -28,22 +31,17 @@ public class CheckPointInfo : MonoBehaviour {
 			SceneManager.SM.SetActivePoints (); //this method diactive all the checkpoints from being the last one
 			this.isActive = true; //this mark this checkpoint as the last checkpoint and that act as save poit.
 			SceneManager.SM.checkpointIndex = SceneManager.SM.VIndexer;//this save it's place in the array as the last checkpoint
+			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;
 		} else if (enterd.gameObject.tag == "Player" && this.isPassed == false) {
 			this.isPassed = true; //this make this checkpoit marked as passed by
-		}
-		else 
-		{
-			
-		}
+		} 
 
 	}
 
 	void CheckPlace ()
 	{
-		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++)
-		{
-			if (SceneManager.SM.CheckPoints[i] == this)
-			{
+		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
+			if (SceneManager.SM.CheckPoints [i] == this) {
 				SceneManager.SM.VIndexer = i;
 			}
 		}
