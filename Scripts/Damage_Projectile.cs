@@ -19,8 +19,12 @@ public class Damage_Projectile : MonoBehaviour
 	public float fl_FreezeTime;
 	// how much should the poison effect lasts.
 	public float PoisonTime;
-	public float fl_Radius;
 	//radius for aoe
+	public float fl_Radius;
+	//Fury Ability variables
+	public float fl_Fury;
+	public float fl_MaxFury;
+
 	// Types of Projectiles
 	public enum ProjectileType
 	{
@@ -67,6 +71,8 @@ public class Damage_Projectile : MonoBehaviour
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_dmgAmount);
+			//increas the fury ability var each hit
+			fl_Fury += (fl_dmgAmount)/10 ;
 			StartCoroutine (Destroy (gameObject));
 		}
 	}
@@ -91,6 +97,9 @@ public class Damage_Projectile : MonoBehaviour
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_FreezeDmgAmount);
 			StartCoroutine ("Wait");
+
+			//increas the fury ability var each hit
+			fl_Fury += (fl_dmgAmount)/10 ;
 		}  
 	}
 
