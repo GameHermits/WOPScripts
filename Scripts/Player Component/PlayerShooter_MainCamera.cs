@@ -138,11 +138,30 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 				break;
 			}
 
+
+
+
 		}
-  
-	
 	}
 
+	void onGUI ()
+	{
+		if (GameManager.GM.Player.fl_Fury == 100) {
+			GUI.contentColor = Color.yellow;
+			GUI.skin.label.fontSize = 20;
+			GUI.Box (new Rect (1000,2000, 400, 200), "");
+			GUI.Label (new Rect (1000, 2000, 100, 200),"Press R to active ultimate attack");
+
+			if (Input.GetKeyUp (KeyCode.R)) {
+				UltimateAttack ();
+			}
+		}
+
+	}
+
+	void UltimateAttack (){
+		
+	}
 	/*IEnumerator LockedStyletrigger ()
 	{
 		yield return new WaitForSeconds (4);
