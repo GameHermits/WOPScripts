@@ -112,12 +112,14 @@ public class Damage_Projectile : MonoBehaviour
 	}
 
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
-	public void AoeDmg (Vector3 position, float radius)
+	public void AoeDmg (Vector3 position, float radius, GameObject summoner)
 	{
 		var objectsInRange = Physics.OverlapSphere (position, radius);
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
-				if (projectile == ProjectileType.AoeInstantDmg) {
+				if (col.gameObject.tag == summoner.tag) {//if summoner's tag is what we have do nothing as from logic ther will be no species will hit its species
+					continue;
+				} else if (projectile == ProjectileType.AoeInstantDmg) {
 					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
 				} else if (projectile == ProjectileType.AoeOverTimeDmg) {
 					PoisonDamage (col.gameObject);//send the game object of the collider to make the proper damage
@@ -141,7 +143,7 @@ public class Damage_Projectile : MonoBehaviour
 			PoisonDamage (col);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
 			
-			AoeDmg (col.gameObject.transform.position, fl_Radius);
+			AoeDmg (col.gameObject.transform.position, fl_Radius, col);
 		}
 	}
 }
