@@ -32,6 +32,7 @@ public class CheckPointInfo : MonoBehaviour
 			this.isActive = true; //this mark this checkpoint as the last checkpoint and that act as save poit.
 			SceneManager.SM.checkpointIndex = SceneManager.SM.VIndexer;//this save it's place in the array as the last checkpoint
 			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;
+
 		} else if (enterd.gameObject.tag == "Player" && this.isPassed == false) {
 			this.isPassed = true; //this make this checkpoit marked as passed by
 		} 

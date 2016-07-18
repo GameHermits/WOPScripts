@@ -108,8 +108,9 @@ public class GameManager : MonoBehaviour
 			DataContainer data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
 
-			AssignBack (ref data);
 			Application.LoadLevel (Player.currentScene);
+			AssignBack (ref data);
+			SceneManager.SM.ResetSecneState ();
 
 		}
 	}
