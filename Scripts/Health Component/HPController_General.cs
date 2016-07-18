@@ -20,38 +20,41 @@ public class HPController_General : MonoBehaviour
 	public Image im_Energybar;
 
 	public float fl_tmpHealthbar = 1f;
-	//this is the total amount of the Health bar and it can be between 1and 0 (fill and empty)
-	public float fl_tmpManabar = 1f;
-	//this is the total amount of the Mana bar and it can be between 1and 0 (fill and empty)
-	public float fl_tmpEnergybar = 1f;
 	// Update is called once per frame
 	void Update ()
 	{
-
-		if (fl_tmpHealthbar > 1) { //make the amount of healthbar image go no more than it's highest value (1)
-			fl_tmpHealthbar = 1f;
-		} else if (fl_tmpHealthbar < 0) { //make the amount of healthbar image go no more dowm than it's least value (0)
-			fl_tmpHealthbar = 0f;
-		}
-		
-
-		if (fl_tmpManabar > 1) { //make the amount of manabar image go no more than it's highest value (1)
-			fl_tmpManabar = 1f;
-		} else if (fl_tmpManabar < 0) { //make the amount of manabar image go no more dowm than it's least value (0)
-			fl_tmpManabar = 0f;
-		}
-
-		if (fl_tmpEnergybar > 1) {
-			fl_tmpEnergybar = 1f;
-		} else if (fl_tmpEnergybar < 0) {
-			fl_tmpEnergybar = 0f;
-		}
-
-		im_Healthbar.fillAmount = fl_tmpHealthbar; //give the variable value to the real amount of healthbar image  after change 
-
 		if (gameObject.tag == "Player") {
-			im_Manabar.fillAmount = fl_tmpManabar; //give the variable value to the real amount of manabar image  after change 
-			im_Energybar.fillAmount = fl_tmpEnergybar;
+
+			if (GameManager.GM.Player.healthAmount > 1) { //make the amount of healthbar image go no more than it's highest value (1)
+				GameManager.GM.Player.healthAmount = 1f;
+			} else if (GameManager.GM.Player.healthAmount < 0) { //make the amount of healthbar image go no more dowm than it's least value (0)
+				GameManager.GM.Player.healthAmount = 0f;
+			}
+
+			if (GameManager.GM.Player.manaAmount > 1) { //make the amount of manabar image go no more than it's highest value (1)
+				GameManager.GM.Player.manaAmount = 1f;
+			} else if (GameManager.GM.Player.manaAmount < 0) { //make the amount of manabar image go no more dowm than it's least value (0)
+				GameManager.GM.Player.manaAmount = 0f;
+			}
+
+			if (GameManager.GM.Player.energyAmount > 1) {
+				GameManager.GM.Player.energyAmount = 1f;
+			} else if (GameManager.GM.Player.energyAmount < 0) {
+				GameManager.GM.Player.energyAmount = 0f;
+			}
+
+			im_Healthbar.fillAmount = GameManager.GM.Player.healthAmount;
+			im_Manabar.fillAmount = GameManager.GM.Player.manaAmount; //give the variable value to the real amount of manabar image  after change 
+			im_Energybar.fillAmount = GameManager.GM.Player.energyAmount;
+		} else {
+
+			if (fl_tmpHealthbar > 1) { //make the amount of healthbar image go no more than it's highest value (1)
+				fl_tmpHealthbar = 1f;
+			} else if (fl_tmpHealthbar < 0) { //make the amount of healthbar image go no more dowm than it's least value (0)
+				fl_tmpHealthbar = 0f;
+			}
+			im_Healthbar.fillAmount = fl_tmpHealthbar; //give the variable value to the real amount of healthbar image  after change
 		}
+ 
 	}
 }

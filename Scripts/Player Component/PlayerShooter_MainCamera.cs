@@ -65,7 +65,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);*/	
 			go_NewBullet.GetComponent <Damage_Projectile> ().fl_dmgAmount = 100 * GameManager.GM.Player.ThunderWisdom;
 			GameManager.GM.Player.mana -= fl_UsedManaType;
-			hpc_GameObjectRef.fl_tmpManabar -= fl_UsedManaType / GameManager.GM.Player.maxMana;
+			GameManager.GM.Player.manaAmount -= fl_UsedManaType / GameManager.GM.Player.maxMana;
 			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
 			//playersounds.Attack ();
 		}
@@ -149,8 +149,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		if (GameManager.GM.Player.fl_Fury == 100) {
 			GUI.contentColor = Color.yellow;
 			GUI.skin.label.fontSize = 20;
-			GUI.Box (new Rect (1000,2000, 400, 200), "");
-			GUI.Label (new Rect (1000, 2000, 100, 200),"Press (R) to active ultimate attack");
+			GUI.Box (new Rect (1000, 2000, 400, 200), "");
+			GUI.Label (new Rect (1000, 2000, 100, 200), "Press (R) to active ultimate attack");
 
 			if (Input.GetKeyUp (KeyCode.R)) {
 				UltimateAttack ();
@@ -159,7 +159,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 	}
 
-	void UltimateAttack (){
+	void UltimateAttack ()
+	{
 		
 	}
 	/*IEnumerator LockedStyletrigger ()

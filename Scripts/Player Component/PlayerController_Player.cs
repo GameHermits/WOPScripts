@@ -100,11 +100,11 @@ public class PlayerController_Player : MonoBehaviour
 			mainCameraEffect.enabled = true;
 			handAnimator.SetBool ("isRunning", true);
 			//if energy bar is more than zero 
-			if (hpc_GameObjectRef.fl_tmpEnergybar > 0) {
-				hpc_GameObjectRef.fl_tmpEnergybar = hpc_GameObjectRef.fl_tmpEnergybar - (0.01f / 2.0f);
+			if (GameManager.GM.Player.energyAmount > 0) {
+				GameManager.GM.Player.energyAmount -= (0.01f / 2.0f);
 				isCanFill = false;
 			}//if the energy bar is lower or equal zero he will not be able to sprint
-				else if (hpc_GameObjectRef.fl_tmpEnergybar <= 0) {
+			else if (GameManager.GM.Player.energyAmount <= 0) {
 				isCanSprint = false;
 			}
 				
@@ -116,10 +116,10 @@ public class PlayerController_Player : MonoBehaviour
 
 			if (isCanFill) {
 				//fill the energy bar when isCanFill equal true
-				hpc_GameObjectRef.fl_tmpEnergybar = hpc_GameObjectRef.fl_tmpEnergybar + (0.01f / 2.0f);
+				GameManager.GM.Player.energyAmount += (0.01f / 2.0f);
 			}
 			//if the energy bar is higher than 0.3 after reaching zero he could use it again
-			if (hpc_GameObjectRef.fl_tmpEnergybar > 0.3f) {
+			if (GameManager.GM.Player.energyAmount > 0.3f) {
 				isCanSprint = true;
 			}
 		}

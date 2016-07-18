@@ -65,7 +65,7 @@ public class Health_General : MonoBehaviour
 	public void DamageHealthBar (float fl_Damage) // Modifying UI health bar acoording to Damage amount
 	{
 		if (gameObject.name == "Player") {
-			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar - (fl_Damage / (GameManager.GM.Player.maxHealth * 2));
+			GameManager.GM.Player.healthAmount -= (fl_Damage / (GameManager.GM.Player.maxHealth * 2));
 		} else
 			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar - (fl_Damage / (fl_maxhealth * 2));
 	}
@@ -73,7 +73,7 @@ public class Health_General : MonoBehaviour
 	public void HealHealthBar (float fl_heal) // Modifying UI health bar according to heal amount
 	{
 		if (gameObject.name == "Player") {
-			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (fl_heal / (GameManager.GM.Player.maxHealth * 2));
+			GameManager.GM.Player.healthAmount += (fl_heal / (GameManager.GM.Player.maxHealth * 2));
 		} else
 			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (fl_heal / (fl_maxhealth * 2));
 	}
