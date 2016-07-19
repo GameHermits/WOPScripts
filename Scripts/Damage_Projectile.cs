@@ -33,6 +33,19 @@ public class Damage_Projectile : MonoBehaviour
 		AoeFreezeDmg}
 
 	;
+
+	public enum Enemies
+	{
+		NEnemy,
+		LEnemy}
+
+	;
+
+	public enum Aliaies
+	{
+		Player}
+
+	;
 	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
 	public ProjectileType projectile = ProjectileType.AoeInstantDmg;
@@ -112,12 +125,26 @@ public class Damage_Projectile : MonoBehaviour
 	}
 
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
-	public void AoeDmg (Vector3 position, float radius)
+	public void AoeDmg (Vector3 position, float radius, GameObject summoner)
 	{
+		bool ally = (Aliaies.IsDefined (typeof(Aliaies), summoner.tag) ? true : false);
 		var objectsInRange = Physics.OverlapSphere (position, radius);
+<<<<<<< HEAD
+		Debug.Log (objectsInRange.Length);
+		foreach (Collider item in objectsInRange) {
+			Debug.Log (item.gameObject.tag + "  ");
+		}
+=======
+>>>>>>> master
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
-				if (projectile == ProjectileType.AoeInstantDmg) {
+				if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && ally == true) {//if summoner's tag is what we have do nothing as from logic ther will be no species will hit its species
+					Debug.Log ("This is" + col.gameObject.tag + " Friend dont hit him as I'm " + summoner.tag);
+					continue;
+				} else if (Enemies.IsDefined (typeof(Enemies), col.gameObject.tag) && ally == false) {
+					Debug.Log ("This is" + col.gameObject.tag + " enemy but freind to summoner dont hit as I'm " + summoner.tag);
+					continue;
+				} else if (projectile == ProjectileType.AoeInstantDmg) {
 					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
 				} else if (projectile == ProjectileType.AoeOverTimeDmg) {
 					PoisonDamage (col.gameObject);//send the game object of the collider to make the proper damage
@@ -141,7 +168,7 @@ public class Damage_Projectile : MonoBehaviour
 			PoisonDamage (col);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
 			
-			AoeDmg (col.gameObject.transform.position, fl_Radius);
+			AoeDmg (col.gameObject.transform.position, fl_Radius, col);
 		}
 	}
 }
