@@ -119,13 +119,16 @@ public class Damage_Projectile : MonoBehaviour
 		bool ally = (Aliaies.IsDefined (typeof(Aliaies), summoner.tag) ? true : false);
 		var objectsInRange = Physics.OverlapSphere (position, radius);
 		Debug.Log (objectsInRange.Length);
+		foreach (Collider item in objectsInRange) {
+			Debug.Log (item.gameObject.tag + "  ");
+		}
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
 				if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && ally == true) {//if summoner's tag is what we have do nothing as from logic ther will be no species will hit its species
-					Debug.Log ("This is Friend dont hit him");
+					Debug.Log ("This is" + col.gameObject.tag + " Friend dont hit him as I'm " + summoner.tag);
 					continue;
 				} else if (Enemies.IsDefined (typeof(Enemies), col.gameObject.tag) && ally == false) {
-					Debug.Log ("This is enemy but freind to summoner dont hit");
+					Debug.Log ("This is" + col.gameObject.tag + " enemy but freind to summoner dont hit as I'm " + summoner.tag);
 					continue;
 				} else if (projectile == ProjectileType.AoeInstantDmg) {
 					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
