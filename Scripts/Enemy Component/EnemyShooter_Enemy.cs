@@ -16,14 +16,12 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	public GameObject go_ShootingPLace;
 
 	private EnemyBehavior_Enemy eb_EnemyBehaviorRef;
-	private GameObject Player;
 	private int in_randomInteger;
 	private float fl_CoolDown = 0f;
 
 	void Start ()
 	{
 		eb_EnemyBehaviorRef = gameObject.GetComponent<EnemyBehavior_Enemy> ();
-		Player = GameObject.FindGameObjectWithTag ("Player");
 	}
 	// Update is called once per frame
 	void Update ()
@@ -44,7 +42,6 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	{// Enable Enemy to shoot
 		
 		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
-		//newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
         
 		in_randomInteger = Random.Range (1, 3);
         
