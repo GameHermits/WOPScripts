@@ -30,6 +30,7 @@ public class SceneManager : MonoBehaviour
 	//Indecates the over all enemy levels in the current Scene.
 	public int enemiesLevel;
 	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
+	[HideInInspector]
 	public int checkpointIndex = 0;
 	//Scene name
 	public string sceneName;
@@ -49,8 +50,6 @@ public class SceneManager : MonoBehaviour
 	void Start ()
 	{
 		MapObjectivesStrings (Objectives_Strings);
-
-		Player.transform.position = CheckPoints [0].gameObject.transform.position;
 	}
 	// Update is called once per frame
 	void Update ()
@@ -62,16 +61,17 @@ public class SceneManager : MonoBehaviour
 		}
 	}
 
-	public string CurrentObjective ()
-	{ //Return the current Objective in the Objectives array
-		return "null";
-	}
-
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
 		
-		Player.transform.position = CheckPoints [checkpointIndex].gameObject.transform.position;
-		
+		Player.transform.position = CheckPoints [checkpointIndex].gameObject.transform.position; //reset player to the last checkpoint he arrived to.
+		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
+			if (CheckPoints [i].isActive == false && CheckPoints [i].isPassed == true) {
+				for (int j = 0; j < CheckPoints [i].EmenyAroundCP.Length; j++) {
+					GameObject.Destroy (CheckPoints [i].EmenyAroundCP [j]);
+				}
+			}
+		}
 	}
 
 	public int TotalProgress ()

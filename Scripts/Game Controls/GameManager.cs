@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
 	[HideInInspector]
 	public int ScenesIndexer = 0;
 	//Pause assets
+	[HideInInspector]
 	public bool ispaused = false;
+	[HideInInspector]
 	public  bool isDead = false;
 
 	//Game Manager static object

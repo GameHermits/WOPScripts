@@ -144,6 +144,12 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		}
 	}
 
+	IEnumerator LockedStyletrigger ()
+	{
+		yield return new WaitForSeconds (4);
+		lockedStyle = false;
+	}
+
 	void onGUI ()
 	{
 		if (GameManager.GM.Player.fl_Fury == 100) {
@@ -163,19 +169,6 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	{
 		
 	}
-	/*IEnumerator LockedStyletrigger ()
-	{
-		yield return new WaitForSeconds (4);
-		lockedStyle = false;
-	}
 
-	void onGUI ()
-	{
-		if (lockedStyle == true) {
-			GUI.TextArea (Rect (100, 200, 100, 200), "You did not learn this style of magic yet");
-			LockedStyletrigger ();
-		}
-
-	}*/
 }
 	
