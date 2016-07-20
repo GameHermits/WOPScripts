@@ -51,7 +51,6 @@ public class SceneManager : MonoBehaviour
 		MapObjectivesStrings (Objectives_Strings);
 
 		Player.transform.position = CheckPoints [0].gameObject.transform.position;
-		AllEnemysNumber ();
 	}
 	// Update is called once per frame
 	void Update ()
@@ -112,14 +111,7 @@ public class SceneManager : MonoBehaviour
 			CheckPoints [i].isActive = false;
 		}
 	}
-
-	public void AllEnemysNumber ()
-	{
-		for (int X = 0; X < CheckPoints.Length; X++) {
-			TotalEnemys += CheckPoints [X].EmenyAroundCP.Length + 1;
-		}
-	}
-
+		
 }
 
 public class ObjectiveState

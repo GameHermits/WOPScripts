@@ -11,19 +11,8 @@ public class CheckPointInfo : MonoBehaviour
 	//An array for all the enemys in the space of this checkpoint.
 	public GameObject[] EmenyAroundCP;
 
-	// Use this for initialization
-	void Start ()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
 
-	void OnTriggerExit (Collider enterd)
+	void OnTriggerEnter (Collider enterd)
 	{
 		CheckPlace ();
 		if (enterd.gameObject.tag == "Player" && SceneManager.SM.CheckPoints [SceneManager.SM.VIndexer + 1].isPassed == false) {
