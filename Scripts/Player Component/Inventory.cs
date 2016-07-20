@@ -6,6 +6,9 @@
 using UnityEngine;
 using System.Collections;
 using Image = UnityEngine.UI.Image;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Inventory : MonoBehaviour
 {
@@ -22,6 +25,13 @@ public class Inventory : MonoBehaviour
 	public int IMAXbag = 6;
 
 	public static Inventory INV;
+
+	void Start ()
+	{
+		if (INV == null) {
+			INV = this;
+		}
+	}
 
 	public void AddItem (Sprite item)
 	{//to add item in the inventory type inventory.IN.AddItem(the item Sprite);
@@ -120,18 +130,16 @@ public class Inventory : MonoBehaviour
 	}
 }
 
+[Serializable]
 public class INVData
 {
-	//empty image to put it in the inventory when its clear
-	public  Sprite empty_Sprite;
 	//the array of items images in the inventory
-	public  Image[] bag;
+	public  Image[] bag = new Image[Inventory.INV.bag.Length];
 	//the indexer that hold the number of item in the bag
 	public int Ibag;
 
-	public INVData (Sprite emptySprite, Image[] bag, int Ibag)
+	public INVData (Image[] bag, int Ibag)
 	{
-		this.empty_Sprite = emptySprite;
 		this.Ibag = Ibag;
 
 		for (int i = 0; i < bag.Length; i++) {

@@ -7,6 +7,9 @@
  */
 using UnityEngine;
 using System.Collections;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class SceneManager : MonoBehaviour
 {
@@ -19,6 +22,7 @@ public class SceneManager : MonoBehaviour
 	public static SceneManager SM;
 
 	//Public:
+
 	//Contain all Checkpoints location in the Scene. Initially empty gameObject if there is no model avaliable. zero index in any level is always the starter location of the player
 	public CheckPointInfo[] CheckPoints;
 	//contain all inputed string objectives.
@@ -46,9 +50,19 @@ public class SceneManager : MonoBehaviour
 	[HideInInspector]
 	public bool isComplete = false;
 
+	//Private:
+
+	//Contain bools of checkpoints isPassed parameter
+	private bool[] PassedCPs;
+
 	// Use this for initialization
 	void Start ()
 	{
+		if (SM == null) {
+			SM = this;
+		}
+
+		objectives = new ObjectiveState[Objectives_Strings.Length];
 		MapObjectivesStrings (Objectives_Strings);
 	}
 	// Update is called once per frame
@@ -98,9 +112,9 @@ public class SceneManager : MonoBehaviour
 		
 		for (int i = 0; i < objectivesStrings.Length; i++) {
 			if (i == 0) {
-				objectives [i] = new ObjectiveState (objectivesStrings [i], false, true);
+				SM.objectives [i] = new ObjectiveState (objectivesStrings [i], false, true);
 			} else {
-				objectives [i] = new ObjectiveState (objectivesStrings [i], false, false);
+				SM.objectives [i] = new ObjectiveState (objectivesStrings [i], false, false);
 			}
 		}
 	}
@@ -128,31 +142,32 @@ public class ObjectiveState
 	}
 }
 
+[Serializable]
 public class SMData
 {
 	//Contains all current Scene Manager data.
 	//Public:
 	//Contain all Checkpoints location in the Scene. Initially empty gameObject if there is no model avaliable. zero index in any level is always the starter location of the player
-	public CheckPointInfo[] CheckPoints;
+	public CheckPointInfo[] CheckPoints = new CheckPointInfo[SceneManager.SM.CheckPoints.Length];
 	//contain all inputed string objectives.
-	public string[] Objectives_Strings;
+	public string[] Objectives_Strings = new string[SceneManager.SM.Objectives_Strings.Length];
 	//contains ObjectiveState objects
-	public ObjectiveState[] objectives;
+	public ObjectiveState[] objectives = new ObjectiveState[SceneManager.SM.objectives.Length];
 	//Indecate how many treasures are there in the Scene, each time the player opens one, this number is decreased
-	public int treasureNumber;
+	public int treasureNumber = 0;
 	//Indecates the over all enemy levels in the current Scene.
-	public int enemiesLevel;
+	public int enemiesLevel = 0;
 	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
-	public int checkpointIndex;
+	public int checkpointIndex = 0;
 	//This is Index that loops in the array's CheckPoints elements to detect which is the last CheckPoint of them.
-	public int VIndexer;
+	public int VIndexer = 0;
 	//Private:
 
 	//this to count all the enemys in the level
-	public int TotalEnemys;
+	public int TotalEnemys = 0;
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
-	public int totalProgress;
+	public int totalProgress = 0;
 
 	public SMData (CheckPointInfo[] CPI, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int checkpointIndex, int VIndexer, int TotalEnemies, int totalProgress)
 	{

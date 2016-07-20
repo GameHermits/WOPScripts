@@ -62,6 +62,7 @@ public class CheckPointInfo : MonoBehaviour
 		isSaved = false;
 	}
 
+	[SerializeField]
 	void onGUI ()
 	{
 		//display message to player inforimg them that the game is saved.

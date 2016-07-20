@@ -129,7 +129,6 @@ public class GameManager : MonoBehaviour
 		Ethan = data.Supports [2];
 		Lauren = data.Supports [3];
 		//Inventory Assignments.
-		Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
 		Inventory.INV.Ibag = data.Inv.Ibag;
 		for (int i = 0; i < Inventory.INV.bag.Length; i++) {
 			Inventory.INV.bag [i] = data.Inv.bag [i];
@@ -153,6 +152,7 @@ public class GameManager : MonoBehaviour
 	}
 }
 
+[Serializable]
 public class SupportData //Data container for support characters.
 {
 	// support level, can be adjust in training place
@@ -189,6 +189,7 @@ public class SupportData //Data container for support characters.
 }
 //ADD INVINTORY OBJECT REFERENCE TO SCENE MANAGER
 
+[Serializable]
 public class PlayerState //Data Container for Player state.
 {
 	//Player Skills state:- (All skills scale upon leveling up)
@@ -274,6 +275,6 @@ class DataContainer
 		this.Supports [3] = la;
 		this.Sm = new SMData (SceneManager.SM.CheckPoints, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.checkpointIndex
 			, SceneManager.SM.VIndexer, SceneManager.SM.TotalEnemys, SceneManager.SM.totalProgress);
-		this.Inv = new INVData (Inventory.INV.empty_Sprite, Inventory.INV.bag, Inventory.INV.Ibag);
+		this.Inv = new INVData (Inventory.INV.bag, Inventory.INV.Ibag);
 	}
 }
