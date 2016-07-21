@@ -33,37 +33,37 @@ public class SceneManager : MonoBehaviour
 	public int treasureNumber;
 	//Indecates the over all enemy levels in the current Scene.
 	public int enemiesLevel;
-	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
-	[HideInInspector]
-	public int checkpointIndex = 0;
-	//Scene name
+	//Holds the scene name. It must be assigned manually in the inspector
 	public string sceneName;
-	//This is Index that loops in the array's CheckPoints elements to detect which is the last CheckPoint of them.
-	[HideInInspector]
-	public int VIndexer = 0;
-	//this to count all the enemys in the level
-	public int TotalEnemys = 0;
+	//this to count all the enemies in the level
+	public int TotalEnemies = 0;
+
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
 	[HideInInspector]
 	public int totalProgress = 0;
 	[HideInInspector]
 	public bool isComplete = false;
-
-	//Private:
-
-	//Contain bools of checkpoints isPassed parameter
-	private bool[] PassedCPs;
-
+	//index the active checkpoint in the checkpointinfo array
+	[HideInInspector]
+	public int activePoint = 0;
+	//Contain int indecating if checkpoints was passed, where 0 = not passed, and 1 = passed
+	[HideInInspector]
+	public int[] PassedCPs;
 	// Use this for initialization
 	void Start ()
 	{
 		if (SM == null) {
 			SM = this;
 		}
-
+		PassedCPs = new int[CheckPoints.Length];
 		objectives = new ObjectiveState[Objectives_Strings.Length];
 		MapObjectivesStrings (Objectives_Strings);
+		for (int i = 0; i < PassedCPs.Length; i++) {
+			if (PassedCPs [i] == null) {
+				PassedCPs [i] = 0;
+			}
+		}
 	}
 	// Update is called once per frame
 	void Update ()
@@ -78,9 +78,9 @@ public class SceneManager : MonoBehaviour
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
 		
-		Player.transform.position = CheckPoints [checkpointIndex].gameObject.transform.position; //reset player to the last checkpoint he arrived to.
+		Player.transform.position = CheckPoints [activePoint].gameObject.transform.position; //reset player to the last checkpoint he arrived to.
 		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
-			if (CheckPoints [i].isActive == false && CheckPoints [i].isPassed == true) {
+			if (i != activePoint && PassedCPs [i] == 1) {
 				for (int j = 0; j < CheckPoints [i].EmenyAroundCP.Length; j++) {
 					GameObject.Destroy (CheckPoints [i].EmenyAroundCP [j]);
 				}
@@ -91,7 +91,7 @@ public class SceneManager : MonoBehaviour
 	public int TotalProgress ()
 	{ //Calulate the totalprogress and return totalProgress.
 		
-		return (100 - treasureNumber - TotalEnemys - objectives.Length);
+		return (100 - treasureNumber - TotalEnemies - objectives.Length);
 	}
 
 	void OnGUI ()
@@ -118,16 +118,10 @@ public class SceneManager : MonoBehaviour
 			}
 		}
 	}
-
-	public void SetActivePoints ()
-	{
-		for (int i = 0; i < CheckPoints.Length; i++) {
-			CheckPoints [i].isActive = false;
-		}
-	}
 		
 }
 
+[Serializable]
 public class ObjectiveState
 {
 	public string objective;
@@ -148,7 +142,7 @@ public class SMData
 	//Contains all current Scene Manager data.
 	//Public:
 	//Contain all Checkpoints location in the Scene. Initially empty gameObject if there is no model avaliable. zero index in any level is always the starter location of the player
-	public CheckPointInfo[] CheckPoints = new CheckPointInfo[SceneManager.SM.CheckPoints.Length];
+	public int[] PassedCPs = new int [SceneManager.SM.CheckPoints.Length];
 	//contain all inputed string objectives.
 	public string[] Objectives_Strings = new string[SceneManager.SM.Objectives_Strings.Length];
 	//contains ObjectiveState objects
@@ -159,21 +153,17 @@ public class SMData
 	public int enemiesLevel = 0;
 	//This Index CheckPoints array.. and is modified by checkpoint objects, that is, whenever a player reach the next checkpoint, this index is increased by one.
 	public int checkpointIndex = 0;
-	//This is Index that loops in the array's CheckPoints elements to detect which is the last CheckPoint of them.
-	public int VIndexer = 0;
-	//Private:
-
 	//this to count all the enemys in the level
-	public int TotalEnemys = 0;
+	public int TotalEnemies = 0;
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
 	(100 - TreasureNumber - LossEnemies.Length - Spawners.Lenght - ObjectivesIndex)*/
 	public int totalProgress = 0;
 
-	public SMData (CheckPointInfo[] CPI, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int checkpointIndex, int VIndexer, int TotalEnemies, int totalProgress)
+	public SMData (int[] PCP, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int checkpointIndex, int TotalEnemies, int totalProgress)
 	{
 		// Assigning 
-		for (int i = 0; i < CPI.Length; i++) {
-			this.CheckPoints [i] = CPI [i];
+		for (int i = 0; i < PCP.Length; i++) {
+			this.PassedCPs [i] = PCP [i];
 		}
 
 		for (int i = 0; i < ObjSt.Length; i++) {
@@ -187,8 +177,7 @@ public class SMData
 		this.treasureNumber = treasureNumber;
 		this.enemiesLevel = enemiesLevel;
 		this.checkpointIndex = checkpointIndex;
-		this.VIndexer = VIndexer;
-		this.TotalEnemys = TotalEnemies;
+		this.TotalEnemies = TotalEnemies;
 		this.totalProgress = totalProgress;
 	}
 }

@@ -26,5 +26,11 @@ public class UIFunctions : MonoBehaviour
 	{
 		//Load scene from a file.
 		GameManager.GM.Load ();
+		GameManager.GM.isDead = false;
+	}
+
+	public void ExitGame ()
+	{
+		Application.Quit ();
 	}
 }

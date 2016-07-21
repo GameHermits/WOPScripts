@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
 	{ //Saves data to a file
 		BinaryFormatter bF = new BinaryFormatter (); //the formater that will write the data to the file
 		FileStream playerFile = File.Create (Application.persistentDataPath + "/PlayerInfo.dat"); // the file that will contain the data
-
+		Debug.Log (Application.persistentDataPath);
 		DataContainer data = new DataContainer (Player, Clover, Adam, Ethan, Lauren);
 		bF.Serialize (playerFile, data);
 		playerFile.Close ();
@@ -130,13 +130,14 @@ public class GameManager : MonoBehaviour
 		Lauren = data.Supports [3];
 		//Inventory Assignments.
 		Inventory.INV.Ibag = data.Inv.Ibag;
-		for (int i = 0; i < Inventory.INV.bag.Length; i++) {
+		/*for (int i = 0; i < Inventory.INV.bag.Length; i++) {
 			Inventory.INV.bag [i] = data.Inv.bag [i];
-		}
+		}*/
 		//SceneManager Assignment.
 		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
-			SceneManager.SM.CheckPoints [i] = data.Sm.CheckPoints [i];
+			SceneManager.SM.PassedCPs [i] = data.Sm.PassedCPs [i];
 		}
+
 		for (int i = 0; i < SceneManager.SM.Objectives_Strings.Length; i++) {
 			SceneManager.SM.Objectives_Strings [i] = data.Sm.Objectives_Strings [i];
 		}
@@ -145,10 +146,9 @@ public class GameManager : MonoBehaviour
 		}
 		SceneManager.SM.enemiesLevel = data.Sm.enemiesLevel;
 		SceneManager.SM.treasureNumber = data.Sm.treasureNumber;
-		SceneManager.SM.TotalEnemys = data.Sm.TotalEnemys;
+		SceneManager.SM.TotalEnemies = data.Sm.TotalEnemies;
 		SceneManager.SM.totalProgress = data.Sm.totalProgress;
-		SceneManager.SM.VIndexer = data.Sm.VIndexer;
-		SceneManager.SM.checkpointIndex = data.Sm.checkpointIndex;
+		SceneManager.SM.activePoint = data.Sm.checkpointIndex;
 	}
 }
 
@@ -273,8 +273,8 @@ class DataContainer
 		this.Supports [1] = ad;
 		this.Supports [2] = et;
 		this.Supports [3] = la;
-		this.Sm = new SMData (SceneManager.SM.CheckPoints, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.checkpointIndex
-			, SceneManager.SM.VIndexer, SceneManager.SM.TotalEnemys, SceneManager.SM.totalProgress);
-		this.Inv = new INVData (Inventory.INV.bag, Inventory.INV.Ibag);
+		this.Sm = new SMData (SceneManager.SM.PassedCPs, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.activePoint
+			, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress);
+		this.Inv = new INVData (/*Inventory.INV.bag,*/ Inventory.INV.Ibag);
 	}
 }

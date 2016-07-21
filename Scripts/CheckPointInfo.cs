@@ -3,13 +3,14 @@ using System.Collections;
 
 public class CheckPointInfo : MonoBehaviour
 {
-
+	/*
 	//when player pass on this checkpoint any time it sets isPassed to true always
 	[HideInInspector]
 	public bool isPassed = false;
 	//if this checkpoint is the last checkpoit that the player passed by ,marke it as the save point
 	[HideInInspector]
 	public bool isActive = false;
+	*/
 	//To have the checkpoint order in the array.
 	public int checkPointNum;
 	//An array for all the enemys in the space of this checkpoint.
@@ -18,42 +19,20 @@ public class CheckPointInfo : MonoBehaviour
 	//Private:
 	private bool isSaved = false;
 
-	void Start ()
-	{
-		Debug.Log (SceneManager.SM.CheckPoints [0]);
-		//assigning back values after loading.
-		if (this != SceneManager.SM.CheckPoints [checkPointNum]) {
-			this.isPassed = SceneManager.SM.CheckPoints [checkPointNum].isPassed;
-			this.isActive = SceneManager.SM.CheckPoints [checkPointNum].isActive;
-		}
-	}
-
 	void OnTriggerEnter (Collider enterd)
 	{
-		CheckPlace ();
-		if (enterd.gameObject.tag == "Player" && SceneManager.SM.CheckPoints [SceneManager.SM.VIndexer + 1].isPassed == false) {
-			this.isPassed = true; //this make this checkpoit marked as passed by
-			SceneManager.SM.SetActivePoints (); //this method diactive all the checkpoints from being the last one
-			this.isActive = true; //this mark this checkpoint as the last checkpoint and that act as save poit.
-			SceneManager.SM.checkpointIndex = SceneManager.SM.VIndexer;//this save it's place in the array as the last checkpoint
-			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;
+		if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum + 1] == 0) {
+			SceneManager.SM.activePoint = checkPointNum;//Mark this checkpoint as the active one
+			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed
+			isSaved = true;//Display save message on the screen
+			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;//Store current scene name in playerstate data
 			GameManager.GM.Save ();
-			isSaved = true;
 			Debug.Log (GameManager.GM.Player.currentScene);
 
-		} else if (enterd.gameObject.tag == "Player" && this.isPassed == false) {
-			this.isPassed = true; //this make this checkpoit marked as passed by
+		} else if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum] == 0) {
+			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed only. not active.
 		} 
 
-	}
-
-	void CheckPlace ()
-	{
-		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
-			if (SceneManager.SM.CheckPoints [i] == this) {
-				SceneManager.SM.VIndexer = i;
-			}
-		}
 	}
 
 	IEnumerator Wait ()

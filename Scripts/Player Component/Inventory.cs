@@ -134,17 +134,17 @@ public class Inventory : MonoBehaviour
 public class INVData
 {
 	//the array of items images in the inventory
-	public  Image[] bag = new Image[Inventory.INV.bag.Length];
+	//public  Image[] bag = new Image[Inventory.INV.bag.Length];
 	//the indexer that hold the number of item in the bag
 	public int Ibag;
 
-	public INVData (Image[] bag, int Ibag)
+	public INVData (/*Image[] bag,*/ int Ibag)
 	{
 		this.Ibag = Ibag;
 
-		for (int i = 0; i < bag.Length; i++) {
+		/*for (int i = 0; i < bag.Length; i++) {
 			this.bag [i] = bag [i];
-		}
+		}*/
 	}
 
 }
