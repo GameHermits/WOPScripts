@@ -71,24 +71,32 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		}
 
 	}
+
+	public void InputChecking ()
+	{
+
+		// these conditions to check the input (1,2,3,4) and change element type
+		if (Input.GetKey (KeyCode.Alpha1) && GameManager.GM.Player.ThunderMagic == true) {
+			currentElement = enum_Elements.Lightning;
+		} else if (Input.GetKey (KeyCode.Alpha2) && GameManager.GM.Player.FireMagic == true) {
+			currentElement = enum_Elements.Fire;
+		} else if (Input.GetKey (KeyCode.Alpha3) && GameManager.GM.Player.IceMagic == true) {
+			currentElement = enum_Elements.Ice;
+		} else if (Input.GetKey (KeyCode.Alpha4) && GameManager.GM.Player.BlackMagic == true) {
+			currentElement = enum_Elements.BlackMagic;
+		} else if (Input.GetKey (KeyCode.Alpha2) && GameManager.GM.Player.FireMagic == false) {
+			lockedStyle = true;
+		} else if (Input.GetKey (KeyCode.Alpha3) && GameManager.GM.Player.IceMagic == false) {
+			lockedStyle = true;
+		} else if (Input.GetKey (KeyCode.Alpha4) && GameManager.GM.Player.BlackMagic == false) {
+			lockedStyle = true;
+		}
+	}
 	// Update is called once per frame
 	void Update ()
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-
-			// these conditions to check the input (1,2,3,4) and change element type
-			if (Input.GetKey (KeyCode.Alpha1) && GameManager.GM.Player.ThunderMagic == true) {
-				currentElement = enum_Elements.Lightning;
-			} else if (Input.GetKey (KeyCode.Alpha2) && GameManager.GM.Player.FireMagic == true) {
-				currentElement = enum_Elements.Fire;
-			} else if (Input.GetKey (KeyCode.Alpha3) && GameManager.GM.Player.IceMagic == true) {
-				currentElement = enum_Elements.Ice;
-			} else if (Input.GetKey (KeyCode.Alpha4) && GameManager.GM.Player.BlackMagic == true) {
-				currentElement = enum_Elements.BlackMagic;
-			} else {
-				lockedStyle = true;
-			}
-
+			InputChecking ();
 			//this condition checks on the element type and fire the right prefab attached.
 			switch (currentElement) {
 			//when the player choose '1' or 'lightning'
@@ -150,19 +158,24 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		lockedStyle = false;
 	}
 
-	void onGUI ()
+	void OnGUI ()
 	{
 		if (GameManager.GM.Player.fl_Fury == 100) {
-			GUI.contentColor = Color.yellow;
+			GUI.contentColor = Color.red;
 			GUI.skin.label.fontSize = 20;
-			GUI.Box (new Rect (1000, 2000, 400, 200), "");
-			GUI.Label (new Rect (1000, 2000, 100, 200), "Press (R) to active ultimate attack");
+			GUI.Label (new Rect (1000, 0, 100, 200), "Press (R) to active ultimate attack");
 
 			if (Input.GetKeyUp (KeyCode.R)) {
 				UltimateAttack ();
 			}
 		}
 
+		if (lockedStyle == true) {
+			GUI.contentColor = Color.yellow;
+			GUI.skin.label.fontSize = 20;
+			GUI.Label (new Rect (500, 0, 500, 200), "This style has not been unlocked yet.");
+			StartCoroutine ("LockedStyletrigger");
+		}
 	}
 
 	void UltimateAttack ()

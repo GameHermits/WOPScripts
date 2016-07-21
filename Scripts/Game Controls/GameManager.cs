@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
 	{ //Saves data to a file
 		BinaryFormatter bF = new BinaryFormatter (); //the formater that will write the data to the file
 		FileStream playerFile = File.Create (Application.persistentDataPath + "/PlayerInfo.dat"); // the file that will contain the data
-		Debug.Log (Application.persistentDataPath);
+
 		DataContainer data = new DataContainer (Player, Clover, Adam, Ethan, Lauren);
 		bF.Serialize (playerFile, data);
 		playerFile.Close ();

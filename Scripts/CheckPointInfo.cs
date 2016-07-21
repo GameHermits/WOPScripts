@@ -36,19 +36,17 @@ public class CheckPointInfo : MonoBehaviour
 
 	IEnumerator Wait ()
 	{
-		yield return new WaitForSeconds (2f);
+		yield return new WaitForSeconds (4f);
 		isSaved = false;
 	}
 
-	[SerializeField]
-	void onGUI ()
+	void OnGUI ()
 	{
 		//display message to player inforimg them that the game is saved.
 		if (isSaved == true) {
 			GUI.contentColor = Color.yellow;
 			GUI.skin.label.fontSize = 20;
-			GUI.Box (new Rect (1000, 2000, 400, 200), "");
-			GUI.Label (new Rect (1000, 2000, 100, 200), "Game Saved");
+			GUI.Label (new Rect (1000, 0, 300, 200), "Game Saved");
 			StartCoroutine ("Wait");
 		}
 
