@@ -77,7 +77,9 @@ public class SceneManager : MonoBehaviour
 
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
-		
+		Time.timeScale = 1;
+		GameManager.GM.DieCanvas.SetActive (false);
+		GameManager.GM.isDead = false;
 		Player.transform.position = CheckPoints [activePoint].gameObject.transform.position; //reset player to the last checkpoint he arrived to.
 		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
 			if (i != activePoint && PassedCPs [i] == 1) {

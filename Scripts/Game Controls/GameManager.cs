@@ -59,10 +59,6 @@ public class GameManager : MonoBehaviour
 		Lauren = new SupportData (1, true, false);
 	}
 
-	void Start ()
-	{//Initilaizations, Note: Start is called only once in the first scene of the game.
-
-	}
 	// Update is called once per frame
 	void Update ()
 	{
@@ -110,14 +106,13 @@ public class GameManager : MonoBehaviour
 			DataContainer data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
 
-			Application.LoadLevel (Player.currentScene);
-			AssignBack (ref data);
+			AssignBack (data);
 			SceneManager.SM.ResetSecneState ();
 
 		}
 	}
 
-	private void AssignBack (ref DataContainer data)
+	private void AssignBack (DataContainer data)
 	{
 		//Assigne values from the object that pulled the data from a file to each spacific object
 

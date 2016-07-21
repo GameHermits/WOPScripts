@@ -27,7 +27,6 @@ public class CheckPointInfo : MonoBehaviour
 			isSaved = true;//Display save message on the screen
 			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;//Store current scene name in playerstate data
 			GameManager.GM.Save ();
-			Debug.Log (GameManager.GM.Player.currentScene);
 
 		} else if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum] == 0) {
 			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed only. not active.

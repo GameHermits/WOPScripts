@@ -71,7 +71,6 @@ public class Sense_Sensor : MonoBehaviour
 					if (Indicator != Spawned.Length) {
 						Indicator++;
 						localIterator++;
-						Debug.Log (Indicator);
 					} 
 				}
 			}
