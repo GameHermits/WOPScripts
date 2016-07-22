@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
 	//Player Object.
 	public PlayerState Player;
+	public GameObject playerGameObject;
 
 	//Canvas Refrences
 	public GameObject PauseCanvas;
@@ -43,12 +44,10 @@ public class GameManager : MonoBehaviour
 	public SupportData Lauren;
 
 	//Private:
-	private bool isLoadedGame = false;
 	private DataContainer data;
 
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
-		Debug.Log (isLoadedGame);
 		if (GM == null) {
 			Debug.Log (Application.persistentDataPath);
 			DontDestroyOnLoad (gameObject);
@@ -56,7 +55,7 @@ public class GameManager : MonoBehaviour
 		} else if (GM != this) {
 			Destroy (gameObject);
 		}
-		//Player Support
+		//Player State and object.
 		Player = new PlayerState ();
 		//Support Initilaization
 		Clover = new SupportData (1, true, true);
@@ -88,6 +87,8 @@ public class GameManager : MonoBehaviour
 		if (isDead == true) {
 			Time.timeScale = 0;
 			DieCanvas.SetActive (true);
+		} else if (isDead == false) {
+			DieCanvas.SetActive (false);
 		}
 
 	}
@@ -111,6 +112,7 @@ public class GameManager : MonoBehaviour
 			data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
 
+			GameManager.GM.isDead = false;
 			Application.LoadLevel (Player.currentScene);
 			Time.timeScale = 0;
 			AssignBack (data);

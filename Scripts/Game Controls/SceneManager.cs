@@ -63,12 +63,10 @@ public class SceneManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		Debug.Log (activePoint);
 		if (SM == null) {
 			SM = this;
 		}
 		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
-		Debug.Log (activePoint);
 		PassedCPs = new int[CheckPoints.Length];
 		objectives = new ObjectiveState[Objectives_Strings.Length];
 		MapObjectivesStrings (Objectives_Strings);
@@ -91,9 +89,6 @@ public class SceneManager : MonoBehaviour
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
 		Time.timeScale = 1;
-		Debug.Log (activePoint);
-		GameManager.GM.DieCanvas.SetActive (false);
-		GameManager.GM.isDead = false;
 		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
 		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
 			if (i != activePoint && PassedCPs [i] == 1) {

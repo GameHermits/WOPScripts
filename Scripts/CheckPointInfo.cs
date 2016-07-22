@@ -23,7 +23,6 @@ public class CheckPointInfo : MonoBehaviour
 	{
 		if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum + 1] == 0) {
 			SceneManager.SM.activePoint = checkPointNum;//Mark this checkpoint as the active one
-			Debug.Log (SceneManager.SM.activePoint);
 			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed
 			isSaved = true;//Display save message on the screen
 			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;//Store current scene name in playerstate data

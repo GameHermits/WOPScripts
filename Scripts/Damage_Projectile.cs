@@ -70,7 +70,7 @@ public class Damage_Projectile : MonoBehaviour
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_dmgAmount);
 
 			//increas the fury ability var each hit
-			GameManager.GM.Player.fl_Fury += (fl_dmgAmount)/10 ;
+			GameManager.GM.Player.fl_Fury += (fl_dmgAmount) * 10 / 100;
 
 			StartCoroutine (Destroy (gameObject));
 		}
@@ -98,7 +98,7 @@ public class Damage_Projectile : MonoBehaviour
 			StartCoroutine ("Wait");
 
 			//increas the fury ability var each hit
-			GameManager.GM.Player.fl_Fury  += (fl_FreezeDmgAmount)/10 ;
+			GameManager.GM.Player.fl_Fury += (fl_FreezeDmgAmount) * 10 / 100;
 		}  
 	}
 
@@ -108,7 +108,7 @@ public class Damage_Projectile : MonoBehaviour
 		col.gameObject.GetComponent<Health_General> ().DamageOverTime (fl_dmgAmount, PoisonTime);
 
 		//increas the fury ability var each hit
-		GameManager.GM.Player.fl_Fury += (fl_dmgAmount)/10 ;
+		GameManager.GM.Player.fl_Fury += (fl_dmgAmount) * 10 / 100;
 	}
 
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage

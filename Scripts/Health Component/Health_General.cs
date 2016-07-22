@@ -32,31 +32,33 @@ public class Health_General : MonoBehaviour
 		if (gameObject.tag == "Player") {
 			fl_health = 0;
 			fl_maxhealth = 0;
+			GameManager.GM.playerGameObject = this.gameObject;
 		}
 	}
 
 	void Update ()
 	{
-		if (gameObject.name == "Player") {
+		if (gameObject.tag == "Player") {
 			if (GameManager.GM.Player.health <= 0) {
 				GameManager.GM.isDead = true;
 			} else if (GameManager.GM.Player.health > GameManager.GM.Player.maxHealth) {
 				GameManager.GM.Player.health = GameManager.GM.Player.maxHealth;
 			}
-		} /*else {
+		} else {
+			
 			if (fl_health <= 0) {
 			
 				GameObject newGO = Instantiate (go_itemHolder, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
 				GameObject.Destroy (gameObject);
 			} else if (fl_health > fl_maxhealth)
 				fl_health = fl_maxhealth;
-		}*/
+		}
 			
 	}
 
 	public void ApplayDamage (float fl_Damage) // Applying damage effect to the gameObject. the fucntion is called by the projectile collided with this gameObject
 	{
-		if (gameObject.name == "Player") {
+		if (gameObject.tag == "Player") {
 			GameManager.GM.Player.health -= (fl_Damage / 2);
 		} else
 			fl_health = fl_health - (fl_Damage / 2);
@@ -64,7 +66,7 @@ public class Health_General : MonoBehaviour
 
 	public void DamageHealthBar (float fl_Damage) // Modifying UI health bar acoording to Damage amount
 	{
-		if (gameObject.name == "Player") {
+		if (gameObject.tag == "Player") {
 			GameManager.GM.Player.healthAmount -= (fl_Damage / (GameManager.GM.Player.maxHealth * 2));
 		} else
 			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar - (fl_Damage / (fl_maxhealth * 2));
@@ -72,7 +74,7 @@ public class Health_General : MonoBehaviour
 
 	public void HealHealthBar (float fl_heal) // Modifying UI health bar according to heal amount
 	{
-		if (gameObject.name == "Player") {
+		if (gameObject.tag == "Player") {
 			GameManager.GM.Player.healthAmount += (fl_heal / (GameManager.GM.Player.maxHealth * 2));
 		} else
 			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (fl_heal / (fl_maxhealth * 2));
@@ -90,7 +92,7 @@ public class Health_General : MonoBehaviour
 
 	public void DamageOverTime (float fl_Damage, float poisonTime) // Apply Posion damage effect to the gameObject. the function is called by the projectile collided with this gameObject
 	{
-		if (gameObject.name == "Player") {
+		if (gameObject.tag == "Player") {
 			GameManager.GM.Player.health -= (fl_Damage);
 		} else
 			fl_health = fl_health - (fl_Damage);
