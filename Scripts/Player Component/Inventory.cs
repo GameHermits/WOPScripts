@@ -26,9 +26,10 @@ public class Inventory : MonoBehaviour
 
 	public static Inventory INV;
 
-	void Start ()
+	void Awake ()
 	{
 		if (INV == null) {
+			DontDestroyOnLoad (gameObject);
 			INV = this;
 		}
 	}

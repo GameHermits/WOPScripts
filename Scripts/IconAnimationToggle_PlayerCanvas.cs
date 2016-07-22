@@ -9,6 +9,10 @@ public class IconAnimationToggle_PlayerCanvas : MonoBehaviour
 	public Image img_Fire;
 	public Image img_Ice;
 	public Image img_BlackMagic;
+	//Bar Images for the player.
+	public Image img_Health;
+	public Image img_Mana;
+	public Image img_Energy;
 
 	void Start ()
 	{

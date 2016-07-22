@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MouseLooker : MonoBehaviour {
+public class MouseLooker : MonoBehaviour
+{
 
 	// Use this for initialization
 	public float XSensitivity = 2f;
@@ -18,7 +19,8 @@ public class MouseLooker : MonoBehaviour {
 	private Transform character;
 	private Transform cameraTransform;
 
-	void Start() {
+	void Start ()
+	{
 		// start the game with the cursor locked
 		LockCursor (true);
 
@@ -32,30 +34,30 @@ public class MouseLooker : MonoBehaviour {
 		m_CharacterTargetRot = character.localRotation;
 		m_CameraTargetRot = cameraTransform.localRotation;
 	}
-	
-	void Update() {
-		if (GameManager.GM.isDead !=true && GameManager.GM.ispaused !=true) {
 
-		// if ESCAPE key is pressed, then unlock the cursor
-		if (Input.GetButtonDown ("Cancel")) {
-			LockCursor (false);
-		}
-		// rotate stuff based on the mouse
-		LookRotation ();
-
-		// if the player fires, then relock the cursor
-		if (Input.GetButtonDown ("Fire1")) {
-			LockCursor (true);
-		}
-	}else {
-			LockCursor (false);
-		}
-}
-	
-	private void LockCursor(bool isLocked)
+	void Update ()
 	{
-		if (isLocked) 
-		{
+		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
+
+			// if ESCAPE key is pressed, then unlock the cursor
+			if (Input.GetButtonDown ("Cancel")) {
+				LockCursor (false);
+			}
+			// rotate stuff based on the mouse
+			LookRotation ();
+
+			// if the player fires, then relock the cursor
+			if (Input.GetButtonDown ("Fire1")) {
+				LockCursor (true);
+			}
+		} else {
+			LockCursor (false);
+		}
+	}
+
+	private void LockCursor (bool isLocked)
+	{
+		if (isLocked) {
 			// make the mouse pointer invisible
 			Cursor.visible = false;
 
@@ -70,37 +72,34 @@ public class MouseLooker : MonoBehaviour {
 		}
 	}
 
-	public void LookRotation()
+	public void LookRotation ()
 	{
 		//get the y and x rotation based on the Input manager
-		float yRot = Input.GetAxis("Mouse X") * XSensitivity;
-		float xRot = Input.GetAxis("Mouse Y") * YSensitivity;
+		float yRot = Input.GetAxis ("Mouse X") * XSensitivity;
+		float xRot = Input.GetAxis ("Mouse Y") * YSensitivity;
 
 		// calculate the rotation
 		m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
 		m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
 
 		// clamp the vertical rotation if specified
-		if(clampVerticalRotation)
+		if (clampVerticalRotation)
 			m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
 
 		// update the character and camera based on calculations
-		if(smooth) // if smooth, then slerp over time
-		{
+		if (smooth) { // if smooth, then slerp over time
 			character.localRotation = Quaternion.Slerp (character.localRotation, m_CharacterTargetRot,
-			                                            smoothTime * Time.deltaTime);
+				smoothTime * Time.deltaTime);
 			cameraTransform.localRotation = Quaternion.Slerp (cameraTransform.localRotation, m_CameraTargetRot,
-			                                         smoothTime * Time.deltaTime);
-		}
-		else // not smooth, so just jump
-		{
+				smoothTime * Time.deltaTime);
+		} else { // not smooth, so just jump
 			character.localRotation = m_CharacterTargetRot;
 			cameraTransform.localRotation = m_CameraTargetRot;
 		}
 	}
 	
 	// Some math ... eeck!
-	Quaternion ClampRotationAroundXAxis(Quaternion q)
+	Quaternion ClampRotationAroundXAxis (Quaternion q)
 	{
 		q.x /= q.w;
 		q.y /= q.w;

@@ -42,9 +42,15 @@ public class GameManager : MonoBehaviour
 	public SupportData Ethan;
 	public SupportData Lauren;
 
+	//Private:
+	private bool isLoadedGame = false;
+	private DataContainer data;
+
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
+		Debug.Log (isLoadedGame);
 		if (GM == null) {
+			Debug.Log (Application.persistentDataPath);
 			DontDestroyOnLoad (gameObject);
 			GM = this;
 		} else if (GM != this) {
@@ -99,16 +105,16 @@ public class GameManager : MonoBehaviour
 	public void Load ()
 	{ //Load data from a file
 		if (File.Exists (Application.persistentDataPath + "/PlayerInfo.dat") == true) {
-
 			BinaryFormatter bf = new BinaryFormatter ();
 			FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open);
 
-			DataContainer data = (DataContainer)bf.Deserialize (playerFile);
+			data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
 
+			Application.LoadLevel (Player.currentScene);
+			Time.timeScale = 0;
 			AssignBack (data);
 			SceneManager.SM.ResetSecneState ();
-
 		}
 	}
 
@@ -124,7 +130,7 @@ public class GameManager : MonoBehaviour
 		Ethan = data.Supports [2];
 		Lauren = data.Supports [3];
 		//Inventory Assignments.
-		Inventory.INV.Ibag = data.Inv.Ibag;
+//		Inventory.INV.Ibag = data.Inv.Ibag;
 		/*for (int i = 0; i < Inventory.INV.bag.Length; i++) {
 			Inventory.INV.bag [i] = data.Inv.bag [i];
 		}*/
@@ -270,6 +276,6 @@ class DataContainer
 		this.Supports [3] = la;
 		this.Sm = new SMData (SceneManager.SM.PassedCPs, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.activePoint
 			, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress);
-		this.Inv = new INVData (/*Inventory.INV.bag,*/ Inventory.INV.Ibag);
+		//this.Inv = new INVData (/*Inventory.INV.bag,*/ Inventory.INV.Ibag);
 	}
 }

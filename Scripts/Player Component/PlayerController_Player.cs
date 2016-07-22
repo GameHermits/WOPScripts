@@ -47,12 +47,9 @@ public class PlayerController_Player : MonoBehaviour
 	//Object to play character sounds.
 	private CharacterSound_General playerSounds;
 	//Audio sources needed for player
-	private AudioSource Sprint;
+	//private AudioSource Sprint;
 
-	void Awake(){
-		
-	}
-	void Start ()
+	void Awake ()
 	{
 		//Get the character controller component to the object
 		cc_PlayerController = gameObject.GetComponent<CharacterController> ();
@@ -64,6 +61,11 @@ public class PlayerController_Player : MonoBehaviour
 		fl_SprintAmount = GameManager.GM.Player.sprintAmout;
 		fl_MaxJump = GameManager.GM.Player.maxJump;
 		fl_MoveSpeed = GameManager.GM.Player.movementSpeed;
+	}
+
+	void Start ()
+	{
+
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
@@ -179,7 +181,8 @@ public class PlayerController_Player : MonoBehaviour
 		}
 	}
 
-	void AddAudioComponent(AudioClip ac, bool loop, bool playOnAwake, float volume){
+	AudioSource AddAudioComponent (AudioClip ac, bool loop, bool playOnAwake, float volume)
+	{
 		AudioSource newSource = new AudioSource ();
 		newSource.clip = ac;
 		newSource.loop = loop;

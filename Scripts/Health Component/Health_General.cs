@@ -43,14 +43,14 @@ public class Health_General : MonoBehaviour
 			} else if (GameManager.GM.Player.health > GameManager.GM.Player.maxHealth) {
 				GameManager.GM.Player.health = GameManager.GM.Player.maxHealth;
 			}
-		} else {
+		} /*else {
 			if (fl_health <= 0) {
 			
 				GameObject newGO = Instantiate (go_itemHolder, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
 				GameObject.Destroy (gameObject);
 			} else if (fl_health > fl_maxhealth)
 				fl_health = fl_maxhealth;
-		}
+		}*/
 			
 	}
 

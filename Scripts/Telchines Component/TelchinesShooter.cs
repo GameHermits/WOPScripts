@@ -47,7 +47,7 @@ public class TelchinesShooter : MonoBehaviour
 		switch (at_attacks) {
 		case enum_Attacks.Firemeteor:
 			GameObject go_newBullet = Instantiate (go_FireMetero, //...
-				                           go_WayHoldertow.transform.position + go_WayHoldertow.transform.forward, go_WayHoldertow.transform.rotation) as GameObject;
+				                          go_WayHoldertow.transform.position + go_WayHoldertow.transform.forward, go_WayHoldertow.transform.rotation) as GameObject;
 				
 			if (!go_newBullet.GetComponent<Rigidbody> ()) {
 				go_newBullet.AddComponent<Rigidbody> ();
@@ -59,11 +59,11 @@ public class TelchinesShooter : MonoBehaviour
 				
 		case enum_Attacks.NatureRaor:
 			GameObject go_newBullet1 = Instantiate (go_NatureRaor, //...
-				                            go_WayHolderOne.transform.position + go_WayHolderOne.transform.forward, go_WayHolderOne.transform.rotation) as GameObject;
+				                           go_WayHolderOne.transform.position + go_WayHolderOne.transform.forward, go_WayHolderOne.transform.rotation) as GameObject;
 			GameObject go_newBullet2 = Instantiate (go_NatureRaor, //...
-				                            go_WayHoldertow.transform.position + go_WayHoldertow.transform.forward, go_WayHoldertow.transform.rotation) as GameObject;				
+				                           go_WayHoldertow.transform.position + go_WayHoldertow.transform.forward, go_WayHoldertow.transform.rotation) as GameObject;				
 			GameObject go_newBullet3 = Instantiate (go_NatureRaor, //...
-				                            go_WayHolderThree.transform.position + go_WayHolderThree.transform.forward, go_WayHolderThree.transform.rotation) as GameObject;
+				                           go_WayHolderThree.transform.position + go_WayHolderThree.transform.forward, go_WayHolderThree.transform.rotation) as GameObject;
 				
 			if (!go_newBullet1.GetComponent<Rigidbody> ()) {
 				go_newBullet1.AddComponent<Rigidbody> ();
@@ -85,9 +85,9 @@ public class TelchinesShooter : MonoBehaviour
 				
 		case enum_Attacks.CallToArms:
 			GameObject go_newEnemy = Instantiate (go_Minion,//... 
-				                          go_Spawner1.transform.position, go_Spawner1.transform.rotation) as GameObject;
+				                         go_Spawner1.transform.position, go_Spawner1.transform.rotation) as GameObject;
 			GameObject go_newEnemy1 = Instantiate (go_Minion,//...
-				                           go_Spawner2.transform.position, go_Spawner2.transform.rotation) as GameObject;
+				                          go_Spawner2.transform.position, go_Spawner2.transform.rotation) as GameObject;
                    
 			at_attacks = enum_Attacks.NatureRaor;
 			break;

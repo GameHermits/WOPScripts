@@ -50,17 +50,30 @@ public class SceneManager : MonoBehaviour
 	//Contain int indecating if checkpoints was passed, where 0 = not passed, and 1 = passed
 	[HideInInspector]
 	public int[] PassedCPs;
+
+	void Awake ()
+	{
+		if (SM == null) {
+			DontDestroyOnLoad (gameObject);
+			SM = this;
+		} else if (SM != this) {
+			Destroy (gameObject);
+		}
+	}
 	// Use this for initialization
 	void Start ()
 	{
+		Debug.Log (activePoint);
 		if (SM == null) {
 			SM = this;
 		}
+		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
+		Debug.Log (activePoint);
 		PassedCPs = new int[CheckPoints.Length];
 		objectives = new ObjectiveState[Objectives_Strings.Length];
 		MapObjectivesStrings (Objectives_Strings);
 		for (int i = 0; i < PassedCPs.Length; i++) {
-			if (PassedCPs [i] == null) {
+			if (PassedCPs [i] != 0 || PassedCPs [i] != 1) {
 				PassedCPs [i] = 0;
 			}
 		}
@@ -78,9 +91,10 @@ public class SceneManager : MonoBehaviour
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
 		Time.timeScale = 1;
+		Debug.Log (activePoint);
 		GameManager.GM.DieCanvas.SetActive (false);
 		GameManager.GM.isDead = false;
-		Player.transform.position = CheckPoints [activePoint].gameObject.transform.position; //reset player to the last checkpoint he arrived to.
+		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
 		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
 			if (i != activePoint && PassedCPs [i] == 1) {
 				for (int j = 0; j < CheckPoints [i].EmenyAroundCP.Length; j++) {

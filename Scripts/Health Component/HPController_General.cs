@@ -21,6 +21,15 @@ public class HPController_General : MonoBehaviour
 
 	public float fl_tmpHealthbar = 1f;
 	// Update is called once per frame
+	void Start ()
+	{
+		if (gameObject.tag == "Player") {
+			im_Healthbar = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ().img_Health;
+			im_Manabar = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ().img_Mana;
+			im_Energybar = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ().img_Energy;
+		}
+	}
+
 	void Update ()
 	{
 		if (gameObject.tag == "Player") {
