@@ -25,6 +25,8 @@ public class PlayerController_Player : MonoBehaviour
 	public float fl_MaxJump = 10.0f;
 	// Refrecne for the animator component in the hands.
 	public Animator handAnimator;
+	//Audio clips needed for player movements
+	public AudioClip sprint;
 
 	//Private
 	//flag for ability to sprint or not
@@ -44,7 +46,12 @@ public class PlayerController_Player : MonoBehaviour
 	private HPController_General hpc_GameObjectRef;
 	//Object to play character sounds.
 	private CharacterSound_General playerSounds;
+	//Audio sources needed for player
+	private AudioSource Sprint;
 
+	void Awake(){
+		
+	}
 	void Start ()
 	{
 		//Get the character controller component to the object
@@ -172,4 +179,12 @@ public class PlayerController_Player : MonoBehaviour
 		}
 	}
 
+	void AddAudioComponent(AudioClip ac, bool loop, bool playOnAwake, float volume){
+		AudioSource newSource = new AudioSource ();
+		newSource.clip = ac;
+		newSource.loop = loop;
+		newSource.playOnAwake = playOnAwake;
+		newSource.volume = volume;
+		return newSource;
+	}
 }
