@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
 	public SupportData Ethan;
 	public SupportData Lauren;
 
+	//Private:
+	private bool canLoad;
+
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
 		if (GM == null) {
@@ -55,6 +58,8 @@ public class GameManager : MonoBehaviour
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
+		//canLoad for the first time.
+		canLoad = true;
 	}
 
 	void Start ()
@@ -84,6 +89,10 @@ public class GameManager : MonoBehaviour
 		if (isDead == true) {
 			Time.timeScale = 0;
 			DieCanvas.SetActive (true);
+			Player.lives--;
+			if (Player.lives == 0) {
+				canLoad = false;
+			}
 		}
 
 	}
@@ -100,7 +109,7 @@ public class GameManager : MonoBehaviour
 
 	public void Load ()
 	{ //Load data from a file
-		if (File.Exists (Application.persistentDataPath + "/PlayerInfo.dat") == true) {
+		if (File.Exists (Application.persistentDataPath + "/PlayerInfo.dat") == true && canLoad == true) {
 
 			BinaryFormatter bf = new BinaryFormatter ();
 			FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open);
@@ -123,8 +132,8 @@ public class GameManager : MonoBehaviour
 		Ethan = data.Supports [2];
 		Lauren = data.Supports [3];
 		//Inventory Assignments.
-		Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
-		Inventory.INV.Ibag = data.Inv.Ibag;
+		/*Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
+		Inventory.INV.Ibag = data.Inv.Ibag;*/
 		for (int i = 0; i < Inventory.INV.bag.Length; i++) {
 			Inventory.INV.bag [i] = data.Inv.bag [i];
 		}
