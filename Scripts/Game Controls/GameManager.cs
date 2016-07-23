@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
 	//Private:
 	private DataContainer data;
+	private bool canLoad;
 
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
@@ -62,6 +63,8 @@ public class GameManager : MonoBehaviour
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
+		//canLoad for the first time.
+		canLoad = true;
 	}
 
 	// Update is called once per frame
@@ -134,8 +137,9 @@ public class GameManager : MonoBehaviour
 		//Inventory Assignments.
 //		Inventory.INV.Ibag = data.Inv.Ibag;
 		/*for (int i = 0; i < Inventory.INV.bag.Length; i++) {
-			Inventory.INV.bag [i] = data.Inv.bag [i];
-		}*/
+=======
+		/*Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
+		Inventory.INV.Ibag = data.Inv.Ibag;*/
 		//SceneManager Assignment.
 		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
 			SceneManager.SM.PassedCPs [i] = data.Sm.PassedCPs [i];
