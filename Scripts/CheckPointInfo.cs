@@ -46,7 +46,7 @@ public class CheckPointInfo : MonoBehaviour
 		if (isSaved == true) {
 			GUI.contentColor = Color.yellow;
 			GUI.skin.label.fontSize = 20;
-			GUI.Label (new Rect (1000, 0, 300, 200), "Game Saved");
+			GUI.Label (new Rect (600, 0, 300, 200), "Game Saved");
 			StartCoroutine ("Wait");
 		}
 

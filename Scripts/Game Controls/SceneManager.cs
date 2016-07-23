@@ -66,6 +66,7 @@ public class SceneManager : MonoBehaviour
 		if (SM == null) {
 			SM = this;
 		}
+		Debug.Log ("here");
 		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
 		PassedCPs = new int[CheckPoints.Length];
 		objectives = new ObjectiveState[Objectives_Strings.Length];
@@ -90,13 +91,13 @@ public class SceneManager : MonoBehaviour
 	{ //Reset Scene state according to checkpoints Defeintion.
 		Time.timeScale = 1;
 		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
-		/*for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
+		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
 			if (i != activePoint && PassedCPs [i] == 1) {
 				for (int j = 0; j < CheckPoints [i].EmenyAroundCP.Length; j++) {
 					GameObject.Destroy (CheckPoints [i].EmenyAroundCP [j]);
 				}
 			}
-		}*/
+		}
 	}
 
 	public int TotalProgress ()

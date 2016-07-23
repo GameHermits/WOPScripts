@@ -38,19 +38,21 @@ public class GameManager : MonoBehaviour
 	public GameObject DieCanvas;
 
 	//Support Characters
+	[HideInInspector]
 	public SupportData Clover;
+	[HideInInspector]
 	public SupportData Adam;
+	[HideInInspector]
 	public SupportData Ethan;
+	[HideInInspector]
 	public SupportData Lauren;
 
 	//Private:
 	private DataContainer data;
-	private bool canLoad;
 
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
 		if (GM == null) {
-			Debug.Log (Application.persistentDataPath);
 			DontDestroyOnLoad (gameObject);
 			GM = this;
 		} else if (GM != this) {
@@ -63,8 +65,6 @@ public class GameManager : MonoBehaviour
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
-		//canLoad for the first time.
-		canLoad = true;
 	}
 
 	// Update is called once per frame
@@ -270,7 +270,7 @@ class DataContainer
 	//public SceneManager
 	public SMData Sm;
 	//Current Inventory
-	public INVData Inv;
+	//public INVData Inv;
 
 	public DataContainer (PlayerState pl, SupportData cl, SupportData ad, SupportData et, SupportData la)
 	{
