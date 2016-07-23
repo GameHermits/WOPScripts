@@ -200,8 +200,7 @@ public class PlayerState //Data Container for Player state.
 	//Health data. Initially 2000.
 	public float health = 2000f;
 	public float maxHealth = 2000f;
-	//number of lives that player has. Initially 3
-	public int lives = 3;
+
 	//Mana data. Initially 1000.
 	public float mana = 1000f;
 	public float maxMana = 1000f;
