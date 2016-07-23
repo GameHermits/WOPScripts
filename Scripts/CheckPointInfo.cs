@@ -1,52 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CheckPointInfo : MonoBehaviour {
-
+public class CheckPointInfo : MonoBehaviour
+{
+	/*
 	//when player pass on this checkpoint any time it sets isPassed to true always
-	public bool isPassed;
+	[HideInInspector]
+	public bool isPassed = false;
 	//if this checkpoint is the last checkpoit that the player passed by ,marke it as the save point
-	public bool isActive;
+	[HideInInspector]
+	public bool isActive = false;
+	*/
+	//To have the checkpoint order in the array.
+	public int checkPointNum;
 	//An array for all the enemys in the space of this checkpoint.
 	public GameObject[] EmenyAroundCP;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	//Private:
+	private bool isSaved = false;
 
-	void OnTriggerExit (Collider enterd)
+	void OnTriggerEnter (Collider enterd)
 	{
-		CheckPlace ();
-		if (enterd.gameObject.tag == "Player" && SceneManager.SM.CheckPoints [SceneManager.SM.VIndexer + 1].isPassed == false) {
-			this.isPassed = true; //this make this checkpoit marked as passed by
-			SceneManager.SM.SetActivePoints (); //this method diactive all the checkpoints from being the last one
-			this.isActive = true; //this mark this checkpoint as the last checkpoint and that act as save poit.
-			SceneManager.SM.checkpointIndex = SceneManager.SM.VIndexer;//this save it's place in the array as the last checkpoint
-		} else if (enterd.gameObject.tag == "Player" && this.isPassed == false) {
-			this.isPassed = true; //this make this checkpoit marked as passed by
-		}
-		else 
-		{
-			
-		}
+		if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum + 1] == 0) {
+			SceneManager.SM.activePoint = checkPointNum;//Mark this checkpoint as the active one
+			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed
+			isSaved = true;//Display save message on the screen
+			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;//Store current scene name in playerstate data
+			GameManager.GM.Save ();
+
+		} else if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum] == 0) {
+			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed only. not active.
+		} 
 
 	}
 
-	void CheckPlace ()
+	IEnumerator Wait ()
 	{
-		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++)
-		{
-			if (SceneManager.SM.CheckPoints[i] == this)
-			{
-				SceneManager.SM.VIndexer = i;
-			}
-		}
+		yield return new WaitForSeconds (4f);
+		isSaved = false;
 	}
 
+	void OnGUI ()
+	{
+		//display message to player inforimg them that the game is saved.
+		if (isSaved == true) {
+			GUI.contentColor = Color.yellow;
+			GUI.skin.label.fontSize = 20;
+			GUI.Label (new Rect (1000, 0, 300, 200), "Game Saved");
+			StartCoroutine ("Wait");
+		}
+
+	}
 }

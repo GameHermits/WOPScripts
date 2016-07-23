@@ -14,13 +14,15 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-	//Private:
+	//Public:
 
-	//Public
-	public static List<GameObject> li_Enemys = new List<GameObject> ();
-
+	//Keep track of player current scene.
+	[HideInInspector]
+	public int ScenesIndexer = 0;
 	//Pause assets
+	[HideInInspector]
 	public bool ispaused = false;
+	[HideInInspector]
 	public  bool isDead = false;
 
 	//Game Manager static object
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour
 
 	//Player Object.
 	public PlayerState Player;
+	public GameObject playerGameObject;
 
 	//Canvas Refrences
 	public GameObject PauseCanvas;
@@ -40,27 +43,30 @@ public class GameManager : MonoBehaviour
 	public SupportData Ethan;
 	public SupportData Lauren;
 
+	//Private:
+	private DataContainer data;
+	private bool canLoad;
+
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
 		if (GM == null) {
+			Debug.Log (Application.persistentDataPath);
 			DontDestroyOnLoad (gameObject);
 			GM = this;
 		} else if (GM != this) {
 			Destroy (gameObject);
 		}
-		//Player Support
+		//Player State and object.
 		Player = new PlayerState ();
 		//Support Initilaization
 		Clover = new SupportData (1, true, true);
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
+		//canLoad for the first time.
+		canLoad = true;
 	}
 
-	void Start ()
-	{//Initilaizations, Note: Start is called only once in the first scene of the game.
-
-	}
 	// Update is called once per frame
 	void Update ()
 	{
@@ -84,6 +90,8 @@ public class GameManager : MonoBehaviour
 		if (isDead == true) {
 			Time.timeScale = 0;
 			DieCanvas.SetActive (true);
+		} else if (isDead == false) {
+			DieCanvas.SetActive (false);
 		}
 
 	}
@@ -101,17 +109,21 @@ public class GameManager : MonoBehaviour
 	public void Load ()
 	{ //Load data from a file
 		if (File.Exists (Application.persistentDataPath + "/PlayerInfo.dat") == true) {
-
 			BinaryFormatter bf = new BinaryFormatter ();
 			FileStream playerFile = File.Open (Application.persistentDataPath + "/PlayerInfo.dat", FileMode.Open);
 
-			DataContainer data = (DataContainer)bf.Deserialize (playerFile);
+			data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
-			AssignBack (ref data);
+
+			GameManager.GM.isDead = false;
+			Application.LoadLevel (Player.currentScene);
+			Time.timeScale = 0;
+			AssignBack (data);
+			SceneManager.SM.ResetSecneState ();
 		}
 	}
 
-	private void AssignBack (ref DataContainer data)
+	private void AssignBack (DataContainer data)
 	{
 		//Assigne values from the object that pulled the data from a file to each spacific object
 
@@ -123,15 +135,16 @@ public class GameManager : MonoBehaviour
 		Ethan = data.Supports [2];
 		Lauren = data.Supports [3];
 		//Inventory Assignments.
-		Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
-		Inventory.INV.Ibag = data.Inv.Ibag;
-		for (int i = 0; i < Inventory.INV.bag.Length; i++) {
-			Inventory.INV.bag [i] = data.Inv.bag [i];
-		}
+//		Inventory.INV.Ibag = data.Inv.Ibag;
+		/*for (int i = 0; i < Inventory.INV.bag.Length; i++) {
+=======
+		/*Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
+		Inventory.INV.Ibag = data.Inv.Ibag;*/
 		//SceneManager Assignment.
 		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
-			SceneManager.SM.CheckPoints [i] = data.Sm.CheckPoints [i];
+			SceneManager.SM.PassedCPs [i] = data.Sm.PassedCPs [i];
 		}
+
 		for (int i = 0; i < SceneManager.SM.Objectives_Strings.Length; i++) {
 			SceneManager.SM.Objectives_Strings [i] = data.Sm.Objectives_Strings [i];
 		}
@@ -140,13 +153,13 @@ public class GameManager : MonoBehaviour
 		}
 		SceneManager.SM.enemiesLevel = data.Sm.enemiesLevel;
 		SceneManager.SM.treasureNumber = data.Sm.treasureNumber;
-		SceneManager.SM.TotalEnemys = data.Sm.TotalEnemys;
+		SceneManager.SM.TotalEnemies = data.Sm.TotalEnemies;
 		SceneManager.SM.totalProgress = data.Sm.totalProgress;
-		SceneManager.SM.VIndexer = data.Sm.VIndexer;
-		SceneManager.SM.checkpointIndex = data.Sm.checkpointIndex;
+		SceneManager.SM.activePoint = data.Sm.checkpointIndex;
 	}
 }
 
+[Serializable]
 public class SupportData //Data container for support characters.
 {
 	// support level, can be adjust in training place
@@ -183,6 +196,7 @@ public class SupportData //Data container for support characters.
 }
 //ADD INVINTORY OBJECT REFERENCE TO SCENE MANAGER
 
+[Serializable]
 public class PlayerState //Data Container for Player state.
 {
 	//Player Skills state:- (All skills scale upon leveling up)
@@ -190,8 +204,7 @@ public class PlayerState //Data Container for Player state.
 	//Health data. Initially 2000.
 	public float health = 2000f;
 	public float maxHealth = 2000f;
-	//number of lives that player has. Initially 3
-	public int lives = 3;
+
 	//Mana data. Initially 1000.
 	public float mana = 1000f;
 	public float maxMana = 1000f;
@@ -202,7 +215,7 @@ public class PlayerState //Data Container for Player state.
 	//Movement speed data. Initially 10.
 	public float movementSpeed = 10f;
 	//Fury Ability variables
-	public float fl_Fury;
+	public float fl_Fury = 0;
 
 	//Magic styles EXP:-(leveling up as 200,400,800,1600,3200... Max level is 30)
 
@@ -238,6 +251,13 @@ public class PlayerState //Data Container for Player state.
 	public bool IceMagic = false;
 	public bool BlackMagic = false;
 
+	//Latest scene player arrived to.
+	public string currentScene;
+
+	//Player UI state
+	public float healthAmount = 1;
+	public float energyAmount = 1;
+	public float manaAmount = 1;
 }
 
 [Serializable]
@@ -259,8 +279,8 @@ class DataContainer
 		this.Supports [1] = ad;
 		this.Supports [2] = et;
 		this.Supports [3] = la;
-		this.Sm = new SMData (SceneManager.SM.CheckPoints, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.checkpointIndex
-			, SceneManager.SM.VIndexer, SceneManager.SM.TotalEnemys, SceneManager.SM.totalProgress);
-		this.Inv = new INVData (Inventory.INV.empty_Sprite, Inventory.INV.bag, Inventory.INV.Ibag);
+		this.Sm = new SMData (SceneManager.SM.PassedCPs, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.activePoint
+			, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress);
+		//this.Inv = new INVData (/*Inventory.INV.bag,*/ Inventory.INV.Ibag);
 	}
 }

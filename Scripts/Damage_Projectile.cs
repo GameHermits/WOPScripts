@@ -83,7 +83,7 @@ public class Damage_Projectile : MonoBehaviour
 			col.gameObject.GetComponent<Health_General> ().DamageHealthBar (fl_dmgAmount);
 
 			//increas the fury ability var each hit
-			GameManager.GM.Player.fl_Fury += (fl_dmgAmount)/10 ;
+			GameManager.GM.Player.fl_Fury += (fl_dmgAmount) * 10 / 100;
 
 			StartCoroutine (Destroy (gameObject));
 		}
@@ -111,7 +111,7 @@ public class Damage_Projectile : MonoBehaviour
 			StartCoroutine ("Wait");
 
 			//increas the fury ability var each hit
-			GameManager.GM.Player.fl_Fury  += (fl_FreezeDmgAmount)/10 ;
+			GameManager.GM.Player.fl_Fury += (fl_FreezeDmgAmount) * 10 / 100;
 		}  
 	}
 
@@ -121,7 +121,7 @@ public class Damage_Projectile : MonoBehaviour
 		col.gameObject.GetComponent<Health_General> ().DamageOverTime (fl_dmgAmount, PoisonTime);
 
 		//increas the fury ability var each hit
-		GameManager.GM.Player.fl_Fury += (fl_dmgAmount)/10 ;
+		GameManager.GM.Player.fl_Fury += (fl_dmgAmount) * 10 / 100;
 	}
 
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
@@ -129,20 +129,12 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		bool ally = (Aliaies.IsDefined (typeof(Aliaies), summoner.tag) ? true : false);
 		var objectsInRange = Physics.OverlapSphere (position, radius);
-<<<<<<< HEAD
-		Debug.Log (objectsInRange.Length);
-		foreach (Collider item in objectsInRange) {
-			Debug.Log (item.gameObject.tag + "  ");
-		}
-=======
->>>>>>> master
+
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
 				if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && ally == true) {//if summoner's tag is what we have do nothing as from logic ther will be no species will hit its species
-					Debug.Log ("This is" + col.gameObject.tag + " Friend dont hit him as I'm " + summoner.tag);
 					continue;
 				} else if (Enemies.IsDefined (typeof(Enemies), col.gameObject.tag) && ally == false) {
-					Debug.Log ("This is" + col.gameObject.tag + " enemy but freind to summoner dont hit as I'm " + summoner.tag);
 					continue;
 				} else if (projectile == ProjectileType.AoeInstantDmg) {
 					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
