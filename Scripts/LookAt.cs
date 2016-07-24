@@ -4,7 +4,7 @@ using System.Collections;
 public class LookAt : MonoBehaviour
 {
 
-	public Transform target;
+	/*public Transform target;
 
 	// Update is called once per frame
 	void Update ()
@@ -13,5 +13,5 @@ public class LookAt : MonoBehaviour
 			transform.LookAt (GameObject.FindWithTag ("Player").transform);
 		} else
 			transform.LookAt (target);
-	}
+	}*/
 }

@@ -13,6 +13,7 @@ public class UIFunctions : MonoBehaviour
 	public void LoadspecificScene ()
 	{
 		//Load a specific scene inputed manually in the inspector 
+		GameObject.Destroy (SceneManager.SM.gameObject);
 		Application.LoadLevel (ScenetoLoad);
 	}
 
@@ -26,7 +27,9 @@ public class UIFunctions : MonoBehaviour
 	{
 		//Load scene from a file.
 		GameManager.GM.Load ();
-		GameManager.GM.isDead = false;
+		//Application.LoadLevel (GameManager.GM.Player.currentScene);
+		//SceneManager.SM.InstantiatePlayer ();
+		//SceneManager.SM.ResetSecneState ();
 	}
 
 	public void ExitGame ()

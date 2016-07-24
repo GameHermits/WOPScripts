@@ -16,8 +16,7 @@ public class SceneManager : MonoBehaviour
 	
 	//if Unity couldn't find the Player GameObject with it's tag
 	//put it manually by attaching it to this variable
-	public GameObject Player;
-
+	public GameObject PlayerPreFab;
 	//The one and only copy of the SceneManager located in the current Scene. all access to SceneManager class should be through this object only.
 	public static SceneManager SM;
 
@@ -51,6 +50,9 @@ public class SceneManager : MonoBehaviour
 	[HideInInspector]
 	public int[] PassedCPs;
 
+	//Private:
+	private GameObject Playerclone;
+
 	void Awake ()
 	{
 		if (SM == null) {
@@ -66,8 +68,6 @@ public class SceneManager : MonoBehaviour
 		if (SM == null) {
 			SM = this;
 		}
-		Debug.Log ("here");
-		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
 		PassedCPs = new int[CheckPoints.Length];
 		objectives = new ObjectiveState[Objectives_Strings.Length];
 		MapObjectivesStrings (Objectives_Strings);
@@ -87,10 +87,16 @@ public class SceneManager : MonoBehaviour
 		}
 	}
 
+	public void InstantiatePlayer ()
+	{
+		Playerclone = Instantiate (PlayerPreFab, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
+	}
+
 	public void ResetSecneState ()
 	{ //Reset Scene state according to checkpoints Defeintion.
 		Time.timeScale = 1;
-		GameObject newPlayer = Instantiate (Player, CheckPoints [activePoint].gameObject.transform.position, CheckPoints [activePoint].gameObject.transform.rotation) as GameObject;
+		GameManager.GM.DieCanvas.SetActive (false);
+		Playerclone.transform.position = CheckPoints [activePoint].transform.position;
 		for (int i = 0; i < CheckPoints.Length; i++) { //destroying all gameobjects in all passed checkpoints but the active one.
 			if (i != activePoint && PassedCPs [i] == 1) {
 				for (int j = 0; j < CheckPoints [i].EmenyAroundCP.Length; j++) {

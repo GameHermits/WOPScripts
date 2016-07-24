@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
+
 	}
 
 	// Update is called once per frame
@@ -90,8 +91,6 @@ public class GameManager : MonoBehaviour
 		if (isDead == true) {
 			Time.timeScale = 0;
 			DieCanvas.SetActive (true);
-		} else if (isDead == false) {
-			DieCanvas.SetActive (false);
 		}
 
 	}
@@ -116,10 +115,8 @@ public class GameManager : MonoBehaviour
 			playerFile.Close ();
 
 			GameManager.GM.isDead = false;
-			Application.LoadLevel (Player.currentScene);
-			Time.timeScale = 0;
 			AssignBack (data);
-			SceneManager.SM.ResetSecneState ();
+			Debug.Log (SceneManager.SM.activePoint);
 		}
 	}
 
