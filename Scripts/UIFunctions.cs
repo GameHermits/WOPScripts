@@ -13,27 +13,30 @@ public class UIFunctions : MonoBehaviour
 	public void LoadspecificScene ()
 	{
 		//Load a specific scene inputed manually in the inspector 
-		GameObject.Destroy (SceneManager.SM.gameObject);
 		Application.LoadLevel (ScenetoLoad);
-	}
-
-
-	public void LoadingBarCanvas ()
-	{// when click play btn
-		go_CanvasHolder.SetActive (true);//show the canvas with the splash screen image
 	}
 
 	public void LoadScene ()
 	{
 		//Load scene from a file.
 		GameManager.GM.Load ();
-		//Application.LoadLevel (GameManager.GM.Player.currentScene);
-		//SceneManager.SM.InstantiatePlayer ();
-		//SceneManager.SM.ResetSecneState ();
 	}
 
 	public void ExitGame ()
 	{
 		Application.Quit ();
+	}
+
+	public void NewGame ()
+	{
+		//starts a new game
+		GameObject.Destroy (SceneManager.SM.gameObject);
+		Application.LoadLevel ("The Fortress Of The Dark Lands (Before)");
+	}
+
+	public void NextScene ()
+	{
+		GameObject.Destroy (SceneManager.SM.gameObject);
+		Application.LoadLevel (GameManager.GM.Player.currentSceneIndex + 1);
 	}
 }

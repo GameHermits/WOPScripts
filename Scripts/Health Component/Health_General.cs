@@ -32,7 +32,6 @@ public class Health_General : MonoBehaviour
 		if (gameObject.tag == "Player") {
 			fl_health = 0;
 			fl_maxhealth = 0;
-			GameManager.GM.playerGameObject = this.gameObject;
 		}
 	}
 
@@ -40,7 +39,11 @@ public class Health_General : MonoBehaviour
 	{
 		if (gameObject.tag == "Player") {
 			if (GameManager.GM.Player.health <= 0) {
-				GameManager.GM.isDead = true;
+				if (GameManager.GM.Player.Revivetimes > 0) {
+					GameManager.GM.Revive ();	
+				} else if (GameManager.GM.Player.Revivetimes <= 0) {
+					GameManager.GM.Dead ();
+				}
 			} else if (GameManager.GM.Player.health > GameManager.GM.Player.maxHealth) {
 				GameManager.GM.Player.health = GameManager.GM.Player.maxHealth;
 			}

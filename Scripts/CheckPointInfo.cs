@@ -12,24 +12,27 @@ public class CheckPointInfo : MonoBehaviour
 	public bool isActive = false;
 	*/
 	//To have the checkpoint order in the array.
-	public int checkPointNum;
 	//An array for all the enemys in the space of this checkpoint.
-	public GameObject[] EmenyAroundCP;
+	public GameObject[] EnemyAroundCP;
 
 	//Private:
 	private bool isSaved = false;
 
 	void OnTriggerEnter (Collider enterd)
 	{
-		if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum + 1] == 0) {
-			SceneManager.SM.activePoint = checkPointNum;//Mark this checkpoint as the active one
-			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed
+		if (enterd.gameObject.tag == "Player") {
 			isSaved = true;//Display save message on the screen
-			GameManager.GM.Player.currentScene = SceneManager.SM.sceneName;//Store current scene name in playerstate data
+			//Setting this checkpoint as the active one
+			SceneManager.SM.activeXPosition = transform.position.x;
+			SceneManager.SM.activeYPosition = transform.position.y;
+			SceneManager.SM.activeZPosition = transform.position.z;
+			GameManager.GM.Player.currentSceneIndex = SceneManager.SM.sceneIndex;//Store current scene name in playerstate data
 			GameManager.GM.Save ();
-
-		} else if (enterd.gameObject.tag == "Player" && SceneManager.SM.PassedCPs [checkPointNum] == 0) {
-			SceneManager.SM.PassedCPs [checkPointNum] = 1;//Mark this checkpoint as passed only. not active.
+			for (int i = 0; i < EnemyAroundCP.Length; i++) {
+				if (EnemyAroundCP [i] != null) {
+					GameObject.Destroy (EnemyAroundCP [i]);
+				}
+			}
 		} 
 
 	}
@@ -38,6 +41,7 @@ public class CheckPointInfo : MonoBehaviour
 	{
 		yield return new WaitForSeconds (4f);
 		isSaved = false;
+		GameObject.Destroy (gameObject);
 	}
 
 	void OnGUI ()
