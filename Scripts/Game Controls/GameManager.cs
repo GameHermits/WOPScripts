@@ -258,7 +258,11 @@ public class PlayerState //Data Container for Player state.
 	//Player Gold
 	public int gold = 0;
 	//Player Backbag that contain treasures, spell books, and any other item drop that can be used outside the level. Initially 20 free slots.
-	public GameObject[] Backbag = new GameObject[20];
+	//public GameObject[] Backbag = new GameObject[20];
+	//Player Iventory of items that can be used within the level
+	public string[] Inventory = new string[6];
+	//Inventory Index
+	public int InvIndex = 0;
 	//Player avilable magic styles. Initially only Thunder magic is true.
 	public bool ThunderMagic = true;
 	public bool FireMagic = false;
