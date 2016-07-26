@@ -92,12 +92,14 @@ public class GameManager : MonoBehaviour
 
 	public void Dead ()
 	{
+		// called when player loses all revive times and has to restart the level.
 		Time.timeScale = 0;
 		DieCanvas.SetActive (true);
 	}
 
 	public void Revive ()
 	{
+		//called when player is revived.
 		Time.timeScale = 0;
 		ReviveCanvas.SetActive (true);
 	}
@@ -157,6 +159,7 @@ public class GameManager : MonoBehaviour
 		SceneManager.SM.activeXPosition = data.Sm.x;
 		SceneManager.SM.activeYPosition = data.Sm.y;
 		SceneManager.SM.activeZPosition = data.Sm.z;
+		SceneManager.SM.sceneIndex = data.Sm.sceneIndex;
 	}
 
 	void OnGUI ()
@@ -291,7 +294,7 @@ class DataContainer
 		this.Supports [2] = et;
 		this.Supports [3] = la;
 		this.Sm = new SMData (SceneManager.SM.activeXPosition, SceneManager.SM.activeYPosition, SceneManager.SM.activeZPosition, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber,
-			SceneManager.SM.enemiesLevel, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress);
+			SceneManager.SM.enemiesLevel, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress, SceneManager.SM.sceneIndex);
 		//this.Inv = new INVData (/*Inventory.INV.bag,*/ Inventory.INV.Ibag);
 	}
 }

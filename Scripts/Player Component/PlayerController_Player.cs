@@ -52,6 +52,7 @@ public class PlayerController_Player : MonoBehaviour
 	void Start ()
 	{
 		//Get the character controller component to the object
+		gameObject.transform.position = new Vector3 (SceneManager.SM.activeXPosition, SceneManager.SM.activeYPosition, SceneManager.SM.activeZPosition);
 		cc_PlayerController = gameObject.GetComponent<CharacterController> ();
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();

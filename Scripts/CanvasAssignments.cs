@@ -11,10 +11,13 @@ public class CanvasAssignments : MonoBehaviour
 			GameManager.GM.PlayerCanvas = gameObject;
 		} else if (gameObject.name == "DieCanvas") {
 			GameManager.GM.DieCanvas = gameObject;
+			gameObject.SetActive (false);
 		} else if (gameObject.name == "PauseCanvas") {
 			GameManager.GM.PauseCanvas = gameObject;
+			gameObject.SetActive (false);
 		} else if (gameObject.name == "ReviveCanvas") {
 			GameManager.GM.ReviveCanvas = gameObject;
+			gameObject.SetActive (false);
 		}
 	}
 }

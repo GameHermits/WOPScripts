@@ -43,10 +43,13 @@ public class SceneManager : MonoBehaviour
 	//index the active vector3 place of checkpoint
 	[HideInInspector]
 	public float activeXPosition;
+	[HideInInspector]
 	public float activeYPosition;
+	[HideInInspector]
 	public float activeZPosition;
+
 	//Private:
-	private GameObject Playerclone;
+	private GameObject Player;
 
 	void Awake ()
 	{
@@ -57,25 +60,19 @@ public class SceneManager : MonoBehaviour
 			Destroy (gameObject);
 		}
 
-		objectives = new ObjectiveState[Objectives_Strings.Length];
-		MapObjectivesStrings (Objectives_Strings);
-		activeXPosition = -364.1f;
-		activeYPosition = 286.24f;
-		activeZPosition = 293.1f;
+		//objectives = new ObjectiveState[Objectives_Strings.Length];
+		//MapObjectivesStrings (Objectives_Strings);
+		activeXPosition = -330.8f;
+		activeYPosition = 282.2f;
+		activeZPosition = 291.9f;
 	}
 	// Update is called once per frame
 	void Update ()
 	{	
-		if (isComplete == true) {
-			Inventory.INV.RemoveAllItem ();
-			//GameManager.GM.ResetPlayerHP
-			//show Victory canvas
-		}
 	}
 
 	public void InstantiatePlayer ()
 	{
-		Playerclone = Instantiate (PlayerPreFab, new Vector3 (activeXPosition, activeYPosition, activeZPosition), new Quaternion (0, 0, 0, 0)) as GameObject;
 	}
 
 	public void Revive ()
@@ -159,7 +156,9 @@ public class SMData
 	public float y;
 	public float z;
 
-	public SMData (float x, float y, float z, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int TotalEnemies, int totalProgress)
+	public int sceneIndex;
+
+	public SMData (float x, float y, float z, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int TotalEnemies, int totalProgress, int sceneIndex)
 	{
 		for (int i = 0; i < ObjSt.Length; i++) {
 			this.Objectives_Strings [i] = ObjSt [i];
@@ -176,5 +175,6 @@ public class SMData
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.sceneIndex = sceneIndex;
 	}
 }
