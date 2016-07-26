@@ -7,6 +7,13 @@ public class UIFunctions : MonoBehaviour
 	//public:
 	// null by default
 	public string ScenetoLoad = null;
+	//private:
+	private AudioSource clicksound;
+
+	void Awake ()
+	{
+		clicksound = gameObject.GetComponent <AudioSource> ();
+	}
 
 	public void LoadspecificScene ()
 	{
@@ -17,6 +24,7 @@ public class UIFunctions : MonoBehaviour
 	public void LoadScene ()
 	{
 		//Load scene from a file.
+
 		GameManager.GM.Load ();
 	}
 
@@ -29,9 +37,9 @@ public class UIFunctions : MonoBehaviour
 	public void NewGame ()
 	{
 		//starts a new game
+		PlaySound ();
 		GameObject.Destroy (SceneManager.SM.gameObject);
 		Application.LoadLevel ("The Fortress Of The Dark Lands (Before)");
-		SceneManager.SM.InstantiatePlayer ();
 	}
 
 	public void NextScene ()
@@ -55,12 +63,8 @@ public class UIFunctions : MonoBehaviour
 		SceneManager.SM.Revive ();
 	}
 
-	void OnCollisionEnter (Collision col)
+	private void PlaySound ()
 	{
-		Debug.Log ("here");
-		if (col.gameObject.tag == "Player") {
-			Debug.Log ("working");
-			NewGame ();
-		}
+		clicksound.Play ();
 	}
 }

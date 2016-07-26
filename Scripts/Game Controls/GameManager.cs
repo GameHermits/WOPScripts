@@ -125,7 +125,6 @@ public class GameManager : MonoBehaviour
 
 			AssignBack (data);
 			Application.LoadLevel (Player.currentSceneIndex);
-			SceneManager.SM.InstantiatePlayer ();
 
 		} else {
 			doesExists = false;

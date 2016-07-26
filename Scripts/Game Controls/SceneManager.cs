@@ -71,10 +71,6 @@ public class SceneManager : MonoBehaviour
 	{	
 	}
 
-	public void InstantiatePlayer ()
-	{
-	}
-
 	public void Revive ()
 	{
 		GameManager.GM.ReviveCanvas.SetActive (false);
