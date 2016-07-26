@@ -7,8 +7,13 @@ public class UIFunctions : MonoBehaviour
 	//public:
 	// null by default
 	public string ScenetoLoad = null;
-	//the game object holds the canvas
-	public GameObject go_CanvasHolder = null;
+	//private:
+	private AudioSource clicksound;
+
+	void Awake ()
+	{
+		clicksound = gameObject.GetComponent <AudioSource> ();
+	}
 
 	public void LoadspecificScene ()
 	{
@@ -16,21 +21,50 @@ public class UIFunctions : MonoBehaviour
 		Application.LoadLevel (ScenetoLoad);
 	}
 
-
-	public void LoadingBarCanvas ()
-	{// when click play btn
-		go_CanvasHolder.SetActive (true);//show the canvas with the splash screen image
-	}
-
 	public void LoadScene ()
 	{
 		//Load scene from a file.
+
 		GameManager.GM.Load ();
-		GameManager.GM.isDead = false;
 	}
 
 	public void ExitGame ()
 	{
+		//Quits and clsoe Unity Player
 		Application.Quit ();
+	}
+
+	public void NewGame ()
+	{
+		//starts a new game
+		PlaySound ();
+		GameObject.Destroy (SceneManager.SM.gameObject);
+		Application.LoadLevel ("The Fortress Of The Dark Lands (Before)");
+	}
+
+	public void NextScene ()
+	{
+		//load the new level after completeing the current one
+		GameObject.Destroy (SceneManager.SM.gameObject);
+		Application.LoadLevel (GameManager.GM.Player.currentSceneIndex + 1);
+	}
+
+	public void RestartScene ()
+	{
+		//Restart the current level
+		GameObject.Destroy (SceneManager.SM.gameObject);
+		Application.LoadLevel (GameManager.GM.Player.currentSceneIndex);
+		GameManager.GM.Save ();
+	}
+
+	public void TryAgain ()
+	{
+		//resume level after death
+		SceneManager.SM.Revive ();
+	}
+
+	private void PlaySound ()
+	{
+		clicksound.Play ();
 	}
 }

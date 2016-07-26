@@ -17,8 +17,6 @@ public class PlayerController_Player : MonoBehaviour
 	public float fl_MoveSpeed = 0.5f;
 	// for applying gravity to the player.
 	public float fl_Gravity = 9.81f;
-	// for controling jumping behavior.
-	public bool isCanJump = true;
 	// Max Sprint speed the player can run with.
 	public float fl_SprintAmount;
 	// Max jump the player can do.
@@ -29,6 +27,8 @@ public class PlayerController_Player : MonoBehaviour
 	public AudioClip sprint;
 
 	//Private
+	// for controling jumping behavior.
+	private bool isCanJump = true;
 	//flag for ability to sprint or not
 	private bool isCanSprint = true;
 	//flag for ability to fill energy bar or not
@@ -49,9 +49,10 @@ public class PlayerController_Player : MonoBehaviour
 	//Audio sources needed for player
 	//private AudioSource Sprint;
 
-	void Awake ()
+	void Start ()
 	{
 		//Get the character controller component to the object
+		gameObject.transform.position = new Vector3 (SceneManager.SM.activeXPosition, SceneManager.SM.activeYPosition, SceneManager.SM.activeZPosition);
 		cc_PlayerController = gameObject.GetComponent<CharacterController> ();
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
@@ -61,11 +62,6 @@ public class PlayerController_Player : MonoBehaviour
 		fl_SprintAmount = GameManager.GM.Player.sprintAmout;
 		fl_MaxJump = GameManager.GM.Player.maxJump;
 		fl_MoveSpeed = GameManager.GM.Player.movementSpeed;
-	}
-
-	void Start ()
-	{
-
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations

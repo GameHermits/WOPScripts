@@ -35,6 +35,12 @@ public class RavenBehavior : MonoBehaviour
 		if (fl_DangerRange <= 4) {
 			canMove = true;
 		}
+		DelayStart (Random.Range (1f, 4f));
+	}
+
+	IEnumerator DelayStart (float seconds)
+	{
+		yield return new WaitForSeconds (seconds);
 		Move ();
 	}
 

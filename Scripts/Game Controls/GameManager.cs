@@ -30,27 +30,29 @@ public class GameManager : MonoBehaviour
 
 	//Player Object.
 	public PlayerState Player;
-	public GameObject playerGameObject;
 
 	//Canvas Refrences
 	public GameObject PauseCanvas;
 	public GameObject PlayerCanvas;
 	public GameObject DieCanvas;
-
+	public GameObject ReviveCanvas;
 	//Support Characters
+	[HideInInspector]
 	public SupportData Clover;
+	[HideInInspector]
 	public SupportData Adam;
+	[HideInInspector]
 	public SupportData Ethan;
+	[HideInInspector]
 	public SupportData Lauren;
 
 	//Private:
 	private DataContainer data;
-	private bool canLoad;
+	private bool doesExists = true;
 
 	void Awake ()
 	{//Making sure there is only this Game Manager in all scenes and that it doesn't destroy when loading other scenes.
 		if (GM == null) {
-			Debug.Log (Application.persistentDataPath);
 			DontDestroyOnLoad (gameObject);
 			GM = this;
 		} else if (GM != this) {
@@ -63,8 +65,7 @@ public class GameManager : MonoBehaviour
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
-		//canLoad for the first time.
-		canLoad = true;
+
 	}
 
 	// Update is called once per frame
@@ -87,13 +88,20 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		if (isDead == true) {
-			Time.timeScale = 0;
-			DieCanvas.SetActive (true);
-		} else if (isDead == false) {
-			DieCanvas.SetActive (false);
-		}
+	}
 
+	public void Dead ()
+	{
+		// called when player loses all revive times and has to restart the level.
+		Time.timeScale = 0;
+		DieCanvas.SetActive (true);
+	}
+
+	public void Revive ()
+	{
+		//called when player is revived.
+		Time.timeScale = 0;
+		ReviveCanvas.SetActive (true);
 	}
 
 	public void Save ()
@@ -115,11 +123,11 @@ public class GameManager : MonoBehaviour
 			data = (DataContainer)bf.Deserialize (playerFile);
 			playerFile.Close ();
 
-			GameManager.GM.isDead = false;
-			Application.LoadLevel (Player.currentScene);
-			Time.timeScale = 0;
 			AssignBack (data);
-			SceneManager.SM.ResetSecneState ();
+			Application.LoadLevel (Player.currentSceneIndex);
+
+		} else {
+			doesExists = false;
 		}
 	}
 
@@ -135,16 +143,8 @@ public class GameManager : MonoBehaviour
 		Ethan = data.Supports [2];
 		Lauren = data.Supports [3];
 		//Inventory Assignments.
-//		Inventory.INV.Ibag = data.Inv.Ibag;
-		/*for (int i = 0; i < Inventory.INV.bag.Length; i++) {
-=======
-		/*Inventory.INV.empty_Sprite = data.Inv.empty_Sprite;
-		Inventory.INV.Ibag = data.Inv.Ibag;*/
-		//SceneManager Assignment.
-		for (int i = 0; i < SceneManager.SM.CheckPoints.Length; i++) {
-			SceneManager.SM.PassedCPs [i] = data.Sm.PassedCPs [i];
-		}
 
+		//Scenemanager assignments
 		for (int i = 0; i < SceneManager.SM.Objectives_Strings.Length; i++) {
 			SceneManager.SM.Objectives_Strings [i] = data.Sm.Objectives_Strings [i];
 		}
@@ -155,7 +155,19 @@ public class GameManager : MonoBehaviour
 		SceneManager.SM.treasureNumber = data.Sm.treasureNumber;
 		SceneManager.SM.TotalEnemies = data.Sm.TotalEnemies;
 		SceneManager.SM.totalProgress = data.Sm.totalProgress;
-		SceneManager.SM.activePoint = data.Sm.checkpointIndex;
+		SceneManager.SM.activeXPosition = data.Sm.x;
+		SceneManager.SM.activeYPosition = data.Sm.y;
+		SceneManager.SM.activeZPosition = data.Sm.z;
+		SceneManager.SM.sceneIndex = data.Sm.sceneIndex;
+	}
+
+	void OnGUI ()
+	{
+		if (doesExists == false) {
+			GUI.contentColor = Color.yellow;
+			GUI.skin.label.fontSize = 20;
+			GUI.Label (new Rect (600, 1000, 300, 200), "No Saved Data");
+		}
 	}
 }
 
@@ -191,7 +203,6 @@ public class SupportData //Data container for support characters.
 	public void Use ()
 	{ // decrease in_UseTimes by one whenever it's called, usually called when the support is used in SupportJob function
 		in_UseTimes--;
-		Debug.Log (in_UseTimes);
 	}
 }
 //ADD INVINTORY OBJECT REFERENCE TO SCENE MANAGER
@@ -217,6 +228,8 @@ public class PlayerState //Data Container for Player state.
 	//Fury Ability variables
 	public float fl_Fury = 0;
 
+	//How many tries does the player have.
+	public int Revivetimes = 3;
 	//Magic styles EXP:-(leveling up as 200,400,800,1600,3200... Max level is 30)
 
 	//Thunder
@@ -244,7 +257,11 @@ public class PlayerState //Data Container for Player state.
 	//Player Gold
 	public int gold = 0;
 	//Player Backbag that contain treasures, spell books, and any other item drop that can be used outside the level. Initially 20 free slots.
-	public GameObject[] Backbag = new GameObject[20];
+	//public GameObject[] Backbag = new GameObject[20];
+	//Player Iventory of items that can be used within the level
+	public string[] Inventory = new string[6];
+	//Inventory Index
+	public int InvIndex = 0;
 	//Player avilable magic styles. Initially only Thunder magic is true.
 	public bool ThunderMagic = true;
 	public bool FireMagic = false;
@@ -252,7 +269,7 @@ public class PlayerState //Data Container for Player state.
 	public bool BlackMagic = false;
 
 	//Latest scene player arrived to.
-	public string currentScene;
+	public int currentSceneIndex;
 
 	//Player UI state
 	public float healthAmount = 1;
@@ -270,7 +287,7 @@ class DataContainer
 	//public SceneManager
 	public SMData Sm;
 	//Current Inventory
-	public INVData Inv;
+	//public INVData Inv;
 
 	public DataContainer (PlayerState pl, SupportData cl, SupportData ad, SupportData et, SupportData la)
 	{
@@ -279,8 +296,8 @@ class DataContainer
 		this.Supports [1] = ad;
 		this.Supports [2] = et;
 		this.Supports [3] = la;
-		this.Sm = new SMData (SceneManager.SM.PassedCPs, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber, SceneManager.SM.enemiesLevel, SceneManager.SM.activePoint
-			, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress);
+		this.Sm = new SMData (SceneManager.SM.activeXPosition, SceneManager.SM.activeYPosition, SceneManager.SM.activeZPosition, SceneManager.SM.Objectives_Strings, SceneManager.SM.objectives, SceneManager.SM.treasureNumber,
+			SceneManager.SM.enemiesLevel, SceneManager.SM.TotalEnemies, SceneManager.SM.totalProgress, SceneManager.SM.sceneIndex);
 		//this.Inv = new INVData (/*Inventory.INV.bag,*/ Inventory.INV.Ibag);
 	}
 }

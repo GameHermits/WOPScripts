@@ -13,9 +13,8 @@ using System.IO;
 public class Inventory : MonoBehaviour
 {
 	
-	//empty image to put it in the inventory when its clear
-	public  Sprite empty_Sprite;
-	//the array of items images in the inventory
+	
+	/*	//the array of items images in the inventory
 	public  Image[] bag;
 	//the indexer that hold the number of item in the bag
 	[HideInInspector]
@@ -29,7 +28,6 @@ public class Inventory : MonoBehaviour
 	void Awake ()
 	{
 		if (INV == null) {
-			DontDestroyOnLoad (gameObject);
 			INV = this;
 		}
 	}
@@ -139,13 +137,13 @@ public class INVData
 	//the indexer that hold the number of item in the bag
 	public int Ibag;
 
-	public INVData (/*Image[] bag,*/ int Ibag)
+	public INVData (/*Image[] bag, int Ibag)
 	{
 		this.Ibag = Ibag;
 
 		/*for (int i = 0; i < bag.Length; i++) {
 			this.bag [i] = bag [i];
-		}*/
+		}
 	}
-
+	*/
 }
