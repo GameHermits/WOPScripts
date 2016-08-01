@@ -79,9 +79,6 @@ public class Damage_Projectile : MonoBehaviour
 
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			//increas the fury ability var each hit
-			GameManager.GM.Player.fl_Fury += (fl_dmgAmount) * 10 / 100;
-
 			StartCoroutine (Destroy (gameObject));
 		}
 	}
@@ -105,9 +102,6 @@ public class Damage_Projectile : MonoBehaviour
 			PS_Ref.enabled = false;
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			StartCoroutine ("Wait");
-
-			//increas the fury ability var each hit
-			GameManager.GM.Player.fl_Fury += (fl_FreezeDmgAmount) * 10 / 100;
 		}  
 	}
 
@@ -115,9 +109,6 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		gameObject.GetComponent <TimedObjectDestructor> ().enabled = false;
 		col.gameObject.GetComponent<Health_General> ().DamageOverTime (fl_dmgAmount, PoisonTime);
-
-		//increas the fury ability var each hit
-		GameManager.GM.Player.fl_Fury += (fl_dmgAmount) * 10 / 100;
 	}
 
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
