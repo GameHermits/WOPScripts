@@ -32,6 +32,10 @@ public class Health_General : MonoBehaviour
 		if (gameObject.tag == "Player") {
 			fl_health = 0;
 			fl_maxhealth = 0;
+			Debug.Log (GameManager.GM.Player.health);
+			Debug.Log (GameManager.GM.Player.maxHealth);
+			Debug.Log (GameManager.GM.Player.mana);
+			Debug.Log (GameManager.GM.Player.maxMana);
 		}
 	}
 
@@ -62,25 +66,37 @@ public class Health_General : MonoBehaviour
 	public void ApplayDamage (float fl_Damage) // Applying damage effect to the gameObject. the fucntion is called by the projectile collided with this gameObject
 	{
 		if (gameObject.tag == "Player") {
-			GameManager.GM.Player.health -= (fl_Damage / 2);
+			GameManager.GM.Player.health -= (fl_Damage);
 		} else
-			fl_health = fl_health - (fl_Damage / 2);
+			fl_health = fl_health - (fl_Damage);
+		DamageHealthBar (fl_Damage);
 	}
 
-	public void DamageHealthBar (float fl_Damage) // Modifying UI health bar acoording to Damage amount
+	private void DamageHealthBar (float fl_Damage) // Modifying UI health bar acoording to Damage amount
 	{
 		if (gameObject.tag == "Player") {
-			GameManager.GM.Player.healthAmount -= (fl_Damage / (GameManager.GM.Player.maxHealth * 2));
+			GameManager.GM.Player.healthAmount -= (fl_Damage / (GameManager.GM.Player.maxHealth));
 		} else
-			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar - (fl_Damage / (fl_maxhealth * 2));
+			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar - (fl_Damage / (fl_maxhealth));
 	}
 
-	public void HealHealthBar (float fl_heal) // Modifying UI health bar according to heal amount
+	public void Heal (float healthHealing, float manaHealing)
 	{
 		if (gameObject.tag == "Player") {
-			GameManager.GM.Player.healthAmount += (fl_heal / (GameManager.GM.Player.maxHealth * 2));
+			GameManager.GM.Player.health += healthHealing;
+			GameManager.GM.Player.mana += manaHealing;
 		} else
-			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (fl_heal / (fl_maxhealth * 2));
+			fl_health += healthHealing;
+		HealHealthBar (healthHealing, manaHealing);
+	}
+
+	private void HealHealthBar (float healthHealing, float manaHealing) // Modifying UI health bar according to heal amount
+	{
+		if (gameObject.tag == "Player") {
+			GameManager.GM.Player.healthAmount += (healthHealing / (GameManager.GM.Player.maxHealth));
+			GameManager.GM.Player.manaAmount += (manaHealing / (GameManager.GM.Player.maxMana));
+		} else
+			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (healthHealing / (fl_maxhealth));
 	}
 
 	IEnumerator Poison (float fl_Damage, float poisonTime) // Poison Behavior

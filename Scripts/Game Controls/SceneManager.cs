@@ -13,10 +13,7 @@ using System.IO;
 
 public class SceneManager : MonoBehaviour
 {
-	
-	//if Unity couldn't find the Player GameObject with it's tag
-	//put it manually by attaching it to this variable
-	public GameObject PlayerPreFab;
+
 	//The one and only copy of the SceneManager located in the current Scene. all access to SceneManager class should be through this object only.
 	public static SceneManager SM;
 
@@ -47,7 +44,12 @@ public class SceneManager : MonoBehaviour
 	public float activeYPosition;
 	[HideInInspector]
 	public float activeZPosition;
-
+	//Index the temporary place to revive player in if needed.
+	[HideInInspector]
+	public Vector3 tempRevivePosition;
+	//Control weather to revive player in the same place or in different place.
+	[HideInInspector]
+	public bool ReviveInPlace;
 	//Private:
 	private GameObject Player;
 
@@ -65,6 +67,7 @@ public class SceneManager : MonoBehaviour
 		activeXPosition = -330.8f;
 		activeYPosition = 282.2f;
 		activeZPosition = 291.9f;
+		ReviveInPlace = true;
 	}
 	// Update is called once per frame
 	void Update ()
@@ -73,10 +76,17 @@ public class SceneManager : MonoBehaviour
 
 	public void Revive ()
 	{
+		if (ReviveInPlace == false) {
+			Player = GameObject.FindWithTag ("Player");
+			Player.transform.position = tempRevivePosition;
+		}
+
 		GameManager.GM.ReviveCanvas.SetActive (false);
-		GameManager.GM.Player.health = GameManager.GM.Player.maxHealth / 2;
-		GameManager.GM.Player.mana = GameManager.GM.Player.maxMana / 2;
 		GameManager.GM.Player.Revivetimes--;
+		GameManager.GM.PlayerGameObject.GetComponent <Health_General> ().Heal ((GameManager.GM.Player.maxHealth / 2), (GameManager.GM.Player.maxMana / 2));
+		GameManager.GM.PlayerGameObject.GetComponent <MouseLooker> ().LockCursor (true);
+		GameManager.GM.PlayerGameObject.GetComponent <MouseLooker> ().enabled = true;
+		ReviveInPlace = true;
 		Time.timeScale = 1;
 	}
 

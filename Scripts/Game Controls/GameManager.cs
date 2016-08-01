@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
 
 	//Player Object.
 	public PlayerState Player;
-
+	[HideInInspector]
+	public GameObject PlayerGameObject;
 	//Canvas Refrences
 	public GameObject PauseCanvas;
 	public GameObject PlayerCanvas;
@@ -94,6 +95,8 @@ public class GameManager : MonoBehaviour
 	{
 		// called when player loses all revive times and has to restart the level.
 		Time.timeScale = 0;
+		PlayerGameObject.GetComponent <MouseLooker> ().LockCursor (false);
+		PlayerGameObject.GetComponent <MouseLooker> ().enabled = false;
 		DieCanvas.SetActive (true);
 	}
 
@@ -101,6 +104,8 @@ public class GameManager : MonoBehaviour
 	{
 		//called when player is revived.
 		Time.timeScale = 0;
+		PlayerGameObject.GetComponent <MouseLooker> ().LockCursor (false);
+		PlayerGameObject.GetComponent <MouseLooker> ().enabled = false;
 		ReviveCanvas.SetActive (true);
 	}
 
