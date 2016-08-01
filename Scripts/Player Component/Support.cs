@@ -47,10 +47,7 @@ public class Support : MonoBehaviour
 				switch (in_SuppIndex) {
 				//Clover
 				case 0:
-					GameManager.GM.Player.health += in_HealAmount;
-					he_Heal.HealHealthBar (in_HealAmount);
-					GameManager.GM.Player.mana += in_HealAmount;
-					GameManager.GM.Player.manaAmount += (in_HealAmount / (GameManager.GM.Player.maxMana * 2));
+					he_Heal.Heal (in_HealAmount, in_HealAmount);
 					GameManager.GM.Clover.Use ();
 
 					break;

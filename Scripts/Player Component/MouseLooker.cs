@@ -55,7 +55,7 @@ public class MouseLooker : MonoBehaviour
 		}
 	}
 
-	private void LockCursor (bool isLocked)
+	public void LockCursor (bool isLocked)
 	{
 		if (isLocked) {
 			// make the mouse pointer invisible
