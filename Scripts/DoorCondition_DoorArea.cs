@@ -19,6 +19,7 @@ public class DoorCondition_DoorArea : MonoBehaviour
 					Debug.Log ("found Item");
 					GameObject.Destroy (doorCollider);
 					anim_Door.Play ();
+					GameManager.GM.Player.Inventory [i] = "";
 					GameManager.GM.Player.InvIndex--;
 				}
 			}
