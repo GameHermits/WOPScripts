@@ -50,7 +50,8 @@ public class Health_General : MonoBehaviour
 				}
 			} else if (GameManager.GM.Player.health > GameManager.GM.Player.maxHealth) {
 				GameManager.GM.Player.health = GameManager.GM.Player.maxHealth;
-			}
+			} else if (GameManager.GM.Player.health <= GameManager.GM.Player.maxHealth * (1 / 4))
+				GameManager.GM.Player.Fury = true;
 		} else {
 			
 			if (fl_health <= 0) {
