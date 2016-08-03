@@ -160,12 +160,12 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 	void OnGUI ()
 	{
-		if (GameManager.GM.Player.fl_Fury == 100) {
+		if (GameManager.GM.Player.Fury == true) {
 			GUI.contentColor = Color.red;
 			GUI.skin.label.fontSize = 20;
 			GUI.Label (new Rect (1000, 0, 100, 200), "Press (R) to active ultimate attack");
 
-			if (Input.GetKeyUp (KeyCode.R)) {
+			if (Input.GetKeyUp (KeyCode.F)) {
 				UltimateAttack ();
 			}
 		}

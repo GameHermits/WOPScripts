@@ -231,7 +231,7 @@ public class PlayerState //Data Container for Player state.
 	//Movement speed data. Initially 10.
 	public float movementSpeed = 10f;
 	//Fury Ability variables
-	public float fl_Fury = 0;
+	public bool Fury = false;
 
 	//How many tries does the player have.
 	public int Revivetimes = 3;
