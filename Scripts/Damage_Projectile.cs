@@ -21,6 +21,11 @@ public class Damage_Projectile : MonoBehaviour
 	public float PoisonTime;
 	//radius for aoe
 	public float fl_Radius;
+	//Sound after hit
+	public AudioClip explosion;
+	//Audio Source refrence
+	private AudioSource SFX;
+
 
 	// Types of Projectiles
 	public enum ProjectileType
@@ -54,21 +59,22 @@ public class Damage_Projectile : MonoBehaviour
 	private PlayerController_Player PlC_Ref;
 	//A refrence object for the player controller compnent
 	private PlayerShooter_MainCamera PS_Ref;
-	//A refrence object for the player Shooter compnent
-	//private EnemyBehavior_Enemy EB_Ref; // A refrnce to enemies main behavior component
-	//private EnemyBehavior_Enemy EB_Ref; // A refrnce to enemies main behavior component
-	IEnumerator Destroy (GameObject go)
+
+	IEnumerator Destroy ()
 	{
+		SFX.clip = explosion;
+		SFX.Play ();
 		yield return new WaitForSeconds (1.5f);
-		GameObject.Destroy (go);
+		GameObject.Destroy (gameObject);
 	}
 
 	void Start ()
 	{
+		//Player Refrences
 		PlC_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController_Player> ();
 		PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
-
-
+		//Audio Source refrence
+		SFX = gameObject.GetComponent <AudioSource> ();
 	}
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
@@ -79,7 +85,7 @@ public class Damage_Projectile : MonoBehaviour
 
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			StartCoroutine (Destroy (gameObject));
+			StartCoroutine ("Destroy");
 		}
 	}
 
@@ -138,7 +144,7 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
-			GameObject.Destroy (this.gameObject);
+			StartCoroutine ("Destroy");
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
 		else if (projectile == ProjectileType.Freezedmg)
@@ -146,7 +152,6 @@ public class Damage_Projectile : MonoBehaviour
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
-			
 			AoeDmg (col.gameObject.transform.position, fl_Radius, col);
 		}
 	}
