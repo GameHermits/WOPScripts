@@ -11,7 +11,6 @@ public class SpawnGameObjects_Spawner : MonoBehaviour
 {
 
 	public GameObject go_SpawnPrefab;
-	public GameObject go_SwitchSenseCollider;
 	public int int_EnemyCounter = 5;
 
 	//minimum time between every spawning in seconds..

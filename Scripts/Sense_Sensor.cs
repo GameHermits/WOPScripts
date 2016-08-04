@@ -26,6 +26,8 @@ public class Sense_Sensor : MonoBehaviour
 	[HideInInspector]
 	public int globalIterator;
 
+	public bool blockinplace = true;
+	public GameObject blockingTarget;
 	//Private:
 
 	//Iterates on spawned array in Update loop
@@ -54,6 +56,10 @@ public class Sense_Sensor : MonoBehaviour
 		if (block.gameObject.tag == "Player") {
 			this.GetComponent<Collider> ().isTrigger = false;
 			blockParticle.SetActive (true);
+			if (blockinplace == false) {
+				transform.position = blockingTarget.transform.position;
+				transform.rotation = blockingTarget.transform.rotation;
+			}
 		}
 	}
 
