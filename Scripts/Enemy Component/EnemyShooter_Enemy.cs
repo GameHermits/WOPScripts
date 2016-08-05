@@ -53,6 +53,11 @@ public class EnemyShooter_Enemy : MonoBehaviour
 			fl_FireRate = 2f;
 			break;
 		}
+		//AOE
+		Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
+		if (dp.projectile.ToString () == "AoeInstantDmg") {
+			dp.AoeDmg (newBullet.transform.position, dp.fl_Radius, "NEnemy");	
+		}
 	}
 
 	void LEnemyShoot ()
@@ -74,6 +79,11 @@ public class EnemyShooter_Enemy : MonoBehaviour
 				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 10,
 					gameObject.transform.position.y, gameObject.transform.position.z);
 				break;
+			}
+			//AOE
+			Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
+			if (dp.projectile.ToString () == "AoeInstantDmg") {
+				dp.AoeDmg (newBullet.transform.position, dp.fl_Radius, "LEnemy");	
 			}
 		}
 	}
