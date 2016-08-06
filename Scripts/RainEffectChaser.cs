@@ -3,14 +3,22 @@ using System.Collections;
 
 public class RainEffectChaser : MonoBehaviour
 {
+	//public:
+
+	// the max distance between the partice and the player that will make the particle reset it's position .
+	public float maxDistance;
+	// Indicating particle hight from the player when it's position is reseted.
+	public float yPosition;
+	// Indicating partice Z position from the player when it's position is reseted.
+	public float zPosition;
 	//Private:
+
+	// Player position
 	private Transform Player;
-	//Public:
-	public float chaseSpeed = 5.0f;
-	public float xPosition = 0;
-	public float yPosition = 0;
-	public float zPosition = 0;
-	public bool follow = false;
+	private float currentDistance;
+	//Indicating the value of adding particle Z position and player Z position to determine weather to move forward or backward
+	private float zValue;
+
 	// Use this for initialization
 	void Awake ()
 	{
@@ -20,10 +28,14 @@ public class RainEffectChaser : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (gameObject.transform.position != Player.position && follow == false) {
-			gameObject.transform.position = Vector3.MoveTowards (gameObject.transform.position, Player.position + new Vector3 (xPosition, yPosition, zPosition), chaseSpeed * Time.deltaTime);
-		} else if (gameObject.transform.position != Player.position && follow == true) {
-			gameObject.transform.position = Vector3.MoveTowards (gameObject.transform.position, Player.position + new Vector3 (0, yPosition, 0) - new Vector3 (xPosition, 0, zPosition), chaseSpeed * Time.deltaTime);
+		currentDistance = Vector3.Distance (transform.position, Player.transform.position);
+		zValue = transform.position.z + Player.transform.position.z;
+		if (currentDistance > maxDistance) {
+			if (zValue > 0) {
+				gameObject.transform.position = Player.transform.position + new Vector3 (0, yPosition, -zPosition);	
+			} else {
+				gameObject.transform.position = Player.transform.position + new Vector3 (0, yPosition, zPosition);
+			}
 		}
 	}
 }
