@@ -56,7 +56,7 @@ public class EnemyShooter_Enemy : MonoBehaviour
 		//AOE
 		Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 		if (dp.projectile.ToString () == "AoeInstantDmg") {
-			dp.AoeDmg (newBullet.transform.position, dp.fl_Radius, "NEnemy");	
+			dp.summonerTag = "NEnemy";
 		}
 	}
 
@@ -83,7 +83,7 @@ public class EnemyShooter_Enemy : MonoBehaviour
 			//AOE
 			Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 			if (dp.projectile.ToString () == "AoeInstantDmg") {
-				dp.AoeDmg (newBullet.transform.position, dp.fl_Radius, "LEnemy");	
+				dp.summonerTag = "LEnemy";
 			}
 		}
 	}

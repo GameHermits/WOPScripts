@@ -72,7 +72,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			//AOE Attack
 			Damage_Projectile dp = go_NewBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 			if (dp.projectile.ToString () == "AoeInstantDmg") {
-				dp.AoeDmg (go_NewBullet.transform.position, dp.fl_Radius, "Player");
+				dp.summonerTag = "Player";
 			}
 
 
