@@ -50,7 +50,6 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	void Start ()
 	{
 		playersounds = gameObject.GetComponent <CharacterSound_General> ();
-		Debug.Log (GameManager.GM.Player.InvIndex);
 	}
 	//Launch Bullet
 	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
