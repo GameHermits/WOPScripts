@@ -30,7 +30,6 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
-
 	//the four elements.
 	private enum enum_Elements
 	{
@@ -68,6 +67,14 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			GameManager.GM.Player.manaAmount -= fl_UsedManaType / GameManager.GM.Player.maxMana;
 			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
 			//playersounds.Attack ();
+
+			//AOE Attack
+			Damage_Projectile dp = go_NewBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
+			if (dp.projectile.ToString () == "AoeInstantDmg") {
+				dp.summonerTag = "Player";
+			}
+
+
 		}
 
 	}

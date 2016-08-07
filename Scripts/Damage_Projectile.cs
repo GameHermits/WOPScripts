@@ -55,6 +55,7 @@ public class Damage_Projectile : MonoBehaviour
 
 	public ProjectileType projectile = ProjectileType.AoeInstantDmg;
 
+	public string summonerTag;
 	//Private:
 	private PlayerController_Player PlC_Ref;
 	//A refrence object for the player controller compnent
@@ -118,11 +119,10 @@ public class Damage_Projectile : MonoBehaviour
 	}
 
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
-	public void AoeDmg (Vector3 position, float radius, GameObject summoner)
+	public void AoeDmg (Vector3 position, float radius, string summoner)
 	{
-		bool ally = (Aliaies.IsDefined (typeof(Aliaies), summoner.tag) ? true : false);
+		bool ally = (Aliaies.IsDefined (typeof(Aliaies), summoner) ? true : false);
 		var objectsInRange = Physics.OverlapSphere (position, radius);
-
 		foreach (Collider col in objectsInRange) {
 			if (col.gameObject != null) {// it should not make any nulls but ..... if any null came here must re check the over lab sphere totally from the begaining
 				if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && ally == true) {//if summoner's tag is what we have do nothing as from logic ther will be no species will hit its species
@@ -138,6 +138,7 @@ public class Damage_Projectile : MonoBehaviour
 				}
 			}
 		}
+
 	}
 
 	void OnParticleCollision (GameObject col)
@@ -152,7 +153,8 @@ public class Damage_Projectile : MonoBehaviour
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
-			AoeDmg (col.gameObject.transform.position, fl_Radius, col);
+			AoeDmg (col.transform.position, fl_Radius, summonerTag);
+			summonerTag = " ";
 		}
 	}
 }
