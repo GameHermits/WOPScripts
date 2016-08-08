@@ -10,7 +10,7 @@ using System.Collections;
 public class ItemPopOut_ItemHolder : MonoBehaviour
 {
 	
-	public GameObject[] Items = new GameObject[5];
+	public GameObject[] Items;
 	// list of objects that gonna spawn
 	public float fl_ExplosionForce;
 	public ForceMode forceMode;
@@ -25,7 +25,7 @@ public class ItemPopOut_ItemHolder : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		in_limit = Random.Range (1, 5);	
+		in_limit = Random.Range (1, Items.Length);	
 	}
 
 	void FixedUpdate ()
