@@ -5,7 +5,7 @@ public class SFXManager : MonoBehaviour
 {
 
 
-	public  GameObject Player;
+	private  GameObject Player;
 	private float fl_distance;
 	private AudioSource Sound;
 
