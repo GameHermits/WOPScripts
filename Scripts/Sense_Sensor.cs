@@ -45,8 +45,6 @@ public class Sense_Sensor : MonoBehaviour
 	{// when the player collide with sensor
 		if (col.gameObject.tag == "Player") { // check this is the player
 			go_Spawners.SetActive (true); // activate the spawners
-			Invoke ("BlockRoad", 4);//activate rocks gameobject
-			//anim_RocksAnimationRef.Play("Rock Animation");      
 		}
 	}
 

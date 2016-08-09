@@ -53,8 +53,10 @@ public class UIFunctions : MonoBehaviour
 	{
 		//Restart the current level
 		GameObject.Destroy (SceneManager.SM.gameObject);
+		GameManager.GM.Player.Revivetimes = 3;
 		Application.LoadLevel (GameManager.GM.Player.currentSceneIndex);
-		GameManager.GM.Save ();
+		GameManager.GM.PlayerGameObject.GetComponent <Health_General> ().Heal ((GameManager.GM.Player.maxHealth), (GameManager.GM.Player.maxMana));
+		Time.timeScale = 1;
 	}
 
 	public void TryAgain ()
