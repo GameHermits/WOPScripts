@@ -274,7 +274,7 @@ public class PlayerState //Data Container for Player state.
 	public bool BlackMagic = false;
 
 	//Latest scene player arrived to.
-	public int currentSceneIndex;
+	public int currentSceneIndex = 2;
 
 	//Player UI state
 	public float healthAmount = 1;
