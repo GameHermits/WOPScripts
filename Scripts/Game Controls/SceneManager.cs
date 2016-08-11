@@ -25,7 +25,7 @@ public class SceneManager : MonoBehaviour
 	//Indecate how many treasures are there in the Scene, each time the player opens one, this number is decreased
 	public int treasureNumber;
 	//Indecates the over all enemy levels in the current Scene.
-	public int enemiesLevel;
+	public float enemiesLevel;
 	//Holds the scene name. It must be assigned manually in the inspector
 	public int sceneIndex;
 	//this to count all the enemies in the level
@@ -151,7 +151,7 @@ public class SMData
 	//Indecate how many treasures are there in the Scene, each time the player opens one, this number is decreased
 	public int treasureNumber = 0;
 	//Indecates the over all enemy levels in the current Scene.
-	public int enemiesLevel = 0;
+	public float enemiesLevel = 0;
 	//this to count all the enemys in the level
 	public int TotalEnemies = 0;
 	/*This int indecate the total progress the player did in the level, it's calculated as the following Formula
@@ -164,7 +164,7 @@ public class SMData
 
 	public int sceneIndex;
 
-	public SMData (float x, float y, float z, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, int enemiesLevel, int TotalEnemies, int totalProgress, int sceneIndex)
+	public SMData (float x, float y, float z, string[] ObjSt, ObjectiveState[] ObjS, int treasureNumber, float enemiesLevel, int TotalEnemies, int totalProgress, int sceneIndex)
 	{
 		for (int i = 0; i < ObjSt.Length; i++) {
 			this.Objectives_Strings [i] = ObjSt [i];
