@@ -30,6 +30,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
+	//private:
 	//the four elements.
 	private enum enum_Elements
 	{
@@ -38,7 +39,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		Lightning,
 		BlackMagic}
 	;
-
+	//Index to elements
+	private int elementIndex = 0;
 	//Default element
 	private enum_Elements currentElement = enum_Elements.Lightning;
 	//Object to play character sounds.
@@ -53,51 +55,45 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	//Launch Bullet
 	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
-		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-
-			GameObject go_NewBullet = Instantiate (go_BulletType, //...
-				                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
+		GameObject go_NewBullet = Instantiate (go_BulletType, //...
+			                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		
-			/*if (!go_NewBullet.GetComponent<Rigidbody> ()) {
+		/*if (!go_NewBullet.GetComponent<Rigidbody> ()) {
 				go_NewBullet.AddComponent<Rigidbody> ();
 			}
 			go_NewBullet.GetComponent<Rigidbody> ().AddForce (gameObject.transform.forward * fl_MovementForce, ForceMode.VelocityChange);*/	
-			go_NewBullet.GetComponent <Damage_Projectile> ().fl_dmgAmount = 100 * GameManager.GM.Player.ThunderWisdom;
-			GameManager.GM.Player.mana -= fl_UsedManaType;
-			GameManager.GM.Player.manaAmount -= fl_UsedManaType / GameManager.GM.Player.maxMana;
-			handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
-			//playersounds.Attack ();
+		go_NewBullet.GetComponent <Damage_Projectile> ().fl_dmgAmount = 100 * GameManager.GM.Player.ThunderWisdom;
+		GameManager.GM.Player.mana -= fl_UsedManaType;
+		GameManager.GM.Player.manaAmount -= fl_UsedManaType / GameManager.GM.Player.maxMana;
+		handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.
+		//playersounds.Attack ();
 
-			//AOE Attack
-			Damage_Projectile dp = go_NewBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
-			if (dp.projectile.ToString () == "AoeInstantDmg") {
-				dp.summonerTag = "Player";
-			} else if (dp.projectile.ToString () == "Freezedmg") {
-				dp.freezeTag = "Player";
-			}
-
-
+		//AOE Attack
+		Damage_Projectile dp = go_NewBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
+		if (dp.projectile.ToString () == "AoeInstantDmg") {
+			dp.summonerTag = "Player";
+		} else if (dp.projectile.ToString () == "Freezedmg") {
+			dp.freezeTag = "Player";
 		}
 
 	}
 
 	public void InputChecking ()
 	{
-
 		// these conditions to check the input (1,2,3,4) and change element type
-		if (Input.GetKey (KeyCode.Alpha1) && GameManager.GM.Player.ThunderMagic == true) {
+		if (elementIndex == 0 && GameManager.GM.Player.ThunderMagic == true) {
 			currentElement = enum_Elements.Lightning;
-		} else if (Input.GetKey (KeyCode.Alpha2) && GameManager.GM.Player.FireMagic == true) {
+		} else if (elementIndex == 1 && GameManager.GM.Player.FireMagic == true) {
 			currentElement = enum_Elements.Fire;
-		} else if (Input.GetKey (KeyCode.Alpha3) && GameManager.GM.Player.IceMagic == true) {
+		} else if (elementIndex == 2 && GameManager.GM.Player.IceMagic == true) {
 			currentElement = enum_Elements.Ice;
-		} else if (Input.GetKey (KeyCode.Alpha4) && GameManager.GM.Player.BlackMagic == true) {
+		} else if (elementIndex == 3 && GameManager.GM.Player.BlackMagic == true) {
 			currentElement = enum_Elements.BlackMagic;
-		} else if (Input.GetKey (KeyCode.Alpha2) && GameManager.GM.Player.FireMagic == false) {
+		} else if (elementIndex == 1 && GameManager.GM.Player.FireMagic == false) {
 			lockedStyle = true;
-		} else if (Input.GetKey (KeyCode.Alpha3) && GameManager.GM.Player.IceMagic == false) {
+		} else if (elementIndex == 2 && GameManager.GM.Player.IceMagic == false) {
 			lockedStyle = true;
-		} else if (Input.GetKey (KeyCode.Alpha4) && GameManager.GM.Player.BlackMagic == false) {
+		} else if (elementIndex == 3 && GameManager.GM.Player.BlackMagic == false) {
 			lockedStyle = true;
 		}
 	}
@@ -105,12 +101,22 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	void Update ()
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
-			InputChecking ();
+
+			if (Input.GetMouseButtonUp (1)) {
+				if (elementIndex == 3) {
+					elementIndex = 0;
+					InputChecking ();
+				} else {
+					elementIndex++;
+					InputChecking ();
+				}
+					
+			}
 			//this condition checks on the element type and fire the right prefab attached.
 			switch (currentElement) {
 			//when the player choose '1' or 'lightning'
 			case enum_Elements.Lightning:
-				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
 					if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning) {
 						if (go_Lightningbullet) {
@@ -122,7 +128,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 				break;
 
 			case enum_Elements.Fire:
-				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
 					if (GameManager.GM.Player.mana >= fl_UsedMana_Fire) {
 						if (go_Firebullet) {
@@ -133,7 +139,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 				break;
 
 			case enum_Elements.Ice:
-				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
 					if (GameManager.GM.Player.mana >= fl_UsedMana_Ice) {
 						if (go_Icebullet) {
@@ -144,7 +150,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 				break;
 
 			case enum_Elements.BlackMagic:
-				if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
 					if (GameManager.GM.Player.mana >= fl_UsedMana_BlackMagic) {
 						if (go_BlackMagicbullet) {
