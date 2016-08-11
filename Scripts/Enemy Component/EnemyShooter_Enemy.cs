@@ -57,6 +57,8 @@ public class EnemyShooter_Enemy : MonoBehaviour
 		Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 		if (dp.projectile.ToString () == "AoeInstantDmg") {
 			dp.summonerTag = "NEnemy";
+		} else if (dp.projectile.ToString () == "Freezedmg") {
+			dp.freezeTag = "NEnemy";
 		}
 	}
 
@@ -84,6 +86,8 @@ public class EnemyShooter_Enemy : MonoBehaviour
 			Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 			if (dp.projectile.ToString () == "AoeInstantDmg") {
 				dp.summonerTag = "LEnemy";
+			} else if (dp.projectile.ToString () == "Freezedmg") {
+				dp.freezeTag = "LEnemy";
 			}
 		}
 	}

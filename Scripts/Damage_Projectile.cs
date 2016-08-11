@@ -54,8 +54,13 @@ public class Damage_Projectile : MonoBehaviour
 	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
 	public ProjectileType projectile = ProjectileType.AoeInstantDmg;
-
+	//for aoe instant dmg only
 	public string summonerTag;
+	//for freezedmg only
+	public string freezeTag;
+	//for freezed one refrence
+	public GameObject freezedEnmey;
+
 	//Private:
 	private PlayerController_Player PlC_Ref;
 	//A refrence object for the player controller compnent
@@ -96,20 +101,36 @@ public class Damage_Projectile : MonoBehaviour
 		yield return new WaitForSeconds (fl_FreezeTime);
 		PS_Ref.enabled = true;
 		PlC_Ref.enabled = true;
+		if (Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag)) {
+			Debug.Log ("Here Freez");//for test 
+			freezedEnmey.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = true;
+			//freezedEnmey.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = true;
+			freezedEnmey.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = true;
+		}
 	}
 
-	public void FreezeDamage (GameObject col) // Called when Freeze Damage Type of projectile is selected
+	public void FreezeDamage (GameObject col, string summontag) // Called when Freeze Damage Type of projectile is selected
 	{
-		gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
-		gameObject.GetComponent <Rigidbody> ().velocity = Vector3.zero;
-		gameObject.GetComponent <Rigidbody> ().angularVelocity = Vector3.zero;
-		gameObject.GetComponent <Rigidbody> ().Sleep ();
-		if (col.gameObject.tag == "Player") {
-			
+		//if the one to be hit is aliaies and the summoner is enemy
+		if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && Enemies.IsDefined (typeof(Enemies), summontag)) {
+			gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
+			gameObject.GetComponent <Rigidbody> ().velocity = Vector3.zero;
+			gameObject.GetComponent <Rigidbody> ().angularVelocity = Vector3.zero;
+			gameObject.GetComponent <Rigidbody> ().Sleep ();
+			//here the only ally that coud be hit is player so I just stopped him
 			PS_Ref.enabled = false;
+			PlC_Ref.enabled = false;
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			StartCoroutine ("Wait");
-		}  
+		} else if (Enemies.IsDefined (typeof(Enemies), col.gameObject.tag) && Aliaies.IsDefined (typeof(Aliaies), summontag)) {
+			freezedEnmey = col.gameObject;
+			col.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = false;
+			//col.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = false;
+			col.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = false;
+			Debug.Log (freezedEnmey.tag + "   " + Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag));//for test
+			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
+			StartCoroutine ("Wait");
+		}
 	}
 
 	public void PoisonDamage (GameObject col)
@@ -133,13 +154,12 @@ public class Damage_Projectile : MonoBehaviour
 					InstantDamage (col.gameObject);//send the game object of the collider to make the proper damage
 				} else if (projectile == ProjectileType.AoeOverTimeDmg) {
 					PoisonDamage (col.gameObject);//send the game object of the collider to make the proper damage
-				} else if (projectile == ProjectileType.AoeFreezeDmg) {
-					FreezeDamage (col.gameObject);//send the game object of the collider to make the proper damage
-				}
+				} else if (projectile == ProjectileType.AoeFreezeDmg)
+					FreezeDamage (col.gameObject, summoner);//send the game object of the collider to make the proper damage
 			}
 		}
-
 	}
+
 
 	void OnParticleCollision (GameObject col)
 	{
@@ -149,7 +169,7 @@ public class Damage_Projectile : MonoBehaviour
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
 		else if (projectile == ProjectileType.Freezedmg)
-			FreezeDamage (col);
+			FreezeDamage (col, freezeTag);
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
