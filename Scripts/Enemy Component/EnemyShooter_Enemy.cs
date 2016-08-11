@@ -9,14 +9,29 @@ using System.Collections;
 
 public class EnemyShooter_Enemy : MonoBehaviour
 {
-	
-	public float fl_MovmentForce = 20.0f;
+	//public:
+	//Refrence to the projectile
 	public GameObject go_BulletPrefab;
+	//refrence to fire rate
 	public float fl_FireRate = 2f;
+	//refrence to the place where the projectiles are lucnhed from.
 	public GameObject go_ShootingPLace;
+	//Contains all possible behaviors for shooting.
+	public enum ShootingBehavior
+	{
+		DoubleAttack,
+		InstanteTransportation,
+		Stealth}
 
+	;
+	//Used to set the behavior of each indivisual enemy in the inspector.
+	public ShootingBehavior shootingBehavior = ShootingBehavior.DoubleAttack;
+	//private:
+	//Refrence to EnemyBehavior script attached to the gameObject
 	private EnemyBehavior_Enemy eb_EnemyBehaviorRef;
+	//Used for Randomization behavior.
 	private int in_randomInteger;
+	//Used for shooting cooldown.
 	private float fl_CoolDown = 0f;
 
 	void Start ()
@@ -30,16 +45,22 @@ public class EnemyShooter_Enemy : MonoBehaviour
 		transform.LookAt (eb_EnemyBehaviorRef.tr_Target);
 		if (Time.time >= fl_CoolDown) {// after passing spacific seconds, assigne a new value to timer.
 			fl_CoolDown = Time.time + fl_FireRate;
-			if (gameObject.tag == "NEnemy") {
-				NEnemyShoot ();
-
-			} else if (gameObject.tag == "LEnemy")
-				LEnemyShoot ();
+			switch (shootingBehavior) {
+			case ShootingBehavior.DoubleAttack:
+				DoubleAttack ();
+				break;
+			case ShootingBehavior.InstanteTransportation:
+				InstantTransportation ();
+				break;
+			case ShootingBehavior.Stealth:
+				Stealth ();
+				break;
+			}
 		}
 	}
 
-	void NEnemyShoot ()
-	{// Enable Enemy to shoot
+	void DoubleAttack ()
+	{// Implements behavior that let the enemy double attack randomly.
 		
 		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
         
@@ -56,40 +77,41 @@ public class EnemyShooter_Enemy : MonoBehaviour
 		//AOE
 		Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 		if (dp.projectile.ToString () == "AoeInstantDmg") {
-			dp.summonerTag = "NEnemy";
+			dp.summonerTag = gameObject.tag;
 		} else if (dp.projectile.ToString () == "Freezedmg") {
-			dp.freezeTag = "NEnemy";
+			dp.freezeTag = gameObject.tag;
 		}
 	}
 
-	void LEnemyShoot ()
-	{// Enable Enemy to shoot
+	void InstantTransportation ()
+	{// Implements behavior that let the enemy transport to different near location once he/she shoot.
 
-        
-		{// Controling fire rate by timer, every two seconds in timer Shoot
+		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
+		//newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
 
-			GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
-			//newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
-
-			in_randomInteger = Random.Range (1, 3);
-			switch (in_randomInteger) {
-			case 1:
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 10,
-					gameObject.transform.position.y, gameObject.transform.position.z);                    
-				break;
-			case 2:
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 10,
-					gameObject.transform.position.y, gameObject.transform.position.z);
-				break;
-			}
-			//AOE
-			Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
-			if (dp.projectile.ToString () == "AoeInstantDmg") {
-				dp.summonerTag = "LEnemy";
-			} else if (dp.projectile.ToString () == "Freezedmg") {
-				dp.freezeTag = "LEnemy";
-			}
+		in_randomInteger = Random.Range (1, 3);
+		switch (in_randomInteger) {
+		case 1:
+			gameObject.transform.position = new Vector3 (gameObject.transform.position.x + 10,
+				gameObject.transform.position.y, gameObject.transform.position.z);                    
+			break;
+		case 2:
+			gameObject.transform.position = new Vector3 (gameObject.transform.position.x - 10,
+				gameObject.transform.position.y, gameObject.transform.position.z);
+			break;
 		}
+		//AOE
+		Damage_Projectile dp = newBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
+		if (dp.projectile.ToString () == "AoeInstantDmg") {
+			dp.summonerTag = gameObject.tag;
+		} else if (dp.projectile.ToString () == "Freezedmg") {
+			dp.freezeTag = gameObject.tag;
+		}
+	}
+
+	void Stealth ()
+	{//Implements behavior that let the enemy stealth as long as he/she doesn't attack.
+		
 	}
 
 }
