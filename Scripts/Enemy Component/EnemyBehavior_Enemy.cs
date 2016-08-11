@@ -13,22 +13,22 @@ public class EnemyBehavior_Enemy : MonoBehaviour
 {
 	//private:
 	private bool isHit = false;
-
 	//Public:
-
-	public float fl_ShootingRange = 20f;
 	//Range in which enemy will start shooting the target
-
-	public float fl_CombatRange = 30f;
+	public float fl_ShootingRange = 20f;
 	// ranger in which enemy will start chasing the target
-	public Transform tr_Target;
+	public float fl_CombatRange = 30f;
 	//public Vector3 vec_Target;
-	[HideInInspector] 
-	public NavMeshAgent nma_NavComponentRef;
+	public Transform tr_Target;
+	//Controls Enemy behavior wether to stand still or move towards the player
+	public bool ChasePlayer = true;
 	// compnenet for chaser class
 	[HideInInspector] 
-	public EnemyShooter_Enemy es_EnemyShooterRef;
+	public NavMeshAgent nma_NavComponentRef;
 	//refrence for enemy movement
+	[HideInInspector] 
+	public EnemyShooter_Enemy es_EnemyShooterRef;
+	//refrence enemy idle move behavior
 	[HideInInspector] 
 	public EnemyIdleMove_Enemy em_EnemyMoveRef;
 	// Use this for initialization
@@ -51,25 +51,24 @@ public class EnemyBehavior_Enemy : MonoBehaviour
 	{
 		if (tr_Target == null)
 			return;
-
-		// face the target
-		//transform.LookAt (tr_Target);
-
+		
 		//get the distance between the chaser and the target
-
 		float distance = Vector3.Distance (transform.position, tr_Target.position);
 
-		//so long as the chaser is farther away than the minimum distance, move towards it at rate speed.
+		//If the player is out of this enemy combat range, set this enemy to it's Idle state
 		if (distance > fl_CombatRange) {
 			em_EnemyMoveRef.enabled = true;
 			es_EnemyShooterRef.enabled = false;
 			nma_NavComponentRef.enabled = false;
-		} else if ((distance <= fl_CombatRange && distance > fl_ShootingRange) || isHit) { // add (on taking damage) in the condition.
+
+		}// If the Player is within this enemy combat range, set this enemy to it's ready to fight state. 
+		else if ((distance <= fl_CombatRange && distance > fl_ShootingRange) || isHit) { // add (on taking damage) in the condition.
 			em_EnemyMoveRef.enabled = false;
 			es_EnemyShooterRef.enabled = false;
 			nma_NavComponentRef.enabled = true;
 			Chaser ();
-		} else if (distance <= fl_ShootingRange) {
+		}//If the Player is near enough for this enemy to shoot, activate this enemy's shooting behavior.
+		else if (distance <= fl_ShootingRange) {
 			es_EnemyShooterRef.enabled = true;
 			nma_NavComponentRef.enabled = false;
 		}
@@ -84,7 +83,9 @@ public class EnemyBehavior_Enemy : MonoBehaviour
 
 	public void Chaser ()
 	{
-		nma_NavComponentRef.SetDestination (tr_Target.position);
+		if (ChasePlayer == true) {
+			nma_NavComponentRef.SetDestination (tr_Target.position);
+		}
 	}
 
 	void OnTriggerEnter (Collider col)
