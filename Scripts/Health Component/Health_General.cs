@@ -9,34 +9,40 @@ using System.Collections;
 
 public class Health_General : MonoBehaviour
 {
-	
-
-	public float fl_health;
+	//public:
 	//the main health variable
-	 
-	public float fl_maxhealth;
+	public float fl_health;
 	//the maxmum health value
-
-	public GameObject go_itemHolder;
+	public float fl_maxhealth;
 	//to hold any items the player gets like keys for gate
-
-	private GameObject test;
-	//this is for testing
+	public GameObject go_itemHolder;
+	//private:
+	//Refrence to gameobject hpcontroller script
 	private HPController_General hpc_GameObjectRef;
+	//Used to learn if gameobject is outofcombat or not.
+	private float currentMaxHealth;
+	//return value of IsOutOfIndex fucntion
+	private bool shouldgenerat = true;
+	//When equals to zero, means it's out of combat
+	private float timer;
 
 	void Start ()
 	{
 
 		hpc_GameObjectRef = gameObject.GetComponent<HPController_General> ();
-
+		timer = 300;
 		if (gameObject.tag == "Player") {
 			fl_health = 0;
 			fl_maxhealth = 0;
+			go_itemHolder = null;
+			currentMaxHealth = GameManager.GM.Player.maxHealth;
 		}
+		currentMaxHealth = fl_maxhealth;
 	}
 
 	void Update ()
 	{
+		shouldgenerat = IsOutOfCombat ();
 		if (gameObject.tag == "Player") {
 			if (GameManager.GM.Player.health <= 0) {
 				if (GameManager.GM.Player.Revivetimes > 0) {
@@ -48,6 +54,10 @@ public class Health_General : MonoBehaviour
 				GameManager.GM.Player.health = GameManager.GM.Player.maxHealth;
 			} else if (GameManager.GM.Player.health <= GameManager.GM.Player.maxHealth * (1 / 4))
 				GameManager.GM.Player.Fury = true;
+			if (shouldgenerat == true) {
+				Heal (0.1f * GameManager.GM.Player.level, 0.1f * GameManager.GM.Player.level);
+			}
+
 		} else {
 			
 			if (fl_health <= 0) {
@@ -56,6 +66,9 @@ public class Health_General : MonoBehaviour
 				GameObject.Destroy (gameObject);
 			} else if (fl_health > fl_maxhealth)
 				fl_health = fl_maxhealth;
+			if (shouldgenerat == true) {
+				Heal (0.1f * SceneManager.SM.enemiesLevel, 0.0f);
+			}
 		}
 			
 	}
@@ -119,5 +132,30 @@ public class Health_General : MonoBehaviour
 		StartCoroutine (Poison (fl_Damage, poisonTime));
 	}
 
-	
+	bool IsOutOfCombat ()
+	{
+		if (gameObject.tag == "Player") {
+			if (GameManager.GM.Player.health < currentMaxHealth) {
+				timer = 300;
+				currentMaxHealth = GameManager.GM.Player.health;
+			} else if (GameManager.GM.Player.health > currentMaxHealth) {
+				currentMaxHealth = GameManager.GM.Player.health;
+			} else if (GameManager.GM.Player.health == currentMaxHealth) {
+				timer--;
+			}
+		} else {
+			if (fl_health < currentMaxHealth) {
+				timer = 300;
+				currentMaxHealth = fl_health;
+			} else if (fl_health > currentMaxHealth) {
+				currentMaxHealth = fl_health;
+			} else if (fl_health == currentMaxHealth) {
+				timer--;
+			}
+		}
+		if (timer <= 0) {
+			return true;
+		} else
+			return false;
+	}
 }

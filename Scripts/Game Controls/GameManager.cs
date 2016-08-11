@@ -259,6 +259,8 @@ public class PlayerState //Data Container for Player state.
 
 	//Exp for player character. Initially zero. (leveling up as 200,400,800,1600,3200... Max level is 50) Player can aqquire EXP from killing enemies.
 	public int EXP = 0;
+	//Player level
+	public float level = 1;
 	//Player Gold
 	public int gold = 0;
 	//Player Backbag that contain treasures, spell books, and any other item drop that can be used outside the level. Initially 20 free slots.
