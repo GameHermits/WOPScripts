@@ -72,6 +72,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			Damage_Projectile dp = go_NewBullet.GetComponentInChildren (typeof(Damage_Projectile))as Damage_Projectile;
 			if (dp.projectile.ToString () == "AoeInstantDmg") {
 				dp.summonerTag = "Player";
+			} else if (dp.projectile.ToString () == "Freezedmg") {
+				dp.freezeTag = "Player";
 			}
 
 
