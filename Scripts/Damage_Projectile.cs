@@ -10,7 +10,6 @@ using System.Collections;
 
 public class Damage_Projectile : MonoBehaviour
 {
-
 	// Instant Damage amount for every Projectile.
 	public float fl_dmgAmount;
 	// Freeze Damage amount for every projectile
@@ -177,4 +176,5 @@ public class Damage_Projectile : MonoBehaviour
 			summonerTag = " ";
 		}
 	}
+
 }
