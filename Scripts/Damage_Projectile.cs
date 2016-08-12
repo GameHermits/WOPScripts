@@ -84,6 +84,7 @@ public class Damage_Projectile : MonoBehaviour
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
+		Debug.Log ("here");
 		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
 			StartCoroutine ("Destroy");
