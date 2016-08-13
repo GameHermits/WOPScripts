@@ -20,11 +20,8 @@ public class Damage_Projectile : MonoBehaviour
 	public float PoisonTime;
 	//radius for aoe
 	public float fl_Radius;
-	//Sound after hit
-	public AudioClip explosion;
-	//Audio Source refrence
-	private AudioSource SFX;
-
+	//Explosion prefab
+	public GameObject explosionShuriken;
 
 	// Types of Projectiles
 	public enum ProjectileType
@@ -68,34 +65,29 @@ public class Damage_Projectile : MonoBehaviour
 	//A refrence object for the player controller compnent
 	private PlayerShooter_MainCamera PS_Ref;
 
-	void Destroylol ()
-	{
-		Debug.Log ("here");
-		StopForce ();
-		/*SFX.clip = explosion;
-		SFX.Play ();*/
-		//yield return new WaitForSeconds (1);
-		GameObject.Destroy (gameObject);
-	}
-
 	void Start ()
 	{
 		//Player Refrences
 		PlC_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController_Player> ();
 		PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
-		//Audio Source refrence
-		SFX = gameObject.GetComponent <AudioSource> ();
+	}
+
+	void Explosion ()
+	{
+		//Starting the Explosion after a collsion happend
+		GameObject newExplosion = Instantiate (explosionShuriken, transform.position, transform.rotation) as GameObject;
+		Destroy (gameObject);
 	}
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
 		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			Destroylol ();
+			Explosion ();
 
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			Destroylol ();
+			Explosion ();
 		}
 	}
 
@@ -162,16 +154,12 @@ public class Damage_Projectile : MonoBehaviour
 		}
 	}
 
-	void StopForce ()
-	{
-		gameObject.GetComponent <Rigidbody> ().velocity = new Vector3 (0, 0, 0);
-	}
-
 	void OnParticleCollision (GameObject col)
 	{
 		
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
-			Destroylol ();
+			Debug.Log ("Fucking Terrain");
+			Explosion ();
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
 		else if (projectile == ProjectileType.Freezedmg)
