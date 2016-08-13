@@ -10,7 +10,6 @@ using System.Collections;
 
 public class Damage_Projectile : MonoBehaviour
 {
-
 	// Instant Damage amount for every Projectile.
 	public float fl_dmgAmount;
 	// Freeze Damage amount for every projectile
@@ -21,11 +20,8 @@ public class Damage_Projectile : MonoBehaviour
 	public float PoisonTime;
 	//radius for aoe
 	public float fl_Radius;
-	//Sound after hit
-	public AudioClip explosion;
-	//Audio Source refrence
-	private AudioSource SFX;
-
+	//Explosion prefab
+	public GameObject explosionShuriken;
 
 	// Types of Projectiles
 	public enum ProjectileType
@@ -54,10 +50,13 @@ public class Damage_Projectile : MonoBehaviour
 	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
 	public ProjectileType projectile = ProjectileType.AoeInstantDmg;
+	[HideInInspector]
 	//for aoe instant dmg only
 	public string summonerTag;
+	[HideInInspector]
 	//for freezedmg only
 	public string freezeTag;
+	[HideInInspector]
 	//for freezed one refrence
 	public GameObject freezedEnmey;
 
@@ -66,32 +65,29 @@ public class Damage_Projectile : MonoBehaviour
 	//A refrence object for the player controller compnent
 	private PlayerShooter_MainCamera PS_Ref;
 
-	IEnumerator Destroy ()
-	{
-		SFX.clip = explosion;
-		SFX.Play ();
-		yield return new WaitForSeconds (1.5f);
-		GameObject.Destroy (gameObject);
-	}
-
 	void Start ()
 	{
 		//Player Refrences
 		PlC_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController_Player> ();
 		PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
-		//Audio Source refrence
-		SFX = gameObject.GetComponent <AudioSource> ();
+	}
+
+	void Explosion ()
+	{
+		//Starting the Explosion after a collsion happend
+		GameObject newExplosion = Instantiate (explosionShuriken, transform.position, transform.rotation) as GameObject;
+		Destroy (gameObject);
 	}
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
 		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			StartCoroutine ("Destroy");
+			Explosion ();
 
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			StartCoroutine ("Destroy");
+			Explosion ();
 		}
 	}
 
@@ -102,7 +98,6 @@ public class Damage_Projectile : MonoBehaviour
 		PS_Ref.enabled = true;
 		PlC_Ref.enabled = true;
 		if (Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag)) {
-			Debug.Log ("Here Freez");//for test 
 			freezedEnmey.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = true;
 			//freezedEnmey.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = true;
 			freezedEnmey.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = true;
@@ -127,7 +122,6 @@ public class Damage_Projectile : MonoBehaviour
 			col.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = false;
 			//col.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = false;
 			col.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = false;
-			Debug.Log (freezedEnmey.tag + "   " + Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag));//for test
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			StartCoroutine ("Wait");
 		}
@@ -160,12 +154,12 @@ public class Damage_Projectile : MonoBehaviour
 		}
 	}
 
-
 	void OnParticleCollision (GameObject col)
 	{
 		
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
-			StartCoroutine ("Destroy");
+			Debug.Log ("Fucking Terrain");
+			Explosion ();
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
 		else if (projectile == ProjectileType.Freezedmg)
@@ -177,4 +171,5 @@ public class Damage_Projectile : MonoBehaviour
 			summonerTag = " ";
 		}
 	}
+
 }

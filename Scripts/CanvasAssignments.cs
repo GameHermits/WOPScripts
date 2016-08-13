@@ -5,7 +5,7 @@ public class CanvasAssignments : MonoBehaviour
 {
 
 	// Use this for initialization
-	void Awake ()
+	/*void Awake ()
 	{
 		if (gameObject.name == "PlayerCanvas") {
 			GameManager.GM.PlayerCanvas = gameObject;
@@ -19,5 +19,5 @@ public class CanvasAssignments : MonoBehaviour
 			GameManager.GM.ReviveCanvas = gameObject;
 			gameObject.SetActive (false);
 		}
-	}
+	}*/
 }

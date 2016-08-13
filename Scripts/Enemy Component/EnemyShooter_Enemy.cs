@@ -34,6 +34,11 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	//Used for shooting cooldown.
 	private float fl_CoolDown = 0f;
 
+	void Shoot ()
+	{
+		
+	}
+
 	void Start ()
 	{
 		eb_EnemyBehaviorRef = gameObject.GetComponent<EnemyBehavior_Enemy> ();
@@ -63,7 +68,11 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	{// Implements behavior that let the enemy double attack randomly.
 		
 		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
-        
+		if (!newBullet.GetComponent <Rigidbody> ()) {
+			newBullet.AddComponent <Rigidbody> ();
+		}
+		newBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 30, ForceMode.Impulse);
+
 		in_randomInteger = Random.Range (1, 3);
         
 		switch (in_randomInteger) {
@@ -87,7 +96,10 @@ public class EnemyShooter_Enemy : MonoBehaviour
 	{// Implements behavior that let the enemy transport to different near location once he/she shoot.
 
 		GameObject newBullet = Instantiate (go_BulletPrefab, go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, go_ShootingPLace.transform.rotation) as GameObject;
-		//newBullet.GetComponent<Rigidbody> ().AddForce (transform.forward * fl_MovmentForce, ForceMode.VelocityChange);
+		if (!newBullet.GetComponent <Rigidbody> ()) {
+			newBullet.AddComponent <Rigidbody> ();
+		}
+		newBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 30, ForceMode.Impulse);
 
 		in_randomInteger = Random.Range (1, 3);
 		switch (in_randomInteger) {
