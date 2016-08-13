@@ -57,8 +57,11 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	{
 		GameObject go_NewBullet = Instantiate (go_BulletType, //...
 			                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
+		if (!go_NewBullet.GetComponent <Rigidbody> ()) {
+			go_NewBullet.AddComponent <Rigidbody> ();
+		}
 		go_NewBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 30, ForceMode.VelocityChange);
-		//go_NewBullet.GetComponent <Damage_Projectile> ().fl_dmgAmount = 10 * GameManager.GM.Player.ThunderWisdom;
+
 		GameManager.GM.Player.mana -= fl_UsedManaType;
 		GameManager.GM.Player.manaAmount -= fl_UsedManaType / GameManager.GM.Player.maxMana;
 		handAnimator.SetBool ("isAttackingS", false); // setting the animation bool to false to exit the attack animation.

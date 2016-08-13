@@ -53,10 +53,13 @@ public class Damage_Projectile : MonoBehaviour
 	// add a fucking aoe damage type for each of the above atttack. Make it as general as possible.
 
 	public ProjectileType projectile = ProjectileType.AoeInstantDmg;
+	[HideInInspector]
 	//for aoe instant dmg only
 	public string summonerTag;
+	[HideInInspector]
 	//for freezedmg only
 	public string freezeTag;
+	[HideInInspector]
 	//for freezed one refrence
 	public GameObject freezedEnmey;
 
@@ -65,11 +68,13 @@ public class Damage_Projectile : MonoBehaviour
 	//A refrence object for the player controller compnent
 	private PlayerShooter_MainCamera PS_Ref;
 
-	IEnumerator Destroy ()
+	void Destroylol ()
 	{
-		SFX.clip = explosion;
-		SFX.Play ();
-		yield return new WaitForSeconds (1.5f);
+		Debug.Log ("here");
+		StopForce ();
+		/*SFX.clip = explosion;
+		SFX.Play ();*/
+		//yield return new WaitForSeconds (1);
 		GameObject.Destroy (gameObject);
 	}
 
@@ -84,14 +89,13 @@ public class Damage_Projectile : MonoBehaviour
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
-		Debug.Log ("here");
 		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			StartCoroutine ("Destroy");
+			Destroylol ();
 
 		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			StartCoroutine ("Destroy");
+			Destroylol ();
 		}
 	}
 
@@ -102,7 +106,6 @@ public class Damage_Projectile : MonoBehaviour
 		PS_Ref.enabled = true;
 		PlC_Ref.enabled = true;
 		if (Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag)) {
-			Debug.Log ("Here Freez");//for test 
 			freezedEnmey.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = true;
 			//freezedEnmey.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = true;
 			freezedEnmey.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = true;
@@ -127,7 +130,6 @@ public class Damage_Projectile : MonoBehaviour
 			col.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = false;
 			//col.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = false;
 			col.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = false;
-			Debug.Log (freezedEnmey.tag + "   " + Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag));//for test
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			StartCoroutine ("Wait");
 		}
@@ -160,12 +162,16 @@ public class Damage_Projectile : MonoBehaviour
 		}
 	}
 
+	void StopForce ()
+	{
+		gameObject.GetComponent <Rigidbody> ().velocity = new Vector3 (0, 0, 0);
+	}
 
 	void OnParticleCollision (GameObject col)
 	{
 		
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
-			StartCoroutine ("Destroy");
+			Destroylol ();
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
 		else if (projectile == ProjectileType.Freezedmg)
