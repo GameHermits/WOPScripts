@@ -18,15 +18,24 @@ public class HPController_General : MonoBehaviour
 	public Image im_Manabar;
 	// make anew variable of shown image
 	public Image im_Energybar;
-
+	// Bloody screen effect
+	public Image im_BloodyScreen;
+	// Freeze screen effect
+	//Refrence the filling amount of health bar (used for enemies)
 	public float fl_tmpHealthbar = 1f;
+	//private:
+	private IconAnimationToggle_PlayerCanvas PlayerCanvas;
+	private Color BloodColor;
 	// Update is called once per frame
 	void Start ()
 	{
 		if (gameObject.tag == "Player") {
-			im_Healthbar = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ().img_Health;
-			im_Manabar = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ().img_Mana;
-			im_Energybar = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ().img_Energy;
+			PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas").GetComponent <IconAnimationToggle_PlayerCanvas> ();
+			im_Healthbar = PlayerCanvas.img_Health;
+			im_Manabar = PlayerCanvas.img_Mana;
+			im_Energybar = PlayerCanvas.img_Energy;
+			im_BloodyScreen = PlayerCanvas.img_BloodyScreen;
+			BloodColor = im_BloodyScreen.color;
 		}
 	}
 
@@ -53,6 +62,9 @@ public class HPController_General : MonoBehaviour
 			}
 
 			im_Healthbar.fillAmount = GameManager.GM.Player.healthAmount;
+			BloodColor.a = 255 - GameManager.GM.Player.healthAmount * 255;
+			im_BloodyScreen.color = BloodColor;
+			Debug.Log (im_BloodyScreen.color.a);
 			im_Manabar.fillAmount = GameManager.GM.Player.manaAmount; //give the variable value to the real amount of manabar image  after change 
 			im_Energybar.fillAmount = GameManager.GM.Player.energyAmount;
 		} else {

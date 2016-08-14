@@ -64,9 +64,7 @@ public class SceneManager : MonoBehaviour
 
 		//objectives = new ObjectiveState[Objectives_Strings.Length];
 		//MapObjectivesStrings (Objectives_Strings);
-		activeXPosition = -330.8f;
-		activeYPosition = 282.2f;
-		activeZPosition = 291.9f;
+
 		ReviveInPlace = true;
 	}
 	// Update is called once per frame

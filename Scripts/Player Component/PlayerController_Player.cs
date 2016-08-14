@@ -51,13 +51,22 @@ public class PlayerController_Player : MonoBehaviour
 
 	void Start ()
 	{
-		//Get the character controller component to the object
+		//If the game is loaded from previous playing, set player position to the last checkpoint position
+		if (GameManager.GM.isLoadedGame == true) {
+			gameObject.transform.position = new Vector3 (SceneManager.SM.activeXPosition, SceneManager.SM.activeYPosition, SceneManager.SM.activeZPosition);
+			GameManager.GM.isLoadedGame = false;
+		}
+		//Set this as the GameManager Playergameobject refrence 
 		GameManager.GM.PlayerGameObject = this.gameObject;
-		gameObject.transform.position = new Vector3 (SceneManager.SM.activeXPosition, SceneManager.SM.activeYPosition, SceneManager.SM.activeZPosition);
+		//Get the character controller component to the object for applying movement
 		cc_PlayerController = gameObject.GetComponent<CharacterController> ();
+		//Get the player canvas refrence for applying UI cahnges
 		go_PlayerCanvas = GameObject.FindGameObjectWithTag ("PlayerCanvas");
+		//Get Main Camera Image effect (Motion blur) for activating when sprint
 		mainCameraEffect = GameObject.FindWithTag ("MainCamera").GetComponent<MotionBlur> ();
+		//Get HPController component for UI changes
 		hpc_GameObjectRef = gameObject.GetComponent <HPController_General> ();
+		//Get Character Sound component for dialog and other player sound.
 		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
 		//Set player data
 		fl_SprintAmount = GameManager.GM.Player.sprintAmout;
