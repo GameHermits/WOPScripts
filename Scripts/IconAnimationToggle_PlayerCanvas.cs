@@ -13,6 +13,8 @@ public class IconAnimationToggle_PlayerCanvas : MonoBehaviour
 	public Image img_Health;
 	public Image img_Mana;
 	public Image img_Energy;
+	public Image img_BloodyScreen;
+	public Image img_FreezeScreen;
 	//private:
 	private int elementIndex = 0;
 

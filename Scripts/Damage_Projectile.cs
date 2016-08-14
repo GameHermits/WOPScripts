@@ -158,7 +158,6 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
-			Debug.Log ("Fucking Terrain");
 			Explosion ();
 		} else if (projectile == ProjectileType.InstantDmg)
 			InstantDamage (col);
