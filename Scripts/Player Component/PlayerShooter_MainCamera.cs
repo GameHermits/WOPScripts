@@ -60,7 +60,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		if (!go_NewBullet.GetComponent <Rigidbody> ()) {
 			go_NewBullet.AddComponent <Rigidbody> ();
 		}
-		go_NewBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 30, ForceMode.VelocityChange);
+		go_NewBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 60, ForceMode.VelocityChange);
 
 		GameManager.GM.Player.mana -= fl_UsedManaType;
 		GameManager.GM.Player.manaAmount -= fl_UsedManaType / GameManager.GM.Player.maxMana;
