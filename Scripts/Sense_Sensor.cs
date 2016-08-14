@@ -25,9 +25,12 @@ public class Sense_Sensor : MonoBehaviour
 	//Indicates where is the array indexer to spawners to access
 	[HideInInspector]
 	public int globalIterator;
-
+	//Should the sensor block the path player came from or block another path
 	public bool blockinplace = true;
+	//If the sensor is to be blocking other path, this Gameobject is used to refrence the location.
 	public GameObject blockingTarget;
+	//Audio Clips for combat
+	public AudioClip[] CombatMusic;
 	//Private:
 
 	//Iterates on spawned array in Update loop
@@ -45,6 +48,7 @@ public class Sense_Sensor : MonoBehaviour
 	{// when the player collide with sensor
 		if (col.gameObject.tag == "Player") { // check this is the player
 			go_Spawners.SetActive (true); // activate the spawners
+			SceneManager.SM.gameObject.GetComponent <MusicManager> ().StartCombatMusic (CombatMusic [Random.Range (0, 1)]); //Starts the combat music
 		}
 	}
 
@@ -67,9 +71,10 @@ public class Sense_Sensor : MonoBehaviour
 	{
 		if (startCheck == true) {
 			
-			if (Indicator == clearingNumber)
+			if (Indicator == clearingNumber) {
+				SceneManager.SM.gameObject.GetComponent <MusicManager> ().StopCombatMusic (); 
 				GameObject.Destroy (this.gameObject);
-			else if (localIterator <= Spawned.Length) {
+			} else if (localIterator <= Spawned.Length) {
 
 				if (Spawned [localIterator] == null) {
 					if (Indicator != Spawned.Length) {
