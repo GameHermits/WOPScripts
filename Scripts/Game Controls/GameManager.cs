@@ -46,7 +46,9 @@ public class GameManager : MonoBehaviour
 	public SupportData Ethan;
 	[HideInInspector]
 	public SupportData Lauren;
-
+	//Is the game loaded or was a new game/level (for controlling player starting locaiton upon loading a scene)
+	[HideInInspector]
+	public bool isLoadedGame;
 	//Private:
 	private DataContainer data;
 	private bool doesExists = true;
@@ -66,7 +68,7 @@ public class GameManager : MonoBehaviour
 		Adam = new SupportData (1, true, false);
 		Ethan = new SupportData (1, true, false);
 		Lauren = new SupportData (1, true, false);
-
+		isLoadedGame = false;
 	}
 
 	// Update is called once per frame
@@ -129,6 +131,7 @@ public class GameManager : MonoBehaviour
 			playerFile.Close ();
 
 			AssignBack (data);
+			isLoadedGame = true;
 			Application.LoadLevel (Player.currentSceneIndex);
 
 		} else {

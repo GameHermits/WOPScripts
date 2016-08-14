@@ -31,6 +31,8 @@ public class Sense_Sensor : MonoBehaviour
 	public GameObject blockingTarget;
 	//Audio Clips for combat
 	public AudioClip[] CombatMusic;
+	//Refrence to Level terrain that has the music
+	public GameObject SceneTerrain;
 	//Private:
 
 	//Iterates on spawned array in Update loop
@@ -48,7 +50,7 @@ public class Sense_Sensor : MonoBehaviour
 	{// when the player collide with sensor
 		if (col.gameObject.tag == "Player") { // check this is the player
 			go_Spawners.SetActive (true); // activate the spawners
-			SceneManager.SM.gameObject.GetComponent <MusicManager> ().StartCombatMusic (CombatMusic [Random.Range (0, 1)]); //Starts the combat music
+			SceneTerrain.GetComponent <MusicManager> ().StartCombatMusic (CombatMusic [Random.Range (0, 1)]); //Starts the combat music
 		}
 	}
 
@@ -72,7 +74,7 @@ public class Sense_Sensor : MonoBehaviour
 		if (startCheck == true) {
 			
 			if (Indicator == clearingNumber) {
-				SceneManager.SM.gameObject.GetComponent <MusicManager> ().StopCombatMusic (); 
+				SceneTerrain.gameObject.GetComponent <MusicManager> ().StopCombatMusic (); 
 				GameObject.Destroy (this.gameObject);
 			} else if (localIterator <= Spawned.Length) {
 
