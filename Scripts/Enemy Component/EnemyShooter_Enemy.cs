@@ -71,7 +71,7 @@ public class EnemyShooter_Enemy : MonoBehaviour
 		if (!newBullet.GetComponent <Rigidbody> ()) {
 			newBullet.AddComponent <Rigidbody> ();
 		}
-		newBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 30, ForceMode.Impulse);
+		newBullet.GetComponent <Rigidbody> ().AddForce (go_ShootingPLace.transform.forward * 60, ForceMode.Impulse);
 
 		in_randomInteger = Random.Range (1, 3);
         
