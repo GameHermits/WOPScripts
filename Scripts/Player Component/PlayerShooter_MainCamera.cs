@@ -53,7 +53,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		playersounds = gameObject.GetComponent <CharacterSound_General> ();
 	}
 	//Launch Bullet
-	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
+
+	private void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
 		GameObject go_NewBullet = Instantiate (go_BulletType, //...
 			                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
@@ -119,8 +120,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 					//If there is enough mana
 					if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning) {
 						if (go_Lightningbullet) {
-							// setting the animation bool to true to enter the animation attack. the animation contains an event that calls lunch bullet in a certain frame.
-							handAnimator.SetBool ("isAttackingS", true); 
+							LaunchBullet (go_Lightningbullet, fl_UsedMana_Lightning);
 						}
 					}
 				}
