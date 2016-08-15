@@ -84,9 +84,9 @@ public class PlayerController_Player : MonoBehaviour
 			}
 		} else if (isCanJump) {// is the player is on a suitable ground to jump
 			if (Input.GetKey (KeyCode.Space)) {
-				// Enter "HandsJump" animation and Exit "HandsWalk" animation
+				/*// Enter "HandsJump" animation and Exit "HandsWalk" animation
 				handAnimator.SetBool ("isJumping", true);
-				handAnimator.SetBool ("isWalking", false);
+				handAnimator.SetBool ("isWalking", false);*/
 				if (true) {
 					
 				
@@ -96,7 +96,7 @@ public class PlayerController_Player : MonoBehaviour
 					if (temp > fl_MaxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
 						temp = 0;
 						JumpLimit = true;
-						handAnimator.SetBool ("isJumping", false);
+						//handAnimator.SetBool ("isJumping", false);
 					}
 				}
 			}
@@ -113,7 +113,7 @@ public class PlayerController_Player : MonoBehaviour
 		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && isCanSprint == true) { 
 			fl_MoveSpeed = fl_SprintAmount;
 			mainCameraEffect.enabled = true;
-			handAnimator.SetBool ("isRunning", true);
+			//handAnimator.SetBool ("isRunning", true);
 			//if energy bar is more than zero 
 			if (GameManager.GM.Player.energyAmount > 0) {
 				GameManager.GM.Player.energyAmount -= (0.01f / 2.0f);
@@ -127,7 +127,7 @@ public class PlayerController_Player : MonoBehaviour
 			isCanFill = true;
 			fl_MoveSpeed = 8;
 			mainCameraEffect.enabled = false;
-			handAnimator.SetBool ("isRunning", false);
+			//handAnimator.SetBool ("isRunning", false);
 
 			if (isCanFill) {
 				//fill the energy bar when isCanFill equal true
@@ -155,10 +155,10 @@ public class PlayerController_Player : MonoBehaviour
 
 			if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) || (vec3_MovementX == Vector3.right * 0 && vec3_MovementZ == Vector3.forward * 0)) {
 
-				handAnimator.SetBool ("isWalking", false);
+				//handAnimator.SetBool ("isWalking", false);
 
 			} else if ((Input.GetKey (KeyCode.LeftShift) != true || Input.GetKey (KeyCode.RightShift) != true)) {
-				handAnimator.SetBool ("isWalking", true);
+				//handAnimator.SetBool ("isWalking", true);
 			}
 			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down
 			Jump (ref vec3_Movement);
@@ -177,13 +177,6 @@ public class PlayerController_Player : MonoBehaviour
 		} else {
 			// the player is on a suitable ground to jump
 			isCanJump = true;
-		}
-	}
-
-	void OnTriggerEnter (Collider col)
-	{
-		if (col.gameObject.tag == "Projectile") {// if the player gets hit, Enter "HandsOnHit" Animation.
-			handAnimator.SetBool ("OnHit", true);// The animation calls it's Exit function when it finishs.
 		}
 	}
 
