@@ -84,8 +84,8 @@ public class SceneManager : MonoBehaviour
 		GameManager.GM.PlayerGameObject.GetComponent <Health_General> ().Heal ((GameManager.GM.Player.maxHealth / 2), (GameManager.GM.Player.maxMana / 2));
 		GameManager.GM.PlayerGameObject.GetComponent <MouseLooker> ().LockCursor (true);
 		ReviveInPlace = true;
-		Time.timeScale = 1;
 		GameManager.GM.PlayerGameObject.GetComponent <MouseLooker> ().enabled = true;
+		Time.timeScale = 1;
 	}
 
 	public int TotalProgress ()

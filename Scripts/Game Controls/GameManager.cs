@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 	{
 		
 		// if player pressed "P" on keyboard pause the game
-		if (Input.GetKeyDown (KeyCode.P)) { 
+		if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown (KeyCode.Escape)) { 
 			ispaused = !ispaused;
 
 			if (ispaused == true) {
