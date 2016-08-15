@@ -41,6 +41,7 @@ public class MusicManager : MonoBehaviour
 				newSource.clip = BackGroundSFX [i];
 				newSource.loop = true;
 				newSource.priority = 256;
+				newSource.volume = 0.5f;
 				newSource.PlayDelayed (delayTime);
 			}
 		}
