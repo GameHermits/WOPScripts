@@ -154,21 +154,20 @@ public class Damage_Projectile : MonoBehaviour
 		}
 	}
 
-	void OnParticleCollision (GameObject col)
+	void OnTriggerEnter (Collider col)
 	{
-		
+
 		if (col.gameObject.tag == "Terrain") { // If the projectile hit the envoiroment
 			Explosion ();
 		} else if (projectile == ProjectileType.InstantDmg)
-			InstantDamage (col);
+			InstantDamage (col.gameObject);
 		else if (projectile == ProjectileType.Freezedmg)
-			FreezeDamage (col, freezeTag);
+			FreezeDamage (col.gameObject, freezeTag);
 		else if (projectile == ProjectileType.OverTimeDmg) {
-			PoisonDamage (col);
+			PoisonDamage (col.gameObject);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
-			AoeDmg (col.transform.position, fl_Radius, summonerTag);
+			AoeDmg (col.gameObject.transform.position, fl_Radius, summonerTag);
 			summonerTag = " ";
 		}
 	}
-
 }

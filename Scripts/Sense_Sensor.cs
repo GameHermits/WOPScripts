@@ -29,8 +29,6 @@ public class Sense_Sensor : MonoBehaviour
 	public bool blockinplace = true;
 	//If the sensor is to be blocking other path, this Gameobject is used to refrence the location.
 	public GameObject blockingTarget;
-	//Audio Clips for combat
-	public AudioClip[] CombatMusic;
 	//Refrence to Level terrain that has the music
 	public GameObject SceneTerrain;
 	//Private:
@@ -50,7 +48,7 @@ public class Sense_Sensor : MonoBehaviour
 	{// when the player collide with sensor
 		if (col.gameObject.tag == "Player") { // check this is the player
 			go_Spawners.SetActive (true); // activate the spawners
-			SceneTerrain.GetComponent <MusicManager> ().StartCombatMusic (CombatMusic [Random.Range (0, 1)]); //Starts the combat music
+			SceneTerrain.GetComponent <MusicManager> ().FadeOut = true;
 		}
 	}
 

@@ -14,7 +14,8 @@ public class Support : MonoBehaviour
 	private HPController_General hpc_GameObjectRef;
 	//heal amount that clover can do
 	private float in_HealAmount;
-
+	//Particle system that will play whenever clover heals the player
+	public GameObject HealingParticle;
 	//Adam Assets
 	//The shield that adam summons
 	public GameObject Shield;
@@ -48,6 +49,7 @@ public class Support : MonoBehaviour
 				//Clover
 				case 0:
 					he_Heal.Heal (in_HealAmount, in_HealAmount);
+					GameObject newParticle = Instantiate (HealingParticle, transform.position, HealingParticle.transform.rotation) as GameObject;
 					GameManager.GM.Clover.Use ();
 
 					break;

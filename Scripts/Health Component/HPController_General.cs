@@ -62,9 +62,9 @@ public class HPController_General : MonoBehaviour
 			}
 
 			im_Healthbar.fillAmount = GameManager.GM.Player.healthAmount;
-			BloodColor.a = 255 - GameManager.GM.Player.healthAmount * 255;
+			/*BloodColor.a = 255 - GameManager.GM.Player.healthAmount * 255;
 			im_BloodyScreen.color = BloodColor;
-			Debug.Log (im_BloodyScreen.color.a);
+			Debug.Log (im_BloodyScreen.color.a);*/
 			im_Manabar.fillAmount = GameManager.GM.Player.manaAmount; //give the variable value to the real amount of manabar image  after change 
 			im_Energybar.fillAmount = GameManager.GM.Player.energyAmount;
 		} else {
