@@ -25,7 +25,7 @@ public class HandsController : MonoBehaviour
 	// Calling LaunchBullet() function at a certain frame in the animation.
 	public void EnterSingleAttack ()
 	{
-		PS_PlayerShooterRef.LaunchBullet (PS_PlayerShooterRef.go_Lightningbullet, PS_PlayerShooterRef.fl_UsedMana_Lightning);
+		//	PS_PlayerShooterRef.LaunchBullet (PS_PlayerShooterRef.go_Lightningbullet, PS_PlayerShooterRef.fl_UsedMana_Lightning);
 	}
 
 	//Exit "HandsOnHit" animation.
