@@ -27,7 +27,6 @@ public class CheckPointInfo : MonoBehaviour
 			SceneManager.SM.activeYPosition = transform.position.y;
 			SceneManager.SM.activeZPosition = transform.position.z;
 			GameManager.GM.Player.currentSceneIndex = SceneManager.SM.sceneIndex;//Store current scene name in playerstate data
-			Debug.Log (SceneManager.SM.activeXPosition + "" + transform.position.x);
 			GameManager.GM.Save ();
 			for (int i = 0; i < EnemyAroundCP.Length; i++) {
 				if (EnemyAroundCP [i] != null) {

@@ -11,13 +11,22 @@ public class MusicManager : MonoBehaviour
 	public AudioClip[] Music;
 	//Background Environmental sounds.
 	public AudioClip[] BackGroundSFX;
+	//Combat Music
+	public AudioClip[] CombatMusic;
+	//Boss Music
+	public AudioClip BossMusic;
 	//How much time should the next Music wait before playing.
 	public float quietTime;
 	//how much time should the Environment Sounds wait before starting.
 	public float delayTime;
+	//bool to control fading out music
+	[HideInInspector]
+	public bool FadeOut = false;
 	//private:
 	//Audio Source created in runtime to play the music
 	private AudioSource MusicSource;
+	//bool to control deeping in music
+	private bool FadeIn = false;
 
 	public void StopCombatMusic ()
 	{//called by the sensor script before getting destroied so that it stops the combat music
@@ -31,6 +40,8 @@ public class MusicManager : MonoBehaviour
 		MusicSource.clip = clip;
 		MusicSource.loop = true;
 		MusicSource.Play ();
+		FadeOut = false;
+		FadeIn = true;
 	}
 
 	void Start ()
@@ -52,6 +63,7 @@ public class MusicManager : MonoBehaviour
 			MusicSource.loop = false;
 			MusicSource.priority = 0;
 			MusicSource.volume = 1;
+			MusicSource.Play ();
 		}
 	}
 	// Update is called once per frame
@@ -62,6 +74,18 @@ public class MusicManager : MonoBehaviour
 			MusicSource.Stop ();
 			MusicSource.clip = Music [Random.Range (0, Music.Length)];
 			MusicSource.PlayDelayed (quietTime);
+		}
+
+		if (FadeOut == true) {
+			MusicSource.volume -= 0.01f;
+			if (MusicSource.volume <= 0) {
+				StartCombatMusic (CombatMusic [Random.Range (0, CombatMusic.Length)]);
+			}
+		} else if (FadeIn == true) {
+			MusicSource.volume += 0.01f;
+			if (MusicSource.volume >= 1) {
+				FadeIn = false;
+			}
 		}
 	}
 }
