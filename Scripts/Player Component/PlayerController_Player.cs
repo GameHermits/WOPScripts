@@ -13,14 +13,8 @@ using UnityStandardAssets.ImageEffects;
 public class PlayerController_Player : MonoBehaviour
 {
 	//public
-	// Max walk speed the player can walk with.
-	public float fl_MoveSpeed = 0.5f;
 	// for applying gravity to the player.
 	public float fl_Gravity = 9.81f;
-	// Max Sprint speed the player can run with.
-	public float fl_SprintAmount;
-	// Max jump the player can do.
-	public float fl_MaxJump = 10.0f;
 	// Refrecne for the animator component in the hands.
 	public Animator handAnimator;
 	//Audio clips needed for player movements
@@ -68,10 +62,7 @@ public class PlayerController_Player : MonoBehaviour
 		hpc_GameObjectRef = gameObject.GetComponent <HPController_General> ();
 		//Get Character Sound component for dialog and other player sound.
 		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
-		//Set player data
-		fl_SprintAmount = GameManager.GM.Player.sprintAmout;
-		fl_MaxJump = GameManager.GM.Player.maxJump;
-		fl_MoveSpeed = GameManager.GM.Player.movementSpeed;
+		GameManager.GM.Player.movementSpeed = GameManager.GM.Player.BootsSpeed;
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
@@ -88,12 +79,11 @@ public class PlayerController_Player : MonoBehaviour
 				handAnimator.SetBool ("isJumping", true);
 				handAnimator.SetBool ("isWalking", false);*/
 				if (true) {
-					
 				
 					// Jumping behavior
-					vec3_Movement.y = fl_MaxJump;
+					vec3_Movement.y = GameManager.GM.Player.maxJump;
 					temp++;
-					if (temp > fl_MaxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
+					if (temp > GameManager.GM.Player.maxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
 						temp = 0;
 						JumpLimit = true;
 						//handAnimator.SetBool ("isJumping", false);
@@ -111,7 +101,7 @@ public class PlayerController_Player : MonoBehaviour
 	{
 		// if the player sprinting, apply sprint speed, activate sprint image effect, and Enter "HandsRunning" animation. Else, back to normal state.
 		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && isCanSprint == true) { 
-			fl_MoveSpeed = fl_SprintAmount;
+			GameManager.GM.Player.movementSpeed = GameManager.GM.Player.sprintAmout;
 			mainCameraEffect.enabled = true;
 			//handAnimator.SetBool ("isRunning", true);
 			//if energy bar is more than zero 
@@ -125,7 +115,7 @@ public class PlayerController_Player : MonoBehaviour
 				
 		} else {
 			isCanFill = true;
-			fl_MoveSpeed = 8;
+			GameManager.GM.Player.movementSpeed = GameManager.GM.Player.BootsSpeed;
 			mainCameraEffect.enabled = false;
 			//handAnimator.SetBool ("isRunning", false);
 
@@ -147,9 +137,9 @@ public class PlayerController_Player : MonoBehaviour
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
 			
 			// movement in Z direction
-			Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * fl_MoveSpeed * Time.deltaTime;
+			Vector3 vec3_MovementZ = Input.GetAxis ("Vertical") * Vector3.forward * GameManager.GM.Player.movementSpeed * Time.deltaTime;
 			// movement in X direction
-			Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * fl_MoveSpeed * Time.deltaTime;
+			Vector3 vec3_MovementX = Input.GetAxis ("Horizontal") * Vector3.right * GameManager.GM.Player.movementSpeed * Time.deltaTime;
 			// Movement variable
 			Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
 
