@@ -29,6 +29,7 @@ public class DoorCondition_DoorArea : MonoBehaviour
 		//This fucntion used to reorgnaize inventory slots.
 		//Indicating the next element
 		int k = 1;
+		GameManager.GM.Player.Inventory [i] = "";
 		//loops through the inventory
 		while (i + k < GameManager.GM.Player.InvIndex) {
 			if (GameManager.GM.Player.Inventory [i + k] != "") {
@@ -72,6 +73,7 @@ public class DoorCondition_DoorArea : MonoBehaviour
 					GameObject.Destroy (doorCollider);
 					ShifttingInventory (i);
 				}
+				Debug.Log (GameManager.GM.Player.Inventory [i]);
 			}
 
 		}
