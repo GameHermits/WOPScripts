@@ -77,7 +77,6 @@ public class Health_General : MonoBehaviour
 	{
 		if (gameObject.tag == "Player") {
 			GameManager.GM.Player.health -= fl_Damage - GameManager.GM.Player.magicResist;
-			Debug.Log (GameManager.GM.Player.health);
 		} else
 			fl_health = fl_health - fl_Damage;
 		DamageHealthBar (fl_Damage);

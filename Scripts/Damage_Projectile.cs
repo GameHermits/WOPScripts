@@ -69,7 +69,7 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		//Player Refrences
 		PlC_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController_Player> ();
-		PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
+		//PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
 	}
 
 	void Explosion ()
@@ -102,18 +102,19 @@ public class Damage_Projectile : MonoBehaviour
 			//freezedEnmey.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = true;
 			freezedEnmey.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = true;
 		}
+		Explosion ();
 	}
 
 	public void FreezeDamage (GameObject col, string summontag) // Called when Freeze Damage Type of projectile is selected
 	{
 		//if the one to be hit is aliaies and the summoner is enemy
 		if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && Enemies.IsDefined (typeof(Enemies), summontag)) {
-			gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
+			/*gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
 			gameObject.GetComponent <Rigidbody> ().velocity = Vector3.zero;
 			gameObject.GetComponent <Rigidbody> ().angularVelocity = Vector3.zero;
-			gameObject.GetComponent <Rigidbody> ().Sleep ();
+			gameObject.GetComponent <Rigidbody> ().Sleep ();*/
 			//here the only ally that coud be hit is player so I just stopped him
-			PS_Ref.enabled = false;
+			//PS_Ref.enabled = false;
 			PlC_Ref.enabled = false;
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
 			StartCoroutine ("Wait");
