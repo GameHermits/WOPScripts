@@ -61,16 +61,17 @@ public class EnemyBehavior_Enemy : MonoBehaviour
 			es_EnemyShooterRef.enabled = false;
 			nma_NavComponentRef.enabled = false;
 
+		}
+		//If the Player is near enough for this enemy to shoot, activate this enemy's shooting behavior.
+		else if (distance <= fl_ShootingRange) {
+			es_EnemyShooterRef.enabled = true;
+			nma_NavComponentRef.enabled = false;
 		}// If the Player is within this enemy combat range, set this enemy to it's ready to fight state. 
 		else if ((distance <= fl_CombatRange && distance > fl_ShootingRange) || isHit) { // add (on taking damage) in the condition.
 			em_EnemyMoveRef.enabled = false;
 			es_EnemyShooterRef.enabled = false;
 			nma_NavComponentRef.enabled = true;
 			Chaser ();
-		}//If the Player is near enough for this enemy to shoot, activate this enemy's shooting behavior.
-		else if (distance <= fl_ShootingRange) {
-			es_EnemyShooterRef.enabled = true;
-			nma_NavComponentRef.enabled = false;
 		}
 				
 	}
