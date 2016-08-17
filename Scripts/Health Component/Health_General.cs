@@ -72,6 +72,35 @@ public class Health_General : MonoBehaviour
 		}
 			
 	}
+	//This Fucntion Calculate the time of when to activate regeneration to health and mana of this gameobject.
+	bool IsOutOfCombat ()
+	{
+		if (gameObject.tag == "Player") {
+			if (GameManager.GM.Player.health < currentMaxHealth) {
+				timer = 300;
+				currentMaxHealth = GameManager.GM.Player.health;
+			} else if (GameManager.GM.Player.health > currentMaxHealth) {
+				currentMaxHealth = GameManager.GM.Player.health;
+			} else if (GameManager.GM.Player.health == currentMaxHealth) {
+				timer--;
+			}
+		} else {
+			if (fl_health < currentMaxHealth) {
+				timer = 300;
+				currentMaxHealth = fl_health;
+			} else if (fl_health > currentMaxHealth) {
+				currentMaxHealth = fl_health;
+			} else if (fl_health == currentMaxHealth) {
+				timer--;
+			}
+		}
+		if (timer <= 0) {
+			return true;
+		} else
+			return false;
+	}
+
+	//These Fucntions are called by magic spells to apply various effects to the characters
 
 	public void ApplayDamage (float fl_Damage) // Applying damage effect to the gameObject. the fucntion is called by the projectile collided with this gameObject
 	{
@@ -109,6 +138,17 @@ public class Health_General : MonoBehaviour
 			hpc_GameObjectRef.fl_tmpHealthbar = hpc_GameObjectRef.fl_tmpHealthbar + (healthHealing / (fl_maxhealth));
 	}
 
+	IEnumerator Freeze (float freezeTime)
+	{
+		yield return new WaitForSeconds (freezeTime);
+		if (gameObject.tag == "Player") {
+			gameObject.GetComponent <PlayerController_Player> ().enabled = true;
+		} else {
+			gameObject.GetComponent <EnemyIdleMove_Enemy> ().enabled = true;
+			gameObject.GetComponent <EnemyBehavior_Enemy> ().ChasePlayer = true;
+		}
+	}
+
 	IEnumerator Poison (float fl_Damage, float poisonTime) // Poison Behavior
 	{
 
@@ -132,30 +172,15 @@ public class Health_General : MonoBehaviour
 		StartCoroutine (Poison (fl_Damage, poisonTime));
 	}
 
-	bool IsOutOfCombat ()
+	public void ApplayFreeze (float time, float damage)
 	{
 		if (gameObject.tag == "Player") {
-			if (GameManager.GM.Player.health < currentMaxHealth) {
-				timer = 300;
-				currentMaxHealth = GameManager.GM.Player.health;
-			} else if (GameManager.GM.Player.health > currentMaxHealth) {
-				currentMaxHealth = GameManager.GM.Player.health;
-			} else if (GameManager.GM.Player.health == currentMaxHealth) {
-				timer--;
-			}
+			gameObject.GetComponent <PlayerController_Player> ().enabled = false;
+			ApplayDamage (damage);
 		} else {
-			if (fl_health < currentMaxHealth) {
-				timer = 300;
-				currentMaxHealth = fl_health;
-			} else if (fl_health > currentMaxHealth) {
-				currentMaxHealth = fl_health;
-			} else if (fl_health == currentMaxHealth) {
-				timer--;
-			}
+			gameObject.GetComponent <EnemyIdleMove_Enemy> ().enabled = false;
+			gameObject.GetComponent <EnemyBehavior_Enemy> ().ChasePlayer = false;
 		}
-		if (timer <= 0) {
-			return true;
-		} else
-			return false;
+		StartCoroutine (Freeze (time));
 	}
 }

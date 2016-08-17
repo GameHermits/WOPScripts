@@ -12,8 +12,6 @@ public class Damage_Projectile : MonoBehaviour
 {
 	// Instant Damage amount for every Projectile.
 	public float fl_dmgAmount;
-	// Freeze Damage amount for every projectile
-	public float fl_FreezeDmgAmount;
 	// how much should the freez effect lasts.
 	public float fl_FreezeTime;
 	// how much should the poison effect lasts.
@@ -81,51 +79,18 @@ public class Damage_Projectile : MonoBehaviour
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
-		if (col.gameObject.tag == "NEnemy" || col.gameObject.tag == "LEnemy") {// If hit an enemy, calls damage handling functions in it's health component
+		if (col.tag != "Terrain" || col.tag != "Projectile") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			Explosion ();
-
-		} else if (col.gameObject.tag == "Player") {// If hit a Player, calls damage handling functions in it's health component
-			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
-			Explosion ();
-		}
-	}
-
-	// Freezing effect
-	IEnumerator Wait ()
-	{
-		yield return new WaitForSeconds (fl_FreezeTime);
-		PS_Ref.enabled = true;
-		PlC_Ref.enabled = true;
-		if (Enemies.IsDefined (typeof(Enemies), freezedEnmey.tag)) {
-			freezedEnmey.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = true;
-			//freezedEnmey.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = true;
-			freezedEnmey.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = true;
 		}
 		Explosion ();
 	}
 
 	public void FreezeDamage (GameObject col, string summontag) // Called when Freeze Damage Type of projectile is selected
 	{
-		//if the one to be hit is aliaies and the summoner is enemy
-		if (Aliaies.IsDefined (typeof(Aliaies), col.gameObject.tag) && Enemies.IsDefined (typeof(Enemies), summontag)) {
-			/*gameObject.GetComponent<TimedObjectDestructor> ().fl_TimeOut = fl_FreezeTime;
-			gameObject.GetComponent <Rigidbody> ().velocity = Vector3.zero;
-			gameObject.GetComponent <Rigidbody> ().angularVelocity = Vector3.zero;
-			gameObject.GetComponent <Rigidbody> ().Sleep ();*/
-			//here the only ally that coud be hit is player so I just stopped him
-			//PS_Ref.enabled = false;
-			PlC_Ref.enabled = false;
-			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
-			StartCoroutine ("Wait");
-		} else if (Enemies.IsDefined (typeof(Enemies), col.gameObject.tag) && Aliaies.IsDefined (typeof(Aliaies), summontag)) {
-			freezedEnmey = col.gameObject;
-			col.gameObject.GetComponent<EnemyShooter_Enemy> ().enabled = false;
-			//col.gameObject.GetComponent<EnemyIdleMove_Enemy> ().enabled = false;
-			col.gameObject.GetComponent<EnemyBehavior_Enemy> ().enabled = false;
-			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_FreezeDmgAmount);
-			StartCoroutine ("Wait");
+		if (col.tag != "Terrain" || col.tag != "Projectile") {
+			col.GetComponent <Health_General> ().ApplayFreeze (fl_FreezeTime, fl_dmgAmount);
 		}
+		Explosion ();
 	}
 
 	public void PoisonDamage (GameObject col)
