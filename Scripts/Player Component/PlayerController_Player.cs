@@ -16,10 +16,9 @@ public class PlayerController_Player : MonoBehaviour
 	// for applying gravity to the player.
 	public float fl_Gravity = 9.81f;
 	// Refrecne for the animator component in the hands.
-	public Animator handAnimator;
-	//Audio clips needed for player movements
-	public AudioClip sprint;
-
+	//public Animator handAnimator;
+	//Audiosource for jump sound
+	public AudioSource jump;
 	//Private
 	// for controling jumping behavior.
 	private bool isCanJump = true;
@@ -40,8 +39,6 @@ public class PlayerController_Player : MonoBehaviour
 	private HPController_General hpc_GameObjectRef;
 	//Object to play character sounds.
 	private CharacterSound_General playerSounds;
-	//Audio sources needed for player
-	//private AudioSource Sprint;
 
 	void Start ()
 	{
@@ -71,22 +68,18 @@ public class PlayerController_Player : MonoBehaviour
 			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
 			if (cc_PlayerController.isGrounded) { // if the player touched the ground, enable jumping again.
 				JumpLimit = false;
-
 			}
 		} else if (isCanJump) {// is the player is on a suitable ground to jump
 			if (Input.GetKey (KeyCode.Space)) {
-				/*// Enter "HandsJump" animation and Exit "HandsWalk" animation
-				handAnimator.SetBool ("isJumping", true);
-				handAnimator.SetBool ("isWalking", false);*/
 				if (true) {
-				
 					// Jumping behavior
+					jump.Play ();
 					vec3_Movement.y = GameManager.GM.Player.maxJump;
 					temp++;
-					if (temp > GameManager.GM.Player.maxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
+					if (temp > GameManager.GM.Player.maxJump || Input.GetKeyUp (KeyCode.Space)) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
 						temp = 0;
 						JumpLimit = true;
-						//handAnimator.SetBool ("isJumping", false);
+						isCanJump = false;
 					}
 				}
 			}
