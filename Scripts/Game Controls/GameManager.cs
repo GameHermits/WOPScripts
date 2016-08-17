@@ -292,6 +292,47 @@ public class PlayerState //Data Container for Player state.
 	public float healthAmount = 1;
 	public float energyAmount = 1;
 	public float manaAmount = 1;
+
+	public void ResetState ()
+	{ // Resets the player state to the default state.
+		health = 2000;
+		maxHealth = 2000;
+		mana = 1000;
+		maxMana = 1000;
+		sprintAmout = 20f;
+		maxJump = 3.5f;
+		BootsSpeed = 10f;
+		powerStone = "";
+		powerStoneLevel = 0;
+		magicResist = 10;
+		Fury = false;
+		Revivetimes = 3;
+		ThunderEXP = 3200;
+		FireEXP = 0;
+		IceEXP = 0;
+		BlackMagicEXP = 0;
+		ThunderWisdom = 5;
+		FireWisdom = 1;
+		IceWisdom = 1;
+		BlackMagicWisdom = 1;
+		EXP = 0;
+		level = 1;
+		gold = 0;
+		InvIndex = 0;
+		ThunderMagic = true;
+		FireMagic = false;
+		IceMagic = false;
+		BlackMagic = false;
+		currentSceneIndex = 2;
+		healthAmount = 1;
+		energyAmount = 1;
+		manaAmount = 1;
+
+		for (int i = 0; i < 6; i++) {
+			Inventory [i] = "";
+		}
+
+	}
 }
 
 [Serializable]

@@ -17,7 +17,12 @@ public class UIFunctions : MonoBehaviour
 
 	public void LoadspecificScene ()
 	{
-		//Load a specific scene inputed manually in the inspector 
+		//Load a specific scene inputed manually in the inspector
+
+		GameManager.GM.DieCanvas.SetActive (false);
+		GameManager.GM.ReviveCanvas.SetActive (false);
+		GameManager.GM.Player.ResetState ();
+		Time.timeScale = 1;
 		Application.LoadLevel (ScenetoLoad);
 	}
 
@@ -26,6 +31,8 @@ public class UIFunctions : MonoBehaviour
 		//Load scene from a file.
 
 		GameManager.GM.Load ();
+		GameManager.GM.DieCanvas.SetActive (false);
+		GameManager.GM.ReviveCanvas.SetActive (false);
 	}
 
 	public void ExitGame ()
