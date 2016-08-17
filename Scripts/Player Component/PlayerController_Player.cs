@@ -71,16 +71,14 @@ public class PlayerController_Player : MonoBehaviour
 			}
 		} else if (isCanJump) {// is the player is on a suitable ground to jump
 			if (Input.GetKey (KeyCode.Space)) {
-				if (true) {
-					// Jumping behavior
-					jump.Play ();
-					vec3_Movement.y = GameManager.GM.Player.maxJump;
-					temp++;
-					if (temp > GameManager.GM.Player.maxJump || Input.GetKeyUp (KeyCode.Space)) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
-						temp = 0;
-						JumpLimit = true;
-						isCanJump = false;
-					}
+				// Jumping behavior
+				jump.Play ();
+				vec3_Movement.y = GameManager.GM.Player.maxJump;
+				temp++;
+				if (temp > GameManager.GM.Player.maxJump || Input.GetKeyUp (KeyCode.Space)) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
+					temp = 0;
+					JumpLimit = true;
+					isCanJump = false;
 				}
 			}
 		} else {
