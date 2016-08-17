@@ -69,4 +69,20 @@ public class UIFunctions : MonoBehaviour
 	{
 		clicksound.Play ();
 	}
+
+	void Update ()
+	{
+		if (Input.GetKeyUp (KeyCode.Q)) {
+			switch (gameObject.name) {
+			case "DieCanvas":
+				RestartScene ();
+				break;
+			case "ReviveCanvas":
+				TryAgain ();
+				break;
+			}
+		} else if (Input.GetKeyUp (KeyCode.E)) {
+			LoadspecificScene ();
+		}
+	}
 }
