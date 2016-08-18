@@ -8,7 +8,7 @@
 */
 using UnityEngine;
 using System.Collections;
-
+using Image = UnityEngine.UI.Image;
 
 public class PlayerShooter_MainCamera : MonoBehaviour
 {
@@ -30,6 +30,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
+	//CooldDown sprite to conrtol it's filling amount
+	public Image CDimg;
 	//private:
 	//the four elements.
 	private enum enum_Elements
@@ -106,6 +108,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	void Update ()
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
+			CDimg.fillAmount = (coolDown - Time.time) / GameManager.GM.Player.CD;
 			if (Time.time >= coolDown) {
 
 				//Checking for right mouse click for chaning the style of magic
