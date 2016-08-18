@@ -8,7 +8,7 @@
 */
 using UnityEngine;
 using System.Collections;
-
+using Image = UnityEngine.UI.Image;
 
 public class PlayerShooter_MainCamera : MonoBehaviour
 {
@@ -30,6 +30,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
+	//CooldDown sprite to conrtol it's filling amount
+	public Image CDimg;
 	//private:
 	//the four elements.
 	private enum enum_Elements
@@ -47,6 +49,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	private CharacterSound_General playersounds;
 	//boolean to control UI funcion
 	private bool lockedStyle = false;
+	//Local CoolDown (used for calculations, the real cooldown value located in playerState in GameManger script).
+	private float coolDown = 0;
 
 	void Start ()
 	{
@@ -56,6 +60,9 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 
 	private void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
+		//Reset CoolDown after Each hit
+		coolDown = Time.time + GameManager.GM.Player.CD;
+
 		GameObject go_NewBullet = Instantiate (go_BulletType, //...
 			                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		if (!go_NewBullet.GetComponent <Rigidbody> ()) {
@@ -101,68 +108,70 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	void Update ()
 	{
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
+			CDimg.fillAmount = (coolDown - Time.time) / GameManager.GM.Player.CD;
+			if (Time.time >= coolDown) {
 
-			if (Input.GetMouseButtonUp (1)) {
-				if (elementIndex == 3) {
-					elementIndex = 0;
-					InputChecking ();
-				} else {
-					elementIndex++;
-					InputChecking ();
-				}
+				//Checking for right mouse click for chaning the style of magic
+				if (Input.GetMouseButtonUp (1)) {
+					if (elementIndex == 3) {
+						elementIndex = 0;
+						InputChecking ();
+					} else {
+						elementIndex++;
+						InputChecking ();
+					}
 					
+				}
+
+				//this condition checks on the element type and fire the right prefab attached.
+				switch (currentElement) {
+				//when the player choose '1' or 'lightning'
+				case enum_Elements.Lightning:
+					if (Input.GetMouseButtonUp (0)) {
+						//If there is enough mana
+						if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning) {
+							if (go_Lightningbullet) {
+								LaunchBullet (go_Lightningbullet, fl_UsedMana_Lightning);
+							}
+						}
+					}
+					break;
+
+				case enum_Elements.Fire:
+					if (Input.GetMouseButtonUp (0)) {
+						//If there is enough mana
+						if (GameManager.GM.Player.mana >= fl_UsedMana_Fire) {
+							if (go_Firebullet) {
+								LaunchBullet (go_Firebullet, fl_UsedMana_Fire);
+							}
+						}
+					}
+					break;
+
+				case enum_Elements.Ice:
+					if (Input.GetMouseButtonUp (0)) {
+						//If there is enough mana
+						if (GameManager.GM.Player.mana >= fl_UsedMana_Ice) {
+							if (go_Icebullet) {
+								LaunchBullet (go_Icebullet, fl_UsedMana_Ice);
+							}
+						}
+					}
+					break;
+
+				case enum_Elements.BlackMagic:
+					if (Input.GetMouseButtonUp (0)) {
+						//If there is enough mana
+						if (GameManager.GM.Player.mana >= fl_UsedMana_BlackMagic) {
+							if (go_BlackMagicbullet) {
+								LaunchBullet (go_BlackMagicbullet, fl_UsedMana_BlackMagic);
+							}
+						}
+					}
+					break;
+				}
+
 			}
-			//this condition checks on the element type and fire the right prefab attached.
-			switch (currentElement) {
-			//when the player choose '1' or 'lightning'
-			case enum_Elements.Lightning:
-				if (Input.GetMouseButtonUp (0)) {
-					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning) {
-						if (go_Lightningbullet) {
-							LaunchBullet (go_Lightningbullet, fl_UsedMana_Lightning);
-						}
-					}
-				}
-				break;
-
-			case enum_Elements.Fire:
-				if (Input.GetMouseButtonUp (0)) {
-					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_Fire) {
-						if (go_Firebullet) {
-							LaunchBullet (go_Firebullet, fl_UsedMana_Fire);
-						}
-					}
-				}
-				break;
-
-			case enum_Elements.Ice:
-				if (Input.GetMouseButtonUp (0)) {
-					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_Ice) {
-						if (go_Icebullet) {
-							LaunchBullet (go_Icebullet, fl_UsedMana_Ice);
-						}
-					}
-				}
-				break;
-
-			case enum_Elements.BlackMagic:
-				if (Input.GetMouseButtonUp (0)) {
-					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_BlackMagic) {
-						if (go_BlackMagicbullet) {
-							LaunchBullet (go_BlackMagicbullet, fl_UsedMana_BlackMagic);
-						}
-					}
-				}
-				break;
-			}
-
-
-
-
 		}
 	}
 
