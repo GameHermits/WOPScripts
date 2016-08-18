@@ -18,19 +18,20 @@ public class PlayerController_Player : MonoBehaviour
 	// Refrecne for the animator component in the hands.
 	//public Animator handAnimator;
 	//Audiosource for jump sound
-	public AudioSource jump;
+	public AudioSource jumpSFX;
 	//Private
 	// for controling jumping behavior.
-	private bool isCanJump = true;
+	private bool CanJump = true;
 	//flag for ability to sprint or not
-	private bool isCanSprint = true;
+	private bool CanSprint = true;
 	//flag for ability to fill energy bar or not
-	private bool isCanFill = false;
+	private bool CanFill = false;
 	//refrence for the player canvas
 	private GameObject go_PlayerCanvas;
 	// jump controling variables
-	bool JumpLimit = false;
-	float temp = 0;
+	private bool isJumping = false;
+	//Store the previous y component of the player before making a jump
+	private float previousY;
 	//character controller object
 	private CharacterController cc_PlayerController;
 	// Refrence of an Image effect component in the main camera, for sprint.
@@ -60,69 +61,59 @@ public class PlayerController_Player : MonoBehaviour
 		//Get Character Sound component for dialog and other player sound.
 		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
 		GameManager.GM.Player.movementSpeed = GameManager.GM.Player.BootsSpeed;
+		previousY = transform.position.y;
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
 	{
-		if (JumpLimit) { // if reached maximum jump apply gravity
-			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-			if (cc_PlayerController.isGrounded) { // if the player touched the ground, enable jumping again.
-				JumpLimit = false;
-			}
-		} else if (isCanJump) {// is the player is on a suitable ground to jump
-			if (Input.GetKey (KeyCode.Space)) {
-				// Jumping behavior
-				jump.Play ();
-				vec3_Movement.y = GameManager.GM.Player.maxJump;
-				temp++;
-				if (temp > GameManager.GM.Player.maxJump || Input.GetKeyUp (KeyCode.Space)) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
-					temp = 0;
-					JumpLimit = true;
-					isCanJump = false;
-				}
-			}
-		} else {
-			// Aplaying gravity if not standing on something
+		//If the player is standing on a land and pressing space make him jump and floating in the air
+		if (CanJump == true && cc_PlayerController.isGrounded == true && Input.GetKey (KeyCode.Space)) {
+			vec3_Movement.y = GameManager.GM.Player.maxJump;
+			isJumping = true;
+			jumpSFX.Play ();
+		}//Else if the player isjumping and stopped pressing space, apply normal gravity 
+		else if ((isJumping == true && !Input.GetKey (KeyCode.Space))) {
+			isJumping = false;
+		} else if (isJumping == false) {
 			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
 		}
-
 	}
 
 	void Sprint () // Sprint behavior and animations
 	{
 		// if the player sprinting, apply sprint speed, activate sprint image effect, and Enter "HandsRunning" animation. Else, back to normal state.
-		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && isCanSprint == true) { 
+		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && CanSprint == true) { 
 			GameManager.GM.Player.movementSpeed = GameManager.GM.Player.sprintAmout;
 			mainCameraEffect.enabled = true;
 			//handAnimator.SetBool ("isRunning", true);
 			//if energy bar is more than zero 
 			if (GameManager.GM.Player.energyAmount > 0) {
 				GameManager.GM.Player.energyAmount -= (0.01f / 2.0f);
-				isCanFill = false;
+				CanFill = false;
 			}//if the energy bar is lower or equal zero he will not be able to sprint
 			else if (GameManager.GM.Player.energyAmount <= 0) {
-				isCanSprint = false;
+				CanSprint = false;
 			}
 				
 		} else {
-			isCanFill = true;
+			CanFill = true;
 			GameManager.GM.Player.movementSpeed = GameManager.GM.Player.BootsSpeed;
 			mainCameraEffect.enabled = false;
 			//handAnimator.SetBool ("isRunning", false);
 
-			if (isCanFill) {
+			if (CanFill) {
 				//fill the energy bar when isCanFill equal true
 				GameManager.GM.Player.energyAmount += (0.01f / 2.0f);
 			}
 			//if the energy bar is higher than 0.3 after reaching zero he could use it again
 			if (GameManager.GM.Player.energyAmount > 0.3f) {
-				isCanSprint = true;
+				CanSprint = true;
 			}
 		}
 	}
 
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
@@ -141,7 +132,7 @@ public class PlayerController_Player : MonoBehaviour
 			} else if ((Input.GetKey (KeyCode.LeftShift) != true || Input.GetKey (KeyCode.RightShift) != true)) {
 				//handAnimator.SetBool ("isWalking", true);
 			}*/
-			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down
+			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down all the time.
 			Jump (ref vec3_Movement);
 			Sprint ();
 			//actual movement
@@ -154,10 +145,10 @@ public class PlayerController_Player : MonoBehaviour
 	{
 		if (hit.normal.y <= 0.7) {
 			//the player isn't on a suitable ground to jump
-			isCanJump = false;
+			CanJump = false;
 		} else {
 			// the player is on a suitable ground to jump
-			isCanJump = true;
+			CanJump = true;
 		}
 	}
 
