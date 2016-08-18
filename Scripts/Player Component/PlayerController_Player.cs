@@ -21,11 +21,11 @@ public class PlayerController_Player : MonoBehaviour
 	public AudioSource jump;
 	//Private
 	// for controling jumping behavior.
-	private bool isCanJump = true;
+	private bool CanJump = true;
 	//flag for ability to sprint or not
-	private bool isCanSprint = true;
+	private bool CanSprint = true;
 	//flag for ability to fill energy bar or not
-	private bool isCanFill = false;
+	private bool CanFill = false;
 	//refrence for the player canvas
 	private GameObject go_PlayerCanvas;
 	// jump controling variables
@@ -69,21 +69,24 @@ public class PlayerController_Player : MonoBehaviour
 			if (cc_PlayerController.isGrounded) { // if the player touched the ground, enable jumping again.
 				JumpLimit = false;
 			}
-		} else if (isCanJump) {// is the player is on a suitable ground to jump
+		} else if (CanJump) {// is the player is on a suitable ground to jump
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				jump.Play ();
+			}
 			if (Input.GetKey (KeyCode.Space)) {
 				// Jumping behavior
-				jump.Play ();
 				vec3_Movement.y = GameManager.GM.Player.maxJump;
 				temp++;
-				if (temp > GameManager.GM.Player.maxJump || Input.GetKeyUp (KeyCode.Space)) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
+				if (temp > GameManager.GM.Player.maxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
 					temp = 0;
 					JumpLimit = true;
-					isCanJump = false;
+					CanJump = false;
 				}
 			}
-		} else {
+		} else if (Input.GetKeyUp (KeyCode.Space)) {
 			// Aplaying gravity if not standing on something
 			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
+			CanJump = false;
 		}
 
 	}
@@ -91,32 +94,32 @@ public class PlayerController_Player : MonoBehaviour
 	void Sprint () // Sprint behavior and animations
 	{
 		// if the player sprinting, apply sprint speed, activate sprint image effect, and Enter "HandsRunning" animation. Else, back to normal state.
-		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && isCanSprint == true) { 
+		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && CanSprint == true) { 
 			GameManager.GM.Player.movementSpeed = GameManager.GM.Player.sprintAmout;
 			mainCameraEffect.enabled = true;
 			//handAnimator.SetBool ("isRunning", true);
 			//if energy bar is more than zero 
 			if (GameManager.GM.Player.energyAmount > 0) {
 				GameManager.GM.Player.energyAmount -= (0.01f / 2.0f);
-				isCanFill = false;
+				CanFill = false;
 			}//if the energy bar is lower or equal zero he will not be able to sprint
 			else if (GameManager.GM.Player.energyAmount <= 0) {
-				isCanSprint = false;
+				CanSprint = false;
 			}
 				
 		} else {
-			isCanFill = true;
+			CanFill = true;
 			GameManager.GM.Player.movementSpeed = GameManager.GM.Player.BootsSpeed;
 			mainCameraEffect.enabled = false;
 			//handAnimator.SetBool ("isRunning", false);
 
-			if (isCanFill) {
+			if (CanFill) {
 				//fill the energy bar when isCanFill equal true
 				GameManager.GM.Player.energyAmount += (0.01f / 2.0f);
 			}
 			//if the energy bar is higher than 0.3 after reaching zero he could use it again
 			if (GameManager.GM.Player.energyAmount > 0.3f) {
-				isCanSprint = true;
+				CanSprint = true;
 			}
 		}
 	}
@@ -154,10 +157,10 @@ public class PlayerController_Player : MonoBehaviour
 	{
 		if (hit.normal.y <= 0.7) {
 			//the player isn't on a suitable ground to jump
-			isCanJump = false;
+			CanJump = false;
 		} else {
 			// the player is on a suitable ground to jump
-			isCanJump = true;
+			CanJump = true;
 		}
 	}
 
