@@ -18,7 +18,7 @@ public class PlayerController_Player : MonoBehaviour
 	// Refrecne for the animator component in the hands.
 	//public Animator handAnimator;
 	//Audiosource for jump sound
-	public AudioSource jump;
+	public AudioSource jumpSFX;
 	//Private
 	// for controling jumping behavior.
 	private bool CanJump = true;
@@ -29,8 +29,9 @@ public class PlayerController_Player : MonoBehaviour
 	//refrence for the player canvas
 	private GameObject go_PlayerCanvas;
 	// jump controling variables
-	bool JumpLimit = false;
-	float temp = 0;
+	private bool isJumping = false;
+	//Store the previous y component of the player before making a jump
+	private float previousY;
 	//character controller object
 	private CharacterController cc_PlayerController;
 	// Refrence of an Image effect component in the main camera, for sprint.
@@ -60,35 +61,22 @@ public class PlayerController_Player : MonoBehaviour
 		//Get Character Sound component for dialog and other player sound.
 		playerSounds = gameObject.GetComponent <CharacterSound_General > ();
 		GameManager.GM.Player.movementSpeed = GameManager.GM.Player.BootsSpeed;
+		previousY = transform.position.y;
 	}
 
 	void Jump (ref Vector3 vec3_Movement) // jump behavior and animations
 	{
-		if (JumpLimit) { // if reached maximum jump apply gravity
+		//If the player is standing on a land and pressing space make him jump and floating in the air
+		if (CanJump == true && cc_PlayerController.isGrounded == true && Input.GetKey (KeyCode.Space)) {
+			vec3_Movement.y = GameManager.GM.Player.maxJump;
+			isJumping = true;
+			jumpSFX.Play ();
+		}//Else if the player isjumping and stopped pressing space, apply normal gravity 
+		else if ((isJumping == true && !Input.GetKey (KeyCode.Space))) {
+			isJumping = false;
+		} else if (isJumping == false) {
 			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-			if (cc_PlayerController.isGrounded) { // if the player touched the ground, enable jumping again.
-				JumpLimit = false;
-			}
-		} else if (CanJump) {// is the player is on a suitable ground to jump
-			if (Input.GetKeyDown (KeyCode.Space)) {
-				jump.Play ();
-			}
-			if (Input.GetKey (KeyCode.Space)) {
-				// Jumping behavior
-				vec3_Movement.y = GameManager.GM.Player.maxJump;
-				temp++;
-				if (temp > GameManager.GM.Player.maxJump) { // if the player reached the maxjump value, diable jumping and Exit jumping animation.
-					temp = 0;
-					JumpLimit = true;
-					CanJump = false;
-				}
-			}
-		} else if (Input.GetKeyUp (KeyCode.Space)) {
-			// Aplaying gravity if not standing on something
-			vec3_Movement.y -= fl_Gravity * Time.deltaTime;
-			CanJump = false;
 		}
-
 	}
 
 	void Sprint () // Sprint behavior and animations
@@ -125,7 +113,7 @@ public class PlayerController_Player : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
@@ -144,7 +132,7 @@ public class PlayerController_Player : MonoBehaviour
 			} else if ((Input.GetKey (KeyCode.LeftShift) != true || Input.GetKey (KeyCode.RightShift) != true)) {
 				//handAnimator.SetBool ("isWalking", true);
 			}*/
-			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down
+			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down all the time.
 			Jump (ref vec3_Movement);
 			Sprint ();
 			//actual movement
