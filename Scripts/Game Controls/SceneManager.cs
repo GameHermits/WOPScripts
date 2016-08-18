@@ -44,12 +44,6 @@ public class SceneManager : MonoBehaviour
 	public float activeYPosition;
 	[HideInInspector]
 	public float activeZPosition;
-	//Index the temporary place to revive player in if needed.
-	[HideInInspector]
-	public Vector3 tempRevivePosition;
-	//Control weather to revive player in the same place or in different place.
-	[HideInInspector]
-	public bool ReviveInPlace;
 	//Private:
 	private GameObject Player;
 
@@ -64,8 +58,6 @@ public class SceneManager : MonoBehaviour
 
 		//objectives = new ObjectiveState[Objectives_Strings.Length];
 		//MapObjectivesStrings (Objectives_Strings);
-
-		ReviveInPlace = true;
 	}
 	// Update is called once per frame
 	void Update ()
@@ -74,17 +66,9 @@ public class SceneManager : MonoBehaviour
 
 	public void Revive ()
 	{
-		if (ReviveInPlace == false) {
-			Player = GameObject.FindWithTag ("Player");
-			Player.transform.position = tempRevivePosition;
-		}
-
 		GameManager.GM.ReviveCanvas.SetActive (false);
 		GameManager.GM.Player.Revivetimes--;
 		GameManager.GM.PlayerGameObject.GetComponent <Health_General> ().Heal ((GameManager.GM.Player.maxHealth / 2), (GameManager.GM.Player.maxMana / 2));
-		GameManager.GM.PlayerGameObject.GetComponent <MouseLooker> ().LockCursor (true);
-		ReviveInPlace = true;
-		GameManager.GM.PlayerGameObject.GetComponent <MouseLooker> ().enabled = true;
 		Time.timeScale = 1;
 	}
 

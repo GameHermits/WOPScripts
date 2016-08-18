@@ -8,11 +8,10 @@ public class DangerZone : MonoBehaviour
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == "Player") {
-			SceneManager.SM.ReviveInPlace = false;
-			SceneManager.SM.tempRevivePosition = RevivePlace.position;
 			GameManager.GM.PlayerGameObject.GetComponent <Health_General> ().ApplayDamage (GameManager.GM.Player.maxHealth);
 			GameManager.GM.Player.mana = 0;
 			GameManager.GM.Player.manaAmount = 0;
+			col.gameObject.transform.position = RevivePlace.position;
 		}
 	}
 }

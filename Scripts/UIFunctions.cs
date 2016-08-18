@@ -15,9 +15,19 @@ public class UIFunctions : MonoBehaviour
 		clicksound = gameObject.GetComponent <AudioSource> ();
 	}
 
+	public void LoadMainMenu ()
+	{
+		Application.LoadLevel (1);
+	}
+
 	public void LoadspecificScene ()
 	{
-		//Load a specific scene inputed manually in the inspector 
+		//Load a specific scene inputed manually in the inspector
+
+		GameManager.GM.DieCanvas.SetActive (false);
+		GameManager.GM.ReviveCanvas.SetActive (false);
+		GameManager.GM.Player.ResetState ();
+		Time.timeScale = 1;
 		Application.LoadLevel (ScenetoLoad);
 	}
 
@@ -26,6 +36,8 @@ public class UIFunctions : MonoBehaviour
 		//Load scene from a file.
 
 		GameManager.GM.Load ();
+		GameManager.GM.DieCanvas.SetActive (false);
+		GameManager.GM.ReviveCanvas.SetActive (false);
 	}
 
 	public void ExitGame ()
@@ -68,5 +80,21 @@ public class UIFunctions : MonoBehaviour
 	private void PlaySound ()
 	{
 		clicksound.Play ();
+	}
+
+	void Update ()
+	{
+		if (Input.GetKeyUp (KeyCode.Q)) {
+			switch (gameObject.name) {
+			case "DieCanvas":
+				LoadScene ();
+				break;
+			case "ReviveCanvas":
+				TryAgain ();
+				break;
+			}
+		} else if (Input.GetKeyUp (KeyCode.E)) {
+			LoadspecificScene ();
+		}
 	}
 }
