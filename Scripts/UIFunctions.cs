@@ -15,6 +15,11 @@ public class UIFunctions : MonoBehaviour
 		clicksound = gameObject.GetComponent <AudioSource> ();
 	}
 
+	public void LoadMainMenu ()
+	{
+		Application.LoadLevel (1);
+	}
+
 	public void LoadspecificScene ()
 	{
 		//Load a specific scene inputed manually in the inspector
@@ -82,7 +87,7 @@ public class UIFunctions : MonoBehaviour
 		if (Input.GetKeyUp (KeyCode.Q)) {
 			switch (gameObject.name) {
 			case "DieCanvas":
-				RestartScene ();
+				LoadScene ();
 				break;
 			case "ReviveCanvas":
 				TryAgain ();

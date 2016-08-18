@@ -105,7 +105,8 @@ public class Health_General : MonoBehaviour
 	public void ApplayDamage (float fl_Damage) // Applying damage effect to the gameObject. the fucntion is called by the projectile collided with this gameObject
 	{
 		if (gameObject.tag == "Player") {
-			GameManager.GM.Player.health -= fl_Damage - GameManager.GM.Player.magicResist;
+			fl_Damage -= GameManager.GM.Player.magicResist;
+			GameManager.GM.Player.health -= fl_Damage;
 		} else
 			fl_health = fl_health - fl_Damage;
 		DamageHealthBar (fl_Damage);
