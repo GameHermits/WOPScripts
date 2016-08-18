@@ -79,18 +79,23 @@ public class Damage_Projectile : MonoBehaviour
 
 	public void InstantDamage (GameObject col) // Called when Instant Damage Type of projectile is selected
 	{
-		if (col.tag != "Terrain" || col.tag != "Projectile" || col.tag != "Other") {// If hit an enemy, calls damage handling functions in it's health component
+		if (col.tag != "Projectile" || col.tag != "Other") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
+			Explosion ();
+		} else {
+			return;
 		}
-		Explosion ();
 	}
 
 	public void FreezeDamage (GameObject col, string summontag) // Called when Freeze Damage Type of projectile is selected
 	{
-		if (col.tag != "Terrain" || col.tag != "Projectile" || col.tag != "Other") {
+		if (col.tag != "Projectile" || col.tag != "Other") {
 			col.GetComponent <Health_General> ().ApplayFreeze (fl_FreezeTime, fl_dmgAmount);
+			Explosion ();
+		} else {
+			return;
 		}
-		Explosion ();
+
 	}
 
 	public void PoisonDamage (GameObject col)

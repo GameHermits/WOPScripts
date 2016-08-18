@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 	//Game Manager static object
 	public static GameManager GM;
 
+	[HideInInspector]
 	//Player Object.
 	public PlayerState Player;
 	[HideInInspector]
@@ -241,6 +242,8 @@ public class PlayerState //Data Container for Player state.
 	public int powerStoneLevel = 0;
 	//Player Magic resist outfit
 	public float magicResist = 10;
+	//Shooting CoolDown (the less the better)
+	public float CD = 3;
 	//Fury Ability variables
 	public bool Fury = false;
 
