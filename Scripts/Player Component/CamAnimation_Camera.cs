@@ -11,11 +11,19 @@ public class CamAnimation_Camera : MonoBehaviour
 {
 
 	public CharacterController cc_PlayerController;
-	public Animation an_CameraAnimation;
 	//Empty GameObject's animation component
+	public Animation an_CameraAnimation;
+	[HideInInspector]
+	//for checking if the player is hit
+	public bool isHit;
+	//for checking if the player is moving.
 	private bool isMoving;
+	//To play left animation clip
 	private bool isMovingLeft;
+	//To play right animation clip
 	private bool isMovingRight;
+	//To play onHit animation clip
+	private bool onHit;
 
 	void CameraAnimations ()
 	{
@@ -37,6 +45,10 @@ public class CamAnimation_Camera : MonoBehaviour
 				}
 			}                      
 		}
+		if (isHit == true) {
+			an_CameraAnimation.Play ("OnHit");
+			isHit = false;
+		}
 	}
 
 	
@@ -44,6 +56,7 @@ public class CamAnimation_Camera : MonoBehaviour
 	{ //First step in a new scene/life/etc. will be "walkLeft"
 		isMovingLeft = true;
 		isMovingRight = false;
+		onHit = false;
 	}
 
 	

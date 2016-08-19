@@ -15,8 +15,8 @@ public class PlayerController_Player : MonoBehaviour
 	//public
 	// for applying gravity to the player.
 	public float fl_Gravity = 9.81f;
-	// Refrecne for the animator component in the hands.
-	//public Animator handAnimator;
+	//Refrecne for the cameraanimation script attached to the camera gameobject.
+	public CamAnimation_Camera playerCamera;
 	//Audiosource for jump sound
 	public AudioSource jumpSFX;
 	//Private

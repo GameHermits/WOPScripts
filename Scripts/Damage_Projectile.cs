@@ -67,7 +67,6 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		//Player Refrences
 		PlC_Ref = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController_Player> ();
-		//PS_Ref = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<PlayerShooter_MainCamera> ();
 	}
 
 	void Explosion ()
@@ -81,6 +80,9 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		if (col.tag != "Projectile" || col.tag != "Other") {// If hit an enemy, calls damage handling functions in it's health component
 			col.gameObject.GetComponent<Health_General> ().ApplayDamage (fl_dmgAmount);
+			if (col.tag == "Player") {//For indicating that the player had been hit, play OnHitAnimation
+				PlC_Ref.playerCamera.isHit = true;
+			}
 			Explosion ();
 		} else {
 			return;
@@ -91,6 +93,9 @@ public class Damage_Projectile : MonoBehaviour
 	{
 		if (col.tag != "Projectile" || col.tag != "Other") {
 			col.GetComponent <Health_General> ().ApplayFreeze (fl_FreezeTime, fl_dmgAmount);
+			if (col.tag == "Player") {//For indicating that the player has been hit, play OnHitAnimation
+				PlC_Ref.playerCamera.isHit = true;
+			}
 			Explosion ();
 		} else {
 			return;
