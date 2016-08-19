@@ -57,10 +57,12 @@ public class BossBehavior : MonoBehaviour
 		if (transform.position == go_wayPoints [in_wayPointIdex].transform.position) {
 			MoveCD = Time.time + fl_moveTime;
 			in_wayPointIdex++;
+			Shoot ();
 		} //If didn't reach destinationed waypoint, keep moving towards it. 
 		else {
 			transform.LookAt (go_wayPoints [in_wayPointIdex].transform);
 			transform.position = Vector3.MoveTowards (transform.position, go_wayPoints [in_wayPointIdex].transform.position, fl_moveSpeed * Time.deltaTime);
+			didShoot = false;
 		}
 
 	}
@@ -72,7 +74,6 @@ public class BossBehavior : MonoBehaviour
 
 		//If player is within combat range, start boss behavior
 		if (distance <= CombatRange) {
-			BSRef.enabled = true;
 			if (Time.time > MoveCD) {
 				Movement ();
 			} else {

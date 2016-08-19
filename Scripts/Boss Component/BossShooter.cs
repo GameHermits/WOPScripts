@@ -23,8 +23,6 @@ public class BossShooter : MonoBehaviour
 	public GameObject[] Spawners;
 	// movement force that move the projectile
 	public float spellsMovementSpeed = 60f;
-	//Fire rate
-	public float FireRate;
 	//Options that let you choose which boss behavior to run.
 	public enum Boss
 	{
@@ -40,8 +38,6 @@ public class BossShooter : MonoBehaviour
 	private Transform Player;
 	//Reference to BossBehavior Component
 	private BossBehavior BBRef;
-	//Boss Shooting CoolDown
-	private float CD;
 
 	void Start ()
 	{
@@ -63,19 +59,21 @@ public class BossShooter : MonoBehaviour
 			GameObject newLightSpell = Instantiate (lightAttack, ShootingPlaces [1].transform.position + ShootingPlaces [1].transform.transform.forward, ShootingPlaces [1].transform.rotation) as GameObject;
 			GameObject newLightSpell1 = Instantiate (lightAttack, ShootingPlaces [2].transform.position + ShootingPlaces [2].transform.transform.forward, ShootingPlaces [2].transform.rotation) as GameObject;
 			GameObject newLightSpell2 = Instantiate (lightAttack, ShootingPlaces [3].transform.position + ShootingPlaces [3].transform.transform.forward, ShootingPlaces [3].transform.rotation) as GameObject;
-			newLightSpell.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [1].transform.forward, ForceMode.Impulse);
-			newLightSpell1.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [2].transform.forward, ForceMode.Impulse);
-			newLightSpell2.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [3].transform.forward, ForceMode.Impulse);
+			newLightSpell.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [1].transform.forward * spellsMovementSpeed, ForceMode.Impulse);
+			newLightSpell1.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [2].transform.forward * spellsMovementSpeed, ForceMode.Impulse);
+			newLightSpell2.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [3].transform.forward * spellsMovementSpeed, ForceMode.Impulse);
 			break;
 		case 0://If boss shouldn't light attack
 			if (randomAttack == 3 || randomAttack == 9) {
 				GameObject newSpecial = Instantiate (SpecialSkill, transform.position, transform.rotation) as GameObject;
 			} else if (randomAttack == 5 || randomAttack == 7) {
 				GameObject newSpell = Instantiate (HeavyAttack, ShootingPlaces [0].transform.position + ShootingPlaces [0].transform.forward, ShootingPlaces [0].transform.rotation) as GameObject;
-				newSpell.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [0].transform.forward, ForceMode.Impulse);
+				newSpell.GetComponent <Rigidbody> ().AddForce (ShootingPlaces [0].transform.forward * spellsMovementSpeed, ForceMode.Impulse);
 			}
 			break;
 		}
+		BBRef.didShoot = true;
+		this.enabled = false;
 	}
 
 	void ArgusShooter ()
@@ -98,28 +96,25 @@ public class BossShooter : MonoBehaviour
 		
 	}
 
-	void FixedUpdate ()
+	void Update ()
 	{
-		if (Time.time > CD) {
-			CD = Time.time + FireRate;
-			switch (boss) {
-			case Boss.Telchiens:
-				TelchiensShooter ();
-				break;
-			case Boss.Argus:
-				ArgusShooter ();
-				break;
-			case Boss.Syphan:
-				SyphanShooter ();
-				break;
-			case Boss.Martha:
-				MarthaShooter ();
-				break;
-			case Boss.Merlin:
-				MerlinShooter ();
-				break;
+		switch (boss) {
+		case Boss.Telchiens:
+			TelchiensShooter ();
+			break;
+		case Boss.Argus:
+			ArgusShooter ();
+			break;
+		case Boss.Syphan:
+			SyphanShooter ();
+			break;
+		case Boss.Martha:
+			MarthaShooter ();
+			break;
+		case Boss.Merlin:
+			MerlinShooter ();
+			break;
 
-			}
 		}
 	}
 }
