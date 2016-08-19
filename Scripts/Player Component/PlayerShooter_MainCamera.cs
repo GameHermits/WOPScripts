@@ -32,6 +32,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	public Animator handAnimator;
 	//CooldDown sprite to conrtol it's filling amount
 	public Image CDimg;
+	//Player Wand GameObject Refrence for animating the halo
+	public GameObject wand;
 	//private:
 	//the four elements.
 	private enum enum_Elements
@@ -51,10 +53,13 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	private bool lockedStyle = false;
 	//Local CoolDown (used for calculations, the real cooldown value located in playerState in GameManger script).
 	private float coolDown = 0;
+	//Halo componenet of the wand
+	private Behaviour Halo;
 
 	void Start ()
 	{
 		playersounds = gameObject.GetComponent <CharacterSound_General> ();
+		Halo = (Behaviour)wand.GetComponent ("Halo");
 	}
 	//Launch Bullet
 
@@ -62,7 +67,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	{
 		//Reset CoolDown after Each hit
 		coolDown = Time.time + GameManager.GM.Player.CD;
-
+		Halo.enabled = false;
 		GameObject go_NewBullet = Instantiate (go_BulletType, //...
 			                          go_ShootingPLace.transform.position + go_ShootingPLace.transform.forward, transform.rotation) as GameObject;
 		if (!go_NewBullet.GetComponent <Rigidbody> ()) {
@@ -110,7 +115,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
 			CDimg.fillAmount = (coolDown - Time.time) / GameManager.GM.Player.CD;
 			if (Time.time >= coolDown) {
-
+				Halo.enabled = true;
 				//Checking for right mouse click for chaning the style of magic
 				if (Input.GetMouseButtonUp (1)) {
 					if (elementIndex == 3) {
