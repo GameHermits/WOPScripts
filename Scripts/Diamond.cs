@@ -9,6 +9,8 @@ public class Diamond : MonoBehaviour
 	public float healingAmount;
 	//Movement speed of each diamond
 	public float fl_movementSpeed;
+	//Delay time after instantiating
+	public float delayBeforeChase;
 	//Decide wether this diamond going to heal health or mana
 	public enum Type
 	{
@@ -23,22 +25,27 @@ public class Diamond : MonoBehaviour
 	private bool canChase = false;
 	//Refrence for player transform
 	private Vector3 vec_Player;
+	//Chase time cooldown
+	private float CD;
+
+	void Start ()
+	{
+		CD = Time.time + delayBeforeChase; //setting cooldown
+	}
 
 	void Update ()
 	{
-		
+		if (Time.time >= CD) {//if delay time (cooldown) is over
+			canChase = true;
+		}
 		if (canChase == true) { // Traslate the diamond to the player
 			vec_Player = GameObject.FindWithTag ("Player").transform.position;
 			transform.position = Vector3.MoveTowards (transform.position, vec_Player, fl_movementSpeed * Time.deltaTime);
 		}
 	}
 
-	void OnCollisionEnter (Collision col)
+	void OnTriggerEnter (Collider col)
 	{
-		if (col.gameObject.tag == "Terrain") {// if the diamond hits a terrain, enable it's chasing behavior
-			canChase = true;
-		}
-
 		if (col.gameObject.tag == "Player") {// on collision with the player give more health or mana and modify thier UI accordingly.
 			switch (diamondType) {
 			case Type.Mana:

@@ -19,6 +19,8 @@ public class PlayerController_Player : MonoBehaviour
 	public CamAnimation_Camera playerCamera;
 	//Audiosource for jump sound
 	public AudioSource jumpSFX;
+	//Audiosource for walk sound
+	public AudioSource walkSFX;
 	//Private
 	// for controling jumping behavior.
 	private bool CanJump = true;
@@ -125,13 +127,11 @@ public class PlayerController_Player : MonoBehaviour
 			// Movement variable
 			Vector3 vec3_Movement = transform.TransformDirection (vec3_MovementX + vec3_MovementZ);
 
-			/*if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) || (vec3_MovementX == Vector3.right * 0 && vec3_MovementZ == Vector3.forward * 0)) {
-
-				//handAnimator.SetBool ("isWalking", false);
-
-			} else if ((Input.GetKey (KeyCode.LeftShift) != true || Input.GetKey (KeyCode.RightShift) != true)) {
-				//handAnimator.SetBool ("isWalking", true);
-			}*/
+			if ((cc_PlayerController.isGrounded == true && Input.GetButton ("Vertical")) || (cc_PlayerController.isGrounded == true && Input.GetButton ("Horizontal"))) {
+				walkSFX.Play ();
+			} else {
+				walkSFX.Stop ();
+			}
 			vec3_Movement.y -= fl_Gravity / 2 * Time.deltaTime;//pull him down all the time.
 			Jump (ref vec3_Movement);
 			Sprint ();

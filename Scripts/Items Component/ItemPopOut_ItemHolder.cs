@@ -33,7 +33,7 @@ public class ItemPopOut_ItemHolder : MonoBehaviour
 		foreach (Collider col in Physics.OverlapSphere(transform.position, fl_ExplosionRadius)) {
 			if (col.GetComponent<Rigidbody> () != null) {
                 
-				col.GetComponent<Rigidbody> ().AddExplosionForce (fl_ExplosionForce, transform.position, fl_ExplosionRadius, fl_ExplosionUpForce, forceMode);
+				col.GetComponent<Rigidbody> ().AddExplosionForce (fl_ExplosionForce, transform.position - new Vector3 (0, 0, 1), fl_ExplosionRadius, fl_ExplosionUpForce, forceMode);
 			}
 		}
 	}
