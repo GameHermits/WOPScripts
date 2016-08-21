@@ -18,8 +18,6 @@ public class Damage_Projectile : MonoBehaviour
 	public float fl_FreezeTime;
 	// how much should the poison effect lasts.
 	public float PoisonTime;
-	// how much should the Silence effect lasts.
-	public float SilenceTime;
 	//radius for aoe
 	public float fl_Radius;
 	//Explosion prefab
@@ -31,7 +29,6 @@ public class Damage_Projectile : MonoBehaviour
 		Freezedmg,
 		InstantDmg,
 		OverTimeDmg,
-		SilenceDmg,
 		AoeInstantDmg,
 		AoeOverTimeDmg,
 		AoeFreezeDmg}
@@ -136,11 +133,6 @@ public class Damage_Projectile : MonoBehaviour
 		col.gameObject.GetComponent<Health_General> ().DamageOverTime (fl_dmgAmount, PoisonTime);
 	}
 
-	public void SilenceDamage (GameObject col)
-	{
-		
-	}
-
 	//make the sphere and get all colliders in that sphere then call the proper method to make the damage
 	public void AoeDmg (Vector3 position, float radius, string summoner)
 	{
@@ -174,8 +166,6 @@ public class Damage_Projectile : MonoBehaviour
 			FreezeDamage (col, freezeTag);
 		else if (projectile == ProjectileType.OverTimeDmg) {
 			PoisonDamage (col);
-		} else if (projectile == ProjectileType.SilenceDmg) {
-			SilenceDamage (col);
 		} else if (projectile == ProjectileType.AoeInstantDmg) {
 			AoeDmg (col.transform.position, fl_Radius, summonerTag);
 			summonerTag = " ";
