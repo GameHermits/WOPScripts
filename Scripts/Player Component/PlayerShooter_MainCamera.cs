@@ -27,6 +27,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	public float fl_UsedMana_BlackMagic;
 	//Movement power
 	public float fl_MovementForce = 30.0f;
+	//CoolDown
+	public float fl_CoolDown = 0;
 	// Player UI controller
 	public HPController_General hpc_GameObjectRef;
 	public Animator handAnimator;
@@ -52,6 +54,7 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	{
 		playersounds = gameObject.GetComponent <CharacterSound_General> ();
 	}
+
 	//Launch Bullet
 	public void LaunchBullet (GameObject go_BulletType, float fl_UsedManaType)
 	{
@@ -74,7 +77,6 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 		} else if (dp.projectile.ToString () == "Freezedmg") {
 			dp.freezeTag = "Player";
 		}
-
 	}
 
 	public void InputChecking ()
@@ -99,6 +101,8 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		fl_CoolDown -= Time.deltaTime;
+
 		if (GameManager.GM.isDead != true && GameManager.GM.ispaused != true) {
 
 			if (Input.GetMouseButtonUp (1)) {
@@ -117,9 +121,10 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			case enum_Elements.Lightning:
 				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_Lightning && fl_CoolDown<=0) {
 						if (go_Lightningbullet) {
 							// setting the animation bool to true to enter the animation attack. the animation contains an event that calls lunch bullet in a certain frame.
+							fl_CoolDown = 2f;
 							handAnimator.SetBool ("isAttackingS", true); 
 						}
 					}
@@ -129,9 +134,10 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			case enum_Elements.Fire:
 				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_Fire) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_Fire && fl_CoolDown<=0) {
 						if (go_Firebullet) {
 							LaunchBullet (go_Firebullet, fl_UsedMana_Fire);
+							fl_CoolDown = 2f;
 						}
 					}
 				}
@@ -140,9 +146,10 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			case enum_Elements.Ice:
 				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_Ice) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_Ice && fl_CoolDown<=0) {
 						if (go_Icebullet) {
 							LaunchBullet (go_Icebullet, fl_UsedMana_Ice);
+							fl_CoolDown = 2f;
 						}
 					}
 				}
@@ -151,9 +158,10 @@ public class PlayerShooter_MainCamera : MonoBehaviour
 			case enum_Elements.BlackMagic:
 				if (Input.GetMouseButtonUp (0)) {
 					//If there is enough mana
-					if (GameManager.GM.Player.mana >= fl_UsedMana_BlackMagic) {
+					if (GameManager.GM.Player.mana >= fl_UsedMana_BlackMagic && fl_CoolDown<=0) {
 						if (go_BlackMagicbullet) {
 							LaunchBullet (go_BlackMagicbullet, fl_UsedMana_BlackMagic);
+							fl_CoolDown = 2f;
 						}
 					}
 				}
